@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATCHÉ — Circle Member Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --near-black: #111111;
+    --gold: #C9A84C;
+    --gold-dim: rgba(201,168,76,0.12);
+    --cream: #F0EAD6;
+    --cream-dim: rgba(240,234,214,0.6);
+    --gray: rgba(240,234,214,0.3);
+    --red: #C0392B;
+    --green: #27AE60;
+    --white: #fff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes kenBurns {
+    from { transform: scale(1) translateX(0); }
+    to   { transform: scale(1.07) translateX(-1%); }
+  }
+  @keyframes kenBurnsR {
+    from { transform: scale(1) translateX(0); }
+    to   { transform: scale(1.06) translateX(1%); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .kb  { animation: kenBurns  24s ease-in-out infinite alternate; }
+  .kbr { animation: kenBurnsR 28s ease-in-out infinite alternate; }
+  .fade-up { animation: fadeUp 1s ease both; }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 32px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(8,8,8,0.7) 0%,
+      rgba(8,8,8,0.4) 40%,
+      rgba(8,8,8,0.75) 75%,
+      rgba(8,8,8,1) 100%
+    );
+  }
+  .cover-label {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .cover-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(64px, 18vw, 120px);
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .cover-phonetic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 48px;
+  }
+  .cover-rule { width: 48px; height: 1px; background: var(--gold); margin: 0 auto 40px; }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 6vw, 36px);
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .cover-sub {
+    font-size: 14px;
+    color: var(--cream-dim);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 420px;
+    margin: 0 auto 48px;
+  }
+  .cover-meta {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 680px; margin: 0 auto; padding: 0 28px; }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 72px 0 48px;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+  .section:last-of-type { border-bottom: none; }
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    color: rgba(201,168,76,0.07);
+    line-height: 1;
+    margin-bottom: -16px;
+  }
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 6vw, 36px);
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  h2 em { color: var(--gold); font-style: italic; }
+  .lead {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--cream-dim);
+    font-weight: 300;
+    margin-bottom: 36px;
+  }
+  p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cream-dim);
+    font-weight: 300;
+    margin-bottom: 16px;
+  }
+  p strong { color: var(--cream); font-weight: 500; }
+
+  /* ── RULE CARDS ── */
+  .rule-list { display: flex; flex-direction: column; gap: 2px; margin: 32px 0; }
+  .rule-card {
+    padding: 22px 24px;
+    border-left: 2px solid var(--gold);
+    background: rgba(201,168,76,0.04);
+  }
+  .rule-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.03em;
+    margin-bottom: 6px;
+  }
+  .rule-card p {
+    font-size: 13px;
+    color: rgba(240,234,214,0.55);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* ── CONSEQUENCE TABLE ── */
+  .consequence-table { width: 100%; border-collapse: collapse; margin: 32px 0; }
+  .consequence-table th {
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .consequence-table td {
+    padding: 16px;
+    font-size: 13px;
+    color: var(--cream-dim);
+    font-weight: 300;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .consequence-table tr:last-child td { border-bottom: none; }
+  .consequence-table td:first-child { color: var(--white); font-weight: 500; white-space: nowrap; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 2px;
+  }
+  .badge-warn { background: rgba(230,126,34,0.15); color: #E67E22; }
+  .badge-severe { background: rgba(192,57,43,0.15); color: #E74C3C; }
+  .badge-gone { background: rgba(192,57,43,0.25); color: #E74C3C; }
+  .badge-ok { background: rgba(39,174,96,0.15); color: #2ECC71; }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; margin: 24px 0; display: flex; flex-direction: column; gap: 12px; }
+  .checklist li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 14px;
+    color: var(--cream-dim);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+  .checklist li::before {
+    content: '✦';
+    color: var(--gold);
+    font-size: 10px;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .checklist li strong { color: var(--cream); font-weight: 500; }
+
+  /* ── WARNING BOX ── */
+  .warning-box {
+    border: 1px solid rgba(192,57,43,0.35);
+    background: rgba(192,57,43,0.06);
+    padding: 24px;
+    margin: 32px 0;
+  }
+  .warning-box h4 {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #E74C3C;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .warning-box p {
+    font-size: 13px;
+    color: rgba(240,234,214,0.65);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* ── INFO BOX ── */
+  .info-box {
+    border: 1px solid rgba(201,168,76,0.25);
+    background: rgba(201,168,76,0.05);
+    padding: 24px;
+    margin: 32px 0;
+  }
+  .info-box h4 {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .info-box p { font-size: 13px; margin: 0; line-height: 1.7; }
+
+  /* ── SIGNATURE BLOCK ── */
+  .sig-block {
+    margin: 48px 0;
+    padding: 36px;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: rgba(201,168,76,0.03);
+  }
+  .sig-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .sig-block p { font-size: 13px; color: var(--cream-dim); margin-bottom: 32px; }
+  .sig-line {
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    margin-bottom: 8px;
+    height: 40px;
+  }
+  .sig-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 24px;
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    padding: 48px 28px;
+    max-width: 680px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    text-align: center;
+  }
+  .doc-footer .wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .doc-footer p {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.8;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { width: 40px; height: 1px; background: rgba(201,168,76,0.3); margin: 32px 0; }
+
+  /* ── HERO IMAGE ── */
+  .hero-img-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .hero-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    animation: kenBurns 22s ease-in-out infinite alternate;
+  }
+  @keyframes kenBurns {
+    from { transform: scale(1) translateY(0); }
+    to   { transform: scale(1.07) translateY(-2%); }
+  }
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(8,8,8,0.6) 0%,
+      rgba(8,8,8,0.2) 30%,
+      rgba(8,8,8,0.55) 65%,
+      rgba(8,8,8,0.97) 100%
+    );
+    z-index: 1;
+  }
+  .cover { position: relative; overflow: hidden; }
+  .cover > *:not(.hero-img-wrap):not(.cover-overlay) { position: relative; z-index: 2; }
+
+  /* ── FULL BLEED BREAK ── */
+  .img-break {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .img-break img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .img-break-overlay {
+    position: absolute;
+    inset: 0;
+  }
+  .img-break-caption {
+    position: absolute;
+    bottom: 28px;
+    left: 28px;
+    right: 28px;
+    z-index: 2;
+  }
+  .img-break-caption p {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 4vw, 26px);
+    color: var(--white);
+    font-style: italic;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+  .img-break-caption span {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    overflow: hidden;
+    padding: 20px 0;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    background: var(--near-black);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 40px;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .marquee-dot { color: rgba(201,168,76,0.25); }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── PORTRAIT GRID ── */
+  .portrait-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    background: var(--black);
+  }
+  .portrait-grid-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+  }
+  .portrait-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .portrait-grid-item:hover img { transform: scale(1.04); }
+
+  @media print {
+    body { background: white; color: black; }
+    .cover { min-height: auto; padding: 40px; }
+    .cover-wordmark { color: black; }
+    .cover-phonetic, .section-label, .badge-warn, .doc-footer p { color: #8B7355; }
+    h2, h4, strong { color: black; }
+    .rule-card { background: #f9f9f9; border-left-color: #8B7355; }
+    .warning-box { background: #fff3f3; border-color: #e74c3c; }
+    .info-box { background: #fefbf0; border-color: #8B7355; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── COVER ──────────────────────────────── -->
+<div class="cover">
+  <div class="hero-img-wrap">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_213048_a176e80b-32ba-4569-a651-9c0a1871676a.png" alt="ATCHÉ Circle" style="object-position: center 45%;">
+  </div>
+  <div class="cover-overlay"></div>
+  <p class="cover-label">Confidential · Member Document</p>
+  <div class="cover-wordmark">ATCHÉ</div>
+  <p class="cover-phonetic">ah · SHAY</p>
+  <div class="cover-rule"></div>
+  <h1 class="cover-title">Circle Member<br>Onboarding Kit</h1>
+  <p class="cover-sub">Welcome to The Circle. Everything you need to know to show up, get paid, and build something real.</p>
+  <p class="cover-meta">Washington DC · 2026 · Eyes Only</p>
+</div>
+
+<div class="page">
+
+  <!-- ── 01. WELCOME ── -->
+  <div class="section">
+    <div class="section-num">01</div>
+    <p class="section-label">Welcome</p>
+    <h2>You're in.<br><em>Here's what that means.</em></h2>
+    <p class="lead">Being accepted into the ATCHÉ Circle is not a casual thing. We reviewed your application, looked at what you're building, and made a decision to invest in you. That investment goes both ways.</p>
+    <p>ATCHÉ exists because Black women make culture and rarely get paid from it proportionally. The Circle is the infrastructure to change that. Every shoot you participate in is a real production for a real client. Every piece of content we create together is a real asset — for you, for the venue, and for a brand that is building toward something that will matter.</p>
+    <p>We are professional. We are on time. We are excellent. And we take care of the women in this room.</p>
+    <p><strong>This document is your operating manual.</strong> Read it fully before your first shoot. If anything is unclear, reach out before you show up — not after something goes wrong.</p>
+
+    <div class="info-box">
+      <h4>Your Point of Contact</h4>
+      <p>Xavier Snow — Founder & Operations<br>
+      <strong>thedigitalmarxman@gmail.com</strong><br>
+      Instagram DM: <strong>@atcheofficial</strong><br><br>
+      All shoot confirmations, scheduling, and questions go through these channels only.</p>
+    </div>
+  </div>
+
+  <!-- ── MARQUEE 1 ── -->
+  </div><!-- close page -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Professional</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">On Time</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Paid</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Credited</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">The Circle</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">ATCHÉ</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Washington DC</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Professional</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">On Time</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Paid</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Credited</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">The Circle</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">ATCHÉ</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Washington DC</span><span class="marquee-dot"> ◆ </span>
+    </div>
+  </div>
+
+  <!-- ── IMAGE BREAK: ROOFTOP CITY ── -->
+  <div class="img-break" style="max-height:70vh;">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_221237_c434c77a-4484-414f-8eeb-7058ba487f24.png"
+      alt="The Circle" style="max-height:70vh; object-position: center 35%;">
+    <div class="img-break-overlay" style="background:linear-gradient(to bottom,transparent 40%,rgba(8,8,8,0.9) 100%);"></div>
+    <div class="img-break-caption">
+      <p>"Access to the rooms that matter."</p>
+      <span>ATCHÉ · Washington DC</span>
+    </div>
+  </div>
+  <div class="page">
+
+  <!-- ── 02. WHAT YOU GET ── -->
+  <div class="section">
+    <div class="section-num">02</div>
+    <p class="section-label">Your Benefits</p>
+    <h2>What the<br><em>Circle provides.</em></h2>
+    <p class="lead">Every engagement comes with a combination of the following. Exact terms are confirmed in the Shoot Confirmation form before each session.</p>
+
+    <div class="rule-list">
+      <div class="rule-card">
+        <h4>Professional Content — Delivered in 48 Hours</h4>
+        <p>Edited photos and video from every shoot, delivered to you within 48 hours. Portfolio-quality. Yours to keep and post. No watermarks.</p>
+      </div>
+      <div class="rule-card">
+        <h4>Compensation — Confirmed Before You Walk In</h4>
+        <p>Your rate is set and confirmed in writing before every shoot. No surprises. ATCHÉ negotiates all fees with venue clients on your behalf and pays you within 48 hours of shoot completion — directly, no chasing.</p>
+      </div>
+      <div class="rule-card">
+        <h4>Hosted Experience</h4>
+        <p>Food and drinks at the venue are covered as part of every engagement. You are a guest of the venue, not a customer. Behave accordingly.</p>
+      </div>
+      <div class="rule-card">
+        <h4>Credit on All Published Content</h4>
+        <p>Your name or handle will be credited in ATCHÉ content wherever you appear. You are never a prop. You are always a collaborator.</p>
+      </div>
+      <div class="rule-card">
+        <h4>Priority Booking</h4>
+        <p>Active Circle members in good standing get first access to new shoots, higher-paying brand events, and expanded opportunities before anyone outside the Circle.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PORTRAIT GALLERY ── -->
+  </div><!-- close page -->
+  <div class="portrait-grid">
+    <div class="portrait-grid-item">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_213031_4d09958b-08e1-4537-a5b9-26f283a72ab6.png" alt="Circle Member">
+    </div>
+    <div class="portrait-grid-item">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_214509_dd1b51ef-11b5-4807-87af-eacb41580f4c.png" alt="Circle Member">
+    </div>
+    <div class="portrait-grid-item">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_220208_8cde0f1f-3c27-43c4-b1ad-f970c37980f9.png" alt="Circle Member">
+    </div>
+    <div class="portrait-grid-item">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_214233_972f801e-435d-4def-9a3a-7631c44ed8ef.png" alt="Circle Member">
+    </div>
+    <div class="portrait-grid-item">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_214216_1e8e3308-341f-475c-9714-f60d7e53a00a.png" alt="Circle Member">
+    </div>
+    <div class="portrait-grid-item">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_221217_5c7a6c4d-a4e7-4371-b0e6-34b5d0ffe287.png" alt="Circle Member">
+    </div>
+  </div>
+  <div class="page">
+
+  <!-- ── 03. CODE OF CONDUCT ── -->
+  <div class="section">
+    <div class="section-num">03</div>
+    <p class="section-label">Code of Conduct</p>
+    <h2>The standard.<br><em>Non-negotiable.</em></h2>
+    <p class="lead">ATCHÉ's reputation is built on quality and professionalism. Every Circle member is a direct reflection of the brand. These standards apply before, during, and after every engagement.</p>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; color:var(--white); margin:32px 0 16px;">Before the Shoot</h3>
+    <ul class="checklist">
+      <li><strong>Confirm your attendance</strong> when you receive your Shoot Confirmation. Silence is not confirmation.</li>
+      <li><strong>Outfit confirmed in advance.</strong> Your look is agreed upon before the date. No surprises.</li>
+      <li><strong>Arrive camera-ready.</strong> Hair, makeup, and nails are done before you walk in. We do not have a glam team on site.</li>
+      <li><strong>Know the venue, know the time.</strong> Plan to arrive 20–30 minutes before your confirmed call time.</li>
+    </ul>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; color:var(--white); margin:32px 0 16px;">During the Shoot</h3>
+    <ul class="checklist">
+      <li><strong>Sober and present.</strong> You may enjoy the venue's hospitality — you are not there to get drunk. Impairment during a production is an immediate removal from the session and a formal warning.</li>
+      <li><strong>Take direction.</strong> The creative director's call is final on set. Questions are welcome; arguments are not.</li>
+      <li><strong>Phone on silent and away</strong> unless you're creating content. Scrolling during production is unprofessional.</li>
+      <li><strong>Treat venue staff with respect.</strong> They are our clients' team. How you treat them is how we treat our clients.</li>
+      <li><strong>Treat every other Circle member with respect.</strong> No exceptions. No drama on set.</li>
+    </ul>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; color:var(--white); margin:32px 0 16px;">After the Shoot</h3>
+    <ul class="checklist">
+      <li><strong>Post within 24 hours</strong> of receiving your content. Tag @atcheofficial and the venue handle in every post. This is part of your agreement — not optional.</li>
+      <li><strong>Keep posts live for 90 days minimum.</strong> Do not archive or delete without approval.</li>
+      <li><strong>Credit ATCHÉ in your caption</strong> — in the text, not just as a tag.</li>
+      <li><strong>No disparaging content</strong> about the venue, clients, or other Circle members — publicly or privately in ways that could become public.</li>
+    </ul>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; color:var(--white); margin:32px 0 16px;">At All Times</h3>
+    <ul class="checklist">
+      <li><strong>Confidentiality.</strong> Client names, rates, other members' personal information, and ATCHÉ's business operations are private. Sharing them is a breach and grounds for removal.</li>
+      <li><strong>No direct solicitation.</strong> Do not contact ATCHÉ venues or clients directly to offer your services independently. This violates your agreement and damages the brand that is building your career.</li>
+      <li><strong>Your social media reflects on ATCHÉ.</strong> This does not mean we police your personal expression. It means use judgment. Publicly inflammatory, violent, or discriminatory content is incompatible with Circle membership.</li>
+    </ul>
+  </div>
+
+  <!-- ── IMAGE BREAK: MIXED GROUP ── -->
+  </div>
+  <div class="img-break" style="max-height:80vh;">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_214431_2e927a18-8c6f-4b5e-81cb-5c2451811bb8.png"
+      alt="The Circle" style="max-height:80vh; object-position: center 60%;">
+    <div class="img-break-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,0.4) 0%,transparent 30%,rgba(8,8,8,0.85) 100%);"></div>
+    <div class="img-break-caption">
+      <p>"Every age. Every body.<br>Every version of beautiful."</p>
+      <span>The Circle · 22 to 40</span>
+    </div>
+  </div>
+  <div class="page">
+
+  <!-- ── 04. TIMELINESS ── -->
+  <div class="section">
+    <div class="section-num">04</div>
+    <p class="section-label">Timeliness Policy</p>
+    <h2>On time means<br><em>early.</em></h2>
+    <p class="lead">We shoot on a schedule for paying venue clients. Every minute we wait costs the production. Consistent lateness is not tolerated and will not be excused.</p>
+
+    <p><strong>The standard:</strong> Arrive 20–30 minutes before your confirmed call time. If your call time is 7:00 PM, you should be walking in at 6:30–6:40 PM. That is on time for ATCHÉ.</p>
+
+    <table class="consequence-table">
+      <thead>
+        <tr>
+          <th>Situation</th>
+          <th>Consequence</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>On time or early</td>
+          <td>No action. This is the standard.</td>
+          <td><span class="badge badge-ok">Good Standing</span></td>
+        </tr>
+        <tr>
+          <td>1–15 min late</td>
+          <td>Verbal note on file. Third occurrence = written warning.</td>
+          <td><span class="badge badge-warn">Noted</span></td>
+        </tr>
+        <tr>
+          <td>15–30 min late</td>
+          <td>Written warning. Session fee reduced by 25% for that session.</td>
+          <td><span class="badge badge-warn">Warning 1</span></td>
+        </tr>
+        <tr>
+          <td>30+ min late</td>
+          <td>Removed from session. No compensation. Formal written warning.</td>
+          <td><span class="badge badge-severe">Warning 2</span></td>
+        </tr>
+        <tr>
+          <td>Second formal warning</td>
+          <td>30-day suspension from Circle bookings.</td>
+          <td><span class="badge badge-severe">Suspended</span></td>
+        </tr>
+        <tr>
+          <td>Third formal warning</td>
+          <td>Permanent removal from the Circle.</td>
+          <td><span class="badge badge-gone">Removed</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box">
+      <h4>Traffic, transit, life</h4>
+      <p>We understand DC traffic is real. If something is genuinely out of your control, communicate with us <strong>before</strong> your call time — not when you're already late. Members who communicate proactively are treated differently than members who go silent and show up 40 minutes behind.</p>
+    </div>
+  </div>
+
+  <!-- ── 05. CANCELLATION PROTOCOL ── -->
+  <div class="section">
+    <div class="section-num">05</div>
+    <p class="section-label">Cancellation &amp; No-Show Policy</p>
+    <h2>If you can't make it,<br><em>say so. Fast.</em></h2>
+    <p class="lead">Life happens. We respect that. What we do not tolerate is silence, last-minute bail, or ghost behavior. When you cancel without notice, we have to scramble to find a replacement and that reflects on every woman in the Circle, not just you.</p>
+
+    <table class="consequence-table">
+      <thead>
+        <tr>
+          <th>Notice Given</th>
+          <th>What Happens</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>72+ hours before</td>
+          <td>No penalty. Spot opened to waitlist. Thank you for the heads up.</td>
+          <td><span class="badge badge-ok">No Issue</span></td>
+        </tr>
+        <tr>
+          <td>48–72 hours before</td>
+          <td>No penalty first time. Second occurrence = written warning.</td>
+          <td><span class="badge badge-ok">Grace</span></td>
+        </tr>
+        <tr>
+          <td>24–48 hours before</td>
+          <td>Written warning. Loss of priority booking for next two sessions.</td>
+          <td><span class="badge badge-warn">Warning 1</span></td>
+        </tr>
+        <tr>
+          <td>Under 24 hours</td>
+          <td>Written warning. 2-week suspension from bookings. No compensation if session already began.</td>
+          <td><span class="badge badge-severe">Warning 2</span></td>
+        </tr>
+        <tr>
+          <td>No-show (no contact)</td>
+          <td>Immediate removal from the Circle roster. No exceptions without documented emergency.</td>
+          <td><span class="badge badge-gone">Removed</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning-box">
+      <h4>The No-Show Rule</h4>
+      <p>A no-show with no communication is the single fastest way to lose your Circle membership permanently. We are operating inside client venues with schedules and expectations. Ghosting a shoot is not just a personal decision — it damages ATCHÉ's relationship with that client and makes it harder for every other woman in the Circle to work. We take it seriously.</p>
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; color:var(--white); margin:32px 0 12px;">Emergency Exceptions</h3>
+    <p>Genuine emergencies — medical, family, safety — are handled with compassion on a case-by-case basis. Document what happened and communicate with us as soon as you're able. We are not unreasonable. But "I forgot" and "something came up" are not emergencies.</p>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:18px; color:var(--white); margin:32px 0 12px;">How to Cancel</h3>
+    <ul class="checklist">
+      <li>Message @atcheofficial on Instagram <strong>or</strong> email thedigitalmarxman@gmail.com</li>
+      <li>Include your name, the shoot date, venue, and reason</li>
+      <li>Wait for confirmation that your cancellation was received</li>
+      <li>Silence after sending is not confirmation — follow up if you don't hear back within 2 hours</li>
+    </ul>
+  </div>
+
+  <!-- ── IMAGE BREAK: DUO ── -->
+  </div>
+  <div class="img-break" style="max-height:75vh;">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_214449_8770bb13-27c7-4651-9791-9d101ba9d0d2.png"
+      alt="The Circle" style="max-height:75vh; object-position: center 20%;">
+    <div class="img-break-overlay" style="background:linear-gradient(to bottom,transparent 45%,rgba(8,8,8,0.92) 100%);"></div>
+    <div class="img-break-caption">
+      <p>"Younger energy.<br>Seasoned confidence.<br>Same room."</p>
+      <span>ATCHÉ Circle · Washington DC</span>
+    </div>
+  </div>
+  <div class="page">
+
+  <!-- ── 06. SHOOT DAY PROTOCOL ── -->
+  <div class="section">
+    <div class="section-num">06</div>
+    <p class="section-label">Shoot Day</p>
+    <h2>What to expect<br><em>when you arrive.</em></h2>
+
+    <div class="rule-list">
+      <div class="rule-card">
+        <h4>Confirm 24 hours before</h4>
+        <p>The day before every shoot, you'll receive a confirmation from us. Reply to confirm you're coming. If we don't hear from you, we begin finding a replacement.</p>
+      </div>
+      <div class="rule-card">
+        <h4>Arrive early, find us first</h4>
+        <p>When you arrive at the venue, check in with Xavier or the designated ATCHÉ lead before going to the bar, bathroom, or table. We brief you on the look, the flow, and the client before we start.</p>
+      </div>
+      <div class="rule-card">
+        <h4>The brief is final</h4>
+        <p>We'll walk you through what we're shooting — the vibe, the look we need, any specific brand requirements from the venue. This is not up for debate on set. Feedback is always welcome after.</p>
+      </div>
+      <div class="rule-card">
+        <h4>Enjoy the night authentically</h4>
+        <p>The best content comes from real moments. We are not asking you to perform — we're asking you to be present, have a genuinely good time, and trust us to capture it correctly.</p>
+      </div>
+      <div class="rule-card">
+        <h4>Content delivery in 48 hours</h4>
+        <p>You'll receive your edited content within 48 hours of the shoot, delivered to your Instagram DM or via a download link. Post within 24 hours of receiving it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── IMAGE BREAK: BTS ── -->
+  </div>
+  <div class="img-break" style="max-height:65vh;">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_221158_28ebca47-bf46-4d2b-b4f0-50222fa5ad01.png"
+      alt="ATCHÉ Creative" style="max-height:65vh; object-position: center 30%;">
+    <div class="img-break-overlay" style="background:linear-gradient(to bottom,transparent 40%,rgba(8,8,8,0.88) 100%);"></div>
+    <div class="img-break-caption">
+      <p>"A real production.<br>A real night."</p>
+      <span>ATCHÉ Creative · Behind the Lens</span>
+    </div>
+  </div>
+  <div class="page">
+
+  <!-- ── 07. POSTING REQUIREMENTS ── -->
+  <div class="section">
+    <div class="section-num">07</div>
+    <p class="section-label">Content &amp; Posting</p>
+    <h2>Your post is<br><em>part of the deal.</em></h2>
+    <p class="lead">The content you post after each shoot is a core deliverable — not a courtesy. When you joined the Circle you agreed to post. This is how ATCHÉ generates organic reach for our venue clients and how your value to the brand grows over time.</p>
+
+    <ul class="checklist">
+      <li><strong>Post within 24 hours</strong> of receiving your content from ATCHÉ.</li>
+      <li><strong>Tag @atcheofficial</strong> in the caption text and as an Instagram tag — both.</li>
+      <li><strong>Tag the venue</strong> handle as specified in your Shoot Confirmation.</li>
+      <li><strong>Keep posts live for 90 days minimum.</strong> Archiving counts as removal.</li>
+      <li><strong>Stories are encouraged</strong> but do not replace feed posts. We need the permanence of a feed post.</li>
+      <li><strong>Caption the photo meaningfully.</strong> "Had a great night!" is not the move. Write something real about the experience.</li>
+      <li><strong>Do not add competing brand tags</strong> to posts featuring ATCHÉ content without prior approval.</li>
+    </ul>
+
+    <div class="warning-box">
+      <h4>Failure to Post</h4>
+      <p>Failure to post after receiving content is a breach of your member agreement. First occurrence: written warning and loss of next session's priority booking. Second occurrence: suspension. We do not compensate members who fail to post — the content and the post are part of one transaction.</p>
+    </div>
+  </div>
+
+  <!-- ── IMAGE BREAK: WIDE VENUE SHOT ── -->
+  </div>
+  <div class="img-break" style="max-height:65vh;">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_220227_9955a587-7d16-4079-a338-7d761d24f2d0.png"
+      alt="The Circle" style="max-height:65vh; object-position: center 35%;">
+    <div class="img-break-overlay" style="background:linear-gradient(to bottom,transparent 35%,rgba(8,8,8,0.88) 100%);"></div>
+    <div class="img-break-caption">
+      <p>"The post is part of the deal.<br>Make it worth seeing."</p>
+      <span>Content · Posting · 24 Hours</span>
+    </div>
+  </div>
+
+  <!-- ── MARQUEE 2 ── -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Show Up</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Get Paid</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Post the Content</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Tag ATCHÉ</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Come Back</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Grow Together</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Show Up</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Get Paid</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Post the Content</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Tag ATCHÉ</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Come Back</span><span class="marquee-dot"> ◆ </span>
+      <span class="marquee-item">Grow Together</span><span class="marquee-dot"> ◆ </span>
+    </div>
+  </div>
+  <div class="page">
+
+  <!-- ── 07B. WARDROBE ── -->
+  <div class="section">
+    <div class="section-num">✦</div>
+    <p class="section-label">Before Every Shoot</p>
+    <h2>Submit your<br><em>wardrobe.</em></h2>
+    <p class="lead">ATCHÉ shoots are editorial — not club nights. Your look must be approved 48 hours before every shoot. This is non-negotiable and protects everyone's time.</p>
+
+    <ul class="checklist">
+      <li><strong>Submit 2–3 outfit options</strong> to Monet via DM or text — full body photo, shoes included, 48 hours before the shoot.</li>
+      <li><strong>Wait for written confirmation</strong> before the shoot. You will receive a confirmed look or specific notes within 24 hours.</li>
+      <li><strong>Arriving in an unapproved look</strong> may result in your spot being held for another member. We run tight productions.</li>
+      <li><strong>The standard:</strong> DC Friday night done right — sexy and intentional. Freakum dress energy is welcome. Ill-fitting, mismatched, or overly revealing outfits are not. When in doubt, review the Style Guide.</li>
+    </ul>
+
+    <div class="info-box" style="margin-top:20px;">
+      <h4>📋 Style Guide</h4>
+      <p>Full wardrobe standards with visual examples are in the ATCHÉ Style Guide. Read it before your first shoot: <strong>atchè-style-guide.html</strong></p>
+    </div>
+  </div>
+
+  <!-- ── 08. GETTING PAID ── -->
+  <div class="section">
+    <div class="section-num">08</div>
+    <p class="section-label">Compensation</p>
+    <h2>How you<br><em>get paid.</em></h2>
+    <p class="lead">Your rate is confirmed in your Shoot Confirmation before every session. ATCHÉ collects agency fees from venue clients and pays you directly within 48 hours of shoot completion. You never invoice a client or chase payment.</p>
+
+    <ul class="checklist">
+      <li><strong>Rate confirmation</strong> happens in writing before you agree to any shoot. You will always know your number before you say yes.</li>
+      <li><strong>Payment method</strong> is Cash App, Zelle, or platform transfer — confirmed in your Shoot Confirmation.</li>
+      <li><strong>Payment timeline</strong> is within 48 hours of shoot completion, contingent on posting requirements being met.</li>
+      <li><strong>ATCHÉ negotiates on your behalf.</strong> You do not set rates with clients directly. All pricing goes through ATCHÉ. This protects your leverage.</li>
+      <li>If <strong>you cancel under 24 hours</strong> and the session proceeds without you, no compensation is owed.</li>
+      <li>If <strong>ATCHÉ cancels the session,</strong> you receive a kill fee of 25% of your confirmed rate.</li>
+      <li><strong>Rates increase</strong> as the brand grows and as you build your track record. Higher-paying brand events and activations are offered to members in good standing first.</li>
+      <li><strong>Tax responsibility</strong> is yours as an independent contractor. ATCHÉ will issue a 1099 if you earn over $600 in a calendar year.</li>
+    </ul>
+
+    <div class="info-box">
+      <h4>Growing Your Rate</h4>
+      <p>Members who consistently show up on time, deliver excellent content, and maintain their professional obligations are prioritized for higher-paying engagements — brand events, private parties, corporate buyouts. The fastest path to earning more is being someone we can always count on.</p>
+    </div>
+  </div>
+
+  <!-- ── 09. THREE STRIKES ── -->
+  <div class="section">
+    <div class="section-num">09</div>
+    <p class="section-label">Warning System</p>
+    <h2>Three strikes.<br><em>You're out.</em></h2>
+    <p class="lead">Every formal warning is documented and communicated to you in writing. You will always know where you stand.</p>
+
+    <table class="consequence-table">
+      <thead>
+        <tr><th>Warning Level</th><th>Result</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Warning 1</td>
+          <td>Written notice. Documented in your member file. No immediate booking loss.</td>
+        </tr>
+        <tr>
+          <td>Warning 2</td>
+          <td>Written notice. 30-day suspension from Circle bookings. No compensation during suspension.</td>
+        </tr>
+        <tr>
+          <td>Warning 3</td>
+          <td>Permanent removal from the Circle. Member agreement terminated.</td>
+        </tr>
+        <tr>
+          <td>Immediate removal</td>
+          <td>No-show without contact. Impairment on set. Breach of confidentiality. Direct solicitation of ATCHÉ clients. Any conduct that damages the brand.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Removal from the Circle does not affect your right to keep content already delivered to you. It does terminate all future bookings, priority access, and compensation.</p>
+  </div>
+
+  <!-- ── 10. ACKNOWLEDGMENT ── -->
+  <div class="section">
+    <div class="section-num">10</div>
+    <p class="section-label">Acknowledgment</p>
+    <h2>Sign and<br><em>let's get to work.</em></h2>
+    <p>By signing below you confirm that you have read and understood this entire document, that you agree to the Code of Conduct, Timeliness Policy, Cancellation Protocol, Posting Requirements, and Compensation Terms, and that you understand the warning system and its consequences.</p>
+    <p>This document is in addition to your signed Model Release and Independent Contractor Agreement.</p>
+
+    <div class="sig-block">
+      <h3>Circle Member Acknowledgment</h3>
+      <p>Print, sign, and return to ATCHÉ before your first shoot — or sign digitally via DM.</p>
+      <div class="sig-line"></div>
+      <p class="sig-label">Member Signature</p>
+      <div class="sig-line"></div>
+      <p class="sig-label">Print Name</p>
+      <div class="sig-line"></div>
+      <p class="sig-label">Instagram Handle</p>
+      <div class="sig-line"></div>
+      <p class="sig-label">Date</p>
+      <div class="divider"></div>
+      <div class="sig-line"></div>
+      <p class="sig-label">Xavier Snow — ATCHÉ Creative</p>
+      <div class="sig-line"></div>
+      <p class="sig-label">Date</p>
+    </div>
+
+    <div class="info-box">
+      <h4>Questions Before You Sign?</h4>
+      <p>Reach out before the shoot. We would rather answer a question now than deal with a misunderstanding later. That's not weakness — that's how professional relationships work.<br><br>
+      <strong>@atcheofficial · thedigitalmarxman@gmail.com</strong></p>
+    </div>
+  </div>
+
+</div><!-- end .page -->
+
+<!-- ── RETURN TO LANDING ── -->
+<div style="background:#060606; border-top:1px solid rgba(201,168,76,0.12); padding:80px 24px; text-align:center;">
+  <p style="font-size:9px; letter-spacing:0.5em; text-transform:uppercase; color:#C9A84C; font-weight:600; margin-bottom:20px;">You've seen what we're about</p>
+  <p style="font-family:'Playfair Display',serif; font-size:clamp(28px,5vw,48px); font-weight:900; color:#fff; line-height:1.1; margin-bottom:12px;">Ready to be in<br><em style="color:#C9A84C; font-style:italic;">the room?</em></p>
+  <p style="font-size:15px; color:rgba(240,237,232,0.55); font-weight:300; line-height:1.8; max-width:480px; margin:0 auto 40px;">Apply to The Circle. We read every application personally and respond within 48 hours.</p>
+  <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+    <a href="/" style="display:inline-flex; align-items:center; padding:16px 48px; background:#C9A84C; color:#060606; font-size:11px; font-weight:700; letter-spacing:0.35em; text-transform:uppercase; text-decoration:none;">Apply to The Circle →</a>
+    <a href="/" style="display:inline-flex; align-items:center; padding:16px 32px; border:1px solid rgba(201,168,76,0.4); color:#C9A84C; font-size:11px; font-weight:500; letter-spacing:0.3em; text-transform:uppercase; text-decoration:none;">← Back to ATCHÉ</a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="doc-footer">
+  <div class="wordmark">ATCHÉ</div>
+  <p>ah · SHAY · Washington DC · 2026<br>
+  The Circle · Member Onboarding Kit · Confidential<br>
+  thedigitalmarxman@gmail.com · @atcheofficial</p>
+</div>
+
+</body>
+</html>

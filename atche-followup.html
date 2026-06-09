@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ATCHÉ — Follow-Up</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --black:   #080808;
+  --surface: #111111;
+  --s2:      #181818;
+  --s3:      #222222;
+  --border:  #2a2a2a;
+  --gold:    #C9A84C;
+  --gold-lt: #E2C47A;
+  --gold-d:  rgba(201,168,76,0.12);
+  --gold-g:  rgba(201,168,76,0.06);
+  --rose:    #C2697A;
+  --rose-d:  rgba(194,105,122,0.15);
+  --sage:    #6B9E7A;
+  --sage-d:  rgba(107,158,122,0.15);
+  --violet:  #8B6BB1;
+  --text:    #F2EDE6;
+  --text2:   #B0A898;
+  --text3:   #6A6258;
+  --r:       12px;
+  --rsm:     8px;
+  --t:       0.18s cubic-bezier(0.4,0,0.2,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{display:none}
+
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);overflow-x:hidden;padding-bottom:80px}
+
+/* ── HEADER ── */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:var(--black);border-bottom:1px solid var(--border);
+  padding:14px 20px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:6px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.queue-count{background:var(--rose);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;min-width:24px;text-align:center}
+.queue-count.zero{background:var(--sage)}
+.hub-link{font-size:11px;color:var(--text3);cursor:pointer;letter-spacing:0.5px;padding:6px 10px;background:var(--s2);border:1px solid var(--border);border-radius:var(--rsm)}
+.hub-link:hover{color:var(--gold)}
+
+/* ── DATE STRIP ── */
+.date-strip{padding:10px 20px 0;display:flex;align-items:center;justify-content:space-between}
+.date-lbl{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
+.date-val{font-size:11px;color:var(--text2)}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:8px;padding:14px 20px 0;overflow-x:auto}
+.tab{padding:7px 16px;background:var(--s2);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;white-space:nowrap;transition:var(--t);flex-shrink:0}
+.tab.active{background:var(--gold-d);border-color:var(--gold);color:var(--gold)}
+
+/* ── QUEUE LIST ── */
+.queue{padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+
+/* ── FOLLOW-UP CARD ── */
+.fu-card{background:var(--surface);border-radius:var(--r);overflow:hidden;border:1px solid var(--border);transition:var(--t)}
+.fu-card.overdue{border-left:3px solid var(--rose)}
+.fu-card.today{border-left:3px solid var(--gold)}
+.fu-card.upcoming{border-left:3px solid var(--sage)}
+.fu-card.done{opacity:0.5;filter:saturate(0)}
+
+.fu-head{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+.fu-avatar{width:46px;height:46px;border-radius:50%;background:var(--gold-d);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--gold);flex-shrink:0}
+.fu-info{flex:1;min-width:0}
+.fu-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fu-meta{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fu-type-badge{padding:2px 7px;border-radius:10px;font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase}
+.type-model{background:rgba(139,107,177,0.15);color:#B99FD4;border:1px solid rgba(139,107,177,0.3)}
+.type-venue{background:var(--gold-d);color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
+.fu-urgency{font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+.urg-overdue{background:var(--rose-d);color:#E8A0AE}
+.urg-today{background:var(--gold-d);color:var(--gold-lt)}
+.urg-upcoming{background:var(--sage-d);color:#9DC9A8}
+
+.fu-handle{font-size:11px;color:var(--text2)}
+.fu-stage{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* ── TEMPLATES ── */
+.fu-templates{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.tpl-block{background:var(--s2);border:1px solid var(--border);border-radius:var(--rsm);overflow:hidden}
+.tpl-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)}
+.tpl-channel{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:5px}
+.tpl-body{padding:10px 12px;font-size:13px;color:var(--text2);line-height:1.65;font-style:italic}
+.copy-btn{padding:5px 12px;background:var(--gold-d);border:1px solid rgba(201,168,76,0.3);border-radius:6px;font-size:11px;font-weight:600;color:var(--gold);cursor:pointer;transition:var(--t);white-space:nowrap}
+.copy-btn:hover{background:var(--gold);color:var(--black)}
+.copy-btn.copied{background:var(--sage-d);border-color:var(--sage);color:#9DC9A8}
+
+/* ── ACTIONS ── */
+.fu-actions{padding:12px 16px 14px;display:flex;gap:8px;border-top:1px solid var(--border)}
+.btn-sent{flex:1;padding:11px;background:var(--gold);color:var(--black);border:none;border-radius:var(--rsm);font-size:13px;font-weight:700;cursor:pointer;transition:var(--t);letter-spacing:0.5px}
+.btn-sent:hover{background:var(--gold-lt)}
+.btn-sent:active{transform:scale(0.97)}
+.btn-snooze{padding:11px 14px;background:var(--s2);border:1px solid var(--border);border-radius:var(--rsm);font-size:12px;color:var(--text3);cursor:pointer;transition:var(--t)}
+.btn-snooze:hover{border-color:var(--text2);color:var(--text2)}
+
+/* ── DATE PICKER OVERLAY ── */
+.date-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:0}
+.date-overlay.open{display:flex}
+.date-sheet{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 24px 40px;border:1px solid var(--border);border-bottom:none}
+.date-sheet h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--text);margin-bottom:6px}
+.date-sheet p{font-size:12px;color:var(--text3);margin-bottom:20px}
+.date-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.date-opt{padding:12px;background:var(--s2);border:1px solid var(--border);border-radius:var(--rsm);cursor:pointer;transition:var(--t);text-align:center}
+.date-opt:hover{border-color:var(--gold);color:var(--gold)}
+.date-opt-lbl{font-size:13px;font-weight:600;color:var(--text)}
+.date-opt-sub{font-size:10px;color:var(--text3);margin-top:2px}
+.date-custom{display:flex;gap:8px;margin-top:4px}
+.date-input{flex:1;background:var(--s2);border:1px solid var(--border);border-radius:var(--rsm);padding:10px 12px;color:var(--text);font-size:13px;outline:none}
+.date-input:focus{border-color:var(--gold)}
+.date-confirm{padding:10px 20px;background:var(--gold);color:var(--black);border:none;border-radius:var(--rsm);font-size:13px;font-weight:700;cursor:pointer}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:80px 24px}
+.empty-mark{font-family:'Playfair Display',serif;font-size:48px;color:var(--gold);opacity:0.3;margin-bottom:16px}
+.empty-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text2);margin-bottom:8px;font-style:italic}
+.empty-sub{font-size:12px;color:var(--text3);line-height:1.7}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;padding:0 0 env(safe-area-inset-bottom);z-index:40}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0;cursor:pointer;color:var(--text3);transition:var(--t);font-size:10px;gap:3px}
+.bn-item.active{color:var(--gold)}
+.bn-icon{font-size:18px}
+
+/* ── LOADING ── */
+#loadScreen{position:fixed;inset:0;background:var(--black);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.load-word{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--gold);letter-spacing:8px;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loadScreen">
+  <div class="load-word">ATCHÉ</div>
+  <div style="font-size:10px;color:var(--text3);letter-spacing:3px;text-transform:uppercase">Loading queue…</div>
+</div>
+
+<!-- HEADER -->
+<div class="topbar">
+  <div class="topbar-logo">ATCHÉ</div>
+  <div class="topbar-right">
+    <span class="queue-count zero" id="queueCount">0</span>
+    <span class="hub-link" onclick="document.getElementById('helpOverlay').classList.add('open')" style="color:var(--gold)">? How it works</span>
+    <span class="hub-link" onclick="window.location.href='atche-hub.html'">← Hub</span>
+  </div>
+</div>
+
+<div class="date-strip">
+  <div class="date-lbl">Follow-Up Queue</div>
+  <div class="date-val" id="todayDate"></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="setTab('all',this)">All</div>
+  <div class="tab" onclick="setTab('overdue',this)">🔴 Overdue</div>
+  <div class="tab" onclick="setTab('today',this)">⭐ Today</div>
+  <div class="tab" onclick="setTab('models',this)">Models</div>
+  <div class="tab" onclick="setTab('venues',this)">Venues</div>
+  <div class="tab" onclick="setTab('upcoming',this)">Upcoming</div>
+</div>
+
+<!-- QUEUE -->
+<div class="queue" id="queue"></div>
+
+<!-- HOW IT WORKS MODAL -->
+<div class="date-overlay" id="helpOverlay">
+  <div class="date-sheet" style="max-height:85vh;overflow-y:auto">
+    <h3 style="margin-bottom:4px">How It Works</h3>
+    <p style="margin-bottom:20px;color:var(--text3);font-size:12px">Your guide to the follow-up queue ✦</p>
+    <div style="display:flex;flex-direction:column;gap:16px;font-size:13px;color:var(--text2);line-height:1.7">
+      <div>
+        <div style="color:var(--gold);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">What you're looking at</div>
+        Everyone who needs a follow-up — both <strong style="color:var(--text)">models</strong> (people applying to ATCHÉ Circle) and <strong style="color:var(--text)">venues</strong> (clubs and spaces we're working with). Sorted by who's most overdue first.
+      </div>
+      <div>
+        <div style="color:var(--gold);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">The workflow</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div>① Tap a card to see the person</div>
+          <div>② Hit <strong style="color:var(--text)">Copy</strong> next to IG DM or Text — message is now in your clipboard</div>
+          <div>③ Open Instagram or your texts, paste, send</div>
+          <div>④ Come back and tap <strong style="color:var(--text)">✓ Sent</strong> — pick when to follow up next</div>
+          <div>⑤ Card disappears from the queue ✦</div>
+        </div>
+      </div>
+      <div>
+        <div style="color:var(--gold);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">The +3d button</div>
+        Not the right moment? Hit <strong style="color:var(--text)">+3d</strong> to snooze the card for 3 days. It'll come back when it's time.
+      </div>
+      <div>
+        <div style="color:var(--gold);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">The colors</div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div><span style="color:#E8A0AE;font-weight:600">Red border</span> — overdue, send today</div>
+          <div><span style="color:var(--gold-lt);font-weight:600">Gold border</span> — due today</div>
+          <div><span style="color:#9DC9A8;font-weight:600">Green border</span> — coming up soon</div>
+        </div>
+      </div>
+      <div>
+        <div style="color:var(--gold);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Don't edit the messages</div>
+        The templates are written for you — they sound natural and match where each person is in the process. You can add a sentence at the end if you want, but the core message is good to go.
+      </div>
+    </div>
+    <button onclick="document.getElementById('helpOverlay').classList.remove('open')" style="width:100%;padding:12px;background:var(--gold);color:var(--black);border:none;border-radius:var(--rsm);font-size:13px;font-weight:700;cursor:pointer;margin-top:20px">Got it ✦</button>
+  </div>
+</div>
+
+<!-- DATE PICKER SHEET -->
+<div class="date-overlay" id="dateOverlay">
+  <div class="date-sheet">
+    <h3>Next Follow-Up</h3>
+    <p id="dateSheetSub">When should we check in again?</p>
+    <div class="date-options">
+      <div class="date-opt" onclick="confirmFollowUp(3)"><div class="date-opt-lbl">3 days</div><div class="date-opt-sub" id="d3"></div></div>
+      <div class="date-opt" onclick="confirmFollowUp(5)"><div class="date-opt-lbl">5 days</div><div class="date-opt-sub" id="d5"></div></div>
+      <div class="date-opt" onclick="confirmFollowUp(7)"><div class="date-opt-lbl">1 week</div><div class="date-opt-sub" id="d7"></div></div>
+      <div class="date-opt" onclick="confirmFollowUp(14)"><div class="date-opt-lbl">2 weeks</div><div class="date-opt-sub" id="d14"></div></div>
+    </div>
+    <div class="date-custom">
+      <input class="date-input" type="date" id="customDate" placeholder="Custom date">
+      <button class="date-confirm" onclick="confirmFollowUpCustom()">Set</button>
+    </div>
+    <div style="margin-top:12px">
+      <button onclick="closeDateSheet()" style="width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:var(--rsm);color:var(--text3);font-size:13px;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bn-item active" onclick="setTab('all',null)"><span class="bn-icon">◈</span>Queue</div>
+  <div class="bn-item" onclick="setTab('models',null)"><span class="bn-icon">✦</span>Models</div>
+  <div class="bn-item" onclick="setTab('venues',null)"><span class="bn-icon">🏛</span>Venues</div>
+  <div class="bn-item" onclick="doLogout()"><span class="bn-icon">↩</span>Sign Out</div>
+</nav>
+
+<script>
+// ── SUPABASE ──────────────────────────────────────────────────────
+const SB_URL = 'https://aayigsbmmdolvnicxacs.supabase.co';
+const SB_KEY = 'sb_publishable_ofAZ_64cKZXJefM5nbbt3g_wNOoF5DC';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+let currentUser = null;
+let queueItems = [];
+let activeTab = 'all';
+let pendingSentItem = null;
+
+// ── TEMPLATES ─────────────────────────────────────────────────────
+function getTemplates(item) {
+  const first = (item.name||'').split(' ')[0];
+  const handle = item.ig || item.handle || '';
+  const venueName = item.name || 'the venue';
+  const contact = item.contact || first;
+
+  if(item._type === 'model') {
+    const t = {
+      prospect: {
+        ig: `Hey ${first} ✦ I'm Monet — I work with Xavier on ATCHÉ. He told me about you and I had to reach out. We're building something really special for creative women in DC. Check out @atche_dc when you get a moment — would love to keep in touch 🖤`,
+        text: `Hey ${first}, this is Monet with ATCHÉ — Xavier Snow's team. He mentioned you and I wanted to make sure we connected. Check us out @atche_dc — we'd love to have you involved.`
+      },
+      reached: {
+        ig: `Hey ${first}! Just following back up — wanted to make sure you saw Xavier's message. ATCHÉ's first event is coming up and we're being really intentional about who's in the room. Didn't want you to miss it ✦`,
+        text: `Hey ${first}, Monet from ATCHÉ again. Just making sure our message got to you — things are moving quickly on our end and we'd hate for you to miss out.`
+      },
+      active: {
+        ig: `Hey ${first}! Checking in — how have things been? We have some exciting stuff happening with ATCHÉ and wanted to keep you in the loop. What's new with you? ✦🖤`,
+        text: `Hey ${first}! Monet here — just checking in. ATCHÉ has some things coming up and we want to make sure you're still connected. What's your schedule looking like?`
+      },
+      collab: {
+        ig: `Hey ${first}! Touching base on everything — how are you feeling about the collab? Anything you need from our end? We're excited about this 🖤✦`,
+        text: `Hey ${first}, Monet from ATCHÉ. Checking in on our collab — let us know if there's anything you need from us. We're moving fast!`
+      },
+      booked: {
+        ig: `Hey ${first}! Just confirming everything is still looking good on your end — we're so excited to have you involved. Let us know if anything has changed ✦🖤`,
+        text: `Hey ${first}, Monet with ATCHÉ! Just confirming everything is still a go — reach out if you need anything. Can't wait!`
+      }
+    };
+    return t[item.status] || t.prospect;
+  }
+
+  if(item._type === 'venue') {
+    const t = {
+      'Prospecting': {
+        ig: `Hey ${contact} 👋 I'm Monet, I work alongside Xavier Snow on ATCHÉ. He mentioned a potential partnership and I wanted to make sure we stayed connected — would love to chat more when you have a moment ✦`,
+        text: `Hi ${contact}, this is Monet with ATCHÉ — Xavier Snow's team. He thought we should connect about a partnership opportunity with ${venueName}. Do you have a few minutes to talk?`
+      },
+      'First Contact': {
+        ig: `Hey ${contact}! Just following up on Xavier's message about the ATCHÉ partnership — wanted to make sure it got to you and see if you had any questions ✦🖤`,
+        text: `Hi ${contact}, Monet from ATCHÉ here. Following up on Xavier's outreach about a partnership with ${venueName}. Would love to keep the conversation going!`
+      },
+      'Meeting Set': {
+        ig: `Hey ${contact}! Just confirming we're still on — looking forward to connecting about ATCHÉ Fridays. Let me know if anything changes on your end 🖤`,
+        text: `Hi ${contact}, Monet with ATCHÉ. Just confirming our upcoming meeting about the partnership. We're excited — let us know if you need to adjust anything.`
+      },
+      'Proposal Sent': {
+        ig: `Hey ${contact}! Following up on the partnership proposal Xavier sent over — wanted to make sure it got to you and see if you had any questions or thoughts ✦`,
+        text: `Hi ${contact}, Monet from ATCHÉ. Just following up on our partnership proposal for ${venueName}. Would love to hear your thoughts when you have a chance!`
+      },
+      'Negotiating': {
+        ig: `Hey ${contact}! Just checking back in on the partnership terms — we're excited about what this could look like and want to keep things moving on our end 🖤✦`,
+        text: `Hi ${contact}, Monet with ATCHÉ. Checking in on where things stand with the partnership. Xavier is eager to get this locked in — any updates on your end?`
+      },
+      'Signed': {
+        ig: `Hey ${contact}! Just wanted to check in and make sure everything is still feeling good — we're so excited to officially be partnered with ${venueName} ✦🖤`,
+        text: `Hi ${contact}, Monet from ATCHÉ. Checking in as we finalize details — just want to make sure everything is seamless on our end. Let us know if you need anything!`
+      },
+      'Active': {
+        ig: `Hey ${contact}! Checking in on ${venueName} — we have some exciting things coming up with ATCHÉ and wanted to make sure we're aligned. How's everything on your end? ✦`,
+        text: `Hi ${contact}, Monet with ATCHÉ. Just touching base — Xavier wanted me to check in and make sure everything is good on your end. Any updates?`
+      }
+    };
+    return t[item.pipeline] || t['Prospecting'];
+  }
+  return { ig: 'Hey! Checking in from ATCHÉ ✦', text: 'Hey, Monet from ATCHÉ — just checking in!' };
+}
+
+// ── URGENCY ───────────────────────────────────────────────────────
+function getUrgency(item) {
+  if(!item.followUp) return 'upcoming';
+  const fu = new Date(item.followUp + 'T00:00:00');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.floor((fu - today) / 86400000);
+  if(diff < 0)  return 'overdue';
+  if(diff === 0) return 'today';
+  return 'upcoming';
+}
+
+function daysLabel(item) {
+  if(!item.followUp) return 'No date set';
+  const fu = new Date(item.followUp + 'T00:00:00');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const diff = Math.floor((fu - today) / 86400000);
+  if(diff < 0)  return `${Math.abs(diff)}d overdue`;
+  if(diff === 0) return 'Due today';
+  if(diff === 1) return 'Tomorrow';
+  return `In ${diff} days`;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────
+function initials(name) { return (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+
+function renderQueue() {
+  let items = [...queueItems];
+  if(activeTab === 'overdue')  items = items.filter(i=>getUrgency(i)==='overdue');
+  else if(activeTab === 'today')    items = items.filter(i=>getUrgency(i)==='today');
+  else if(activeTab === 'upcoming') items = items.filter(i=>getUrgency(i)==='upcoming');
+  else if(activeTab === 'models')   items = items.filter(i=>i._type==='model');
+  else if(activeTab === 'venues')   items = items.filter(i=>i._type==='venue');
+
+  // Sort: overdue first, then today, then upcoming
+  const urgOrd = { overdue:0, today:1, upcoming:2 };
+  items.sort((a,b) => {
+    const ud = urgOrd[getUrgency(a)] - urgOrd[getUrgency(b)];
+    if(ud !== 0) return ud;
+    return new Date(a.followUp||'9999') - new Date(b.followUp||'9999');
+  });
+
+  const pending = queueItems.filter(i=>getUrgency(i)!=='upcoming').length;
+  const qc = document.getElementById('queueCount');
+  qc.textContent = pending;
+  qc.className = 'queue-count' + (pending === 0 ? ' zero' : '');
+
+  const el = document.getElementById('queue');
+  if(!items.length) {
+    el.innerHTML = `<div class="empty">
+      <div class="empty-mark">✦</div>
+      <div class="empty-title">All caught up.</div>
+      <div class="empty-sub">Nothing in the queue right now.<br>Xavier will add more contacts soon.</div>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = items.map(item => {
+    const urg = getUrgency(item);
+    const urgClass = `urg-${urg}`;
+    const urgLabel = daysLabel(item);
+    const tpl = getTemplates(item);
+    const cardId = `card-${item._id}`;
+    const handle = item.ig || item.handle || item.instagram || '';
+    const stage = item._type === 'model' ? (item.status||'').charAt(0).toUpperCase()+(item.status||'').slice(1) : (item.pipeline||'');
+
+    return `<div class="fu-card ${urg}" id="${cardId}">
+      <div class="fu-head">
+        <div class="fu-avatar">${initials(item.name)}</div>
+        <div class="fu-info">
+          <div class="fu-name">${item.name}</div>
+          <div class="fu-meta">
+            <span class="fu-type-badge ${item._type === 'model' ? 'type-model' : 'type-venue'}">${item._type}</span>
+            <span class="fu-urgency ${urgClass}">${urgLabel}</span>
+          </div>
+          ${handle ? `<div class="fu-handle">${handle}</div>` : ''}
+          ${stage ? `<div class="fu-stage">${stage}</div>` : ''}
+        </div>
+      </div>
+
+      <div class="fu-templates">
+        <div class="tpl-block">
+          <div class="tpl-header">
+            <span class="tpl-channel">📱 IG DM</span>
+            <button class="copy-btn" onclick="copyMsg('${cardId}-ig', this)">Copy</button>
+          </div>
+          <div class="tpl-body" id="${cardId}-ig">${tpl.ig}</div>
+        </div>
+        <div class="tpl-block">
+          <div class="tpl-header">
+            <span class="tpl-channel">💬 Text</span>
+            <button class="copy-btn" onclick="copyMsg('${cardId}-text', this)">Copy</button>
+          </div>
+          <div class="tpl-body" id="${cardId}-text">${tpl.text}</div>
+        </div>
+      </div>
+
+      <div class="fu-actions">
+        <button class="btn-sent" onclick="markSent('${item._id}', '${item._type}')">✓ Sent — Set Next Date</button>
+        <button class="btn-snooze" onclick="snooze('${item._id}', '${item._type}')">+3d</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function copyMsg(elId, btn) {
+  const text = document.getElementById(elId)?.textContent?.trim();
+  if(!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    // fallback for older mobile browsers
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied ✓'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ── MARK SENT / SNOOZE ───────────────────────────────────────────
+function markSent(id, type) {
+  pendingSentItem = { id, type };
+  const item = queueItems.find(i=>i._id===id);
+  if(item) document.getElementById('dateSheetSub').textContent = `When should we follow up with ${item.name.split(' ')[0]} next?`;
+  // fill date option labels
+  const today = new Date();
+  [3,5,7,14].forEach(d => {
+    const dt = new Date(today); dt.setDate(dt.getDate()+d);
+    document.getElementById(`d${d}`).textContent = dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  });
+  document.getElementById('dateOverlay').classList.add('open');
+}
+
+function snooze(id, type) {
+  pendingSentItem = { id, type };
+  confirmFollowUp(3, true);
+}
+
+function closeDateSheet() {
+  document.getElementById('dateOverlay').classList.remove('open');
+  pendingSentItem = null;
+}
+
+async function confirmFollowUp(days, isSnooze) {
+  if(!pendingSentItem) return;
+  const dt = new Date(); dt.setDate(dt.getDate() + days);
+  const dateStr = dt.toISOString().slice(0,10);
+  await applyFollowUp(pendingSentItem.id, pendingSentItem.type, dateStr, isSnooze);
+  closeDateSheet();
+}
+
+async function confirmFollowUpCustom() {
+  if(!pendingSentItem) return;
+  const dateStr = document.getElementById('customDate').value;
+  if(!dateStr) return;
+  await applyFollowUp(pendingSentItem.id, pendingSentItem.type, dateStr, false);
+  closeDateSheet();
+}
+
+async function applyFollowUp(id, type, newDate, isSnooze) {
+  const item = queueItems.find(i=>i._id===id);
+  if(!item) return;
+  item.followUp = newDate;
+  item.lastContact = isSnooze ? item.lastContact : new Date().toISOString().slice(0,10);
+
+  if(type === 'venue') {
+    // Update the venue in atche_venues JSON blob
+    const { data } = await sb.from('atche_venues').select('venues,user_id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+    if(data) {
+      const venues = typeof data.venues === 'string' ? JSON.parse(data.venues) : data.venues;
+      const v = venues.find(v=>String(v.id)===String(id));
+      if(v) { v.followUp = newDate; if(!isSnooze) v.lastContact = item.lastContact; }
+      await sb.from('atche_venues').update({ venues, updated_at: new Date().toISOString() }).eq('user_id', data.user_id);
+    }
+  } else if(type === 'model') {
+    // Update model's updatedAt in atcheAppData
+    const { data } = await sb.from('atcheAppData').select('models,userId').order('createdAt',{ascending:false}).limit(1).maybeSingle();
+    if(data) {
+      const models = typeof data.models === 'string' ? JSON.parse(data.models) : data.models;
+      const m = models.find(m=>String(m.id)===String(id));
+      if(m) m.updatedAt = Date.now();
+      await sb.from('atcheAppData').update({ models }).eq('userId', data.userId);
+    }
+  }
+
+  renderQueue();
+}
+
+// ── TABS / NAV ────────────────────────────────────────────────────
+function setTab(tab, el) {
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderQueue();
+}
+
+// ── DATA LOAD ─────────────────────────────────────────────────────
+async function loadQueue() {
+  queueItems = [];
+
+  // Load VENUES
+  try {
+    const { data } = await sb.from('atche_venues').select('venues').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+    if(data?.venues) {
+      const venues = typeof data.venues === 'string' ? JSON.parse(data.venues) : data.venues;
+      venues.forEach(v => {
+        if(v.status === 'Passed') return;
+        queueItems.push({
+          ...v,
+          _id:   String(v.id),
+          _type: 'venue',
+          followUp: v.followUp || null,
+        });
+      });
+    }
+  } catch(e) { console.error('Venues load:', e); }
+
+  // Load MODELS
+  try {
+    const { data } = await sb.from('atcheAppData').select('models').order('createdAt',{ascending:false}).limit(1).maybeSingle();
+    if(data?.models) {
+      const models = typeof data.models === 'string' ? JSON.parse(data.models) : data.models;
+      const INTERVALS = { prospect:7, reached:4, active:14, collab:7, booked:2 };
+      const now = Date.now();
+      models.forEach(m => {
+        const interval = INTERVALS[m.status] || 7;
+        const lastTouch = m.updatedAt || m.createdAt || now;
+        const daysAgo = (now - lastTouch) / 86400000;
+        const due = new Date(lastTouch + interval * 86400000);
+        const followUpStr = due.toISOString().slice(0,10);
+        queueItems.push({
+          ...m,
+          _id:      String(m.id),
+          _type:    'model',
+          ig:       m.handle,
+          followUp: followUpStr,
+        });
+      });
+    }
+  } catch(e) { console.error('Models load:', e); }
+
+  renderQueue();
+}
+
+// ── AUTH ──────────────────────────────────────────────────────────
+async function doLogout() {
+  await sb.auth.signOut();
+  window.location.href = 'atche-hub.html';
+}
+
+async function boot() {
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const { data: { session } } = await sb.auth.getSession();
+  document.getElementById('loadScreen').style.display = 'none';
+  if(!session) { window.location.href = 'atche-hub.html'; return; }
+  currentUser = session.user;
+  await loadQueue();
+  sb.auth.onAuthStateChange((event) => {
+    if(event === 'SIGNED_OUT') window.location.href = 'atche-hub.html';
+  });
+}
+
+document.getElementById('dateOverlay').addEventListener('click', function(e) {
+  if(e.target === this) closeDateSheet();
+});
+
+boot();
+</script>
+</body>
+</html>

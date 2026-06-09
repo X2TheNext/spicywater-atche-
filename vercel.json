@@ -1,0 +1,16 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/hub", "destination": "/atche-hub.html" },
+    { "source": "/followup", "destination": "/atche-followup.html" },
+    { "source": "/venue-crm", "destination": "/venue-crm.html" },
+    { "source": "/tracker", "destination": "/model-tracker.html" },
+    { "source": "/juneteenth", "destination": "/atch%C3%A8-juneteenth-pitch.html" },
+    { "source": "/app", "destination": "/atch%C3%A8-app-v2.html" },
+    { "source": "/onboarding", "destination": "/circle-onboarding.html" },
+    { "source": "/apply", "destination": "/circle-application.html" },
+    { "source": "/spicy-water", "destination": "/spicy-water-pitch.html" },
+    { "source": "/signup", "destination": "/atch%C3%A8-signup.html" },
+    { "source": "/style", "destination": "/atch%C3%A8-style-guide.html" }
+  ]
+}

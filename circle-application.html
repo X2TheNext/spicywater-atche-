@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATCHÉ — Join The Circle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --near-black: #111111;
+    --gold: #C9A84C;
+    --gold-dim: rgba(201,168,76,0.15);
+    --cream: #F0EAD6;
+    --cream-dim: rgba(240,234,214,0.6);
+    --cream-faint: rgba(240,234,214,0.12);
+    --white: #ffffff;
+    --gray: rgba(240,234,214,0.35);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HERO ─────────────────────────────────────── */
+  .hero {
+    min-height: 100svh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+    padding: 0 24px 60px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_213048_a176e80b-32ba-4569-a651-9c0a1871676a.png');
+    background-size: cover;
+    background-position: center 45%;
+    animation: slowZoom 20s ease-in-out infinite alternate;
+  }
+  @keyframes slowZoom {
+    from { transform: scale(1); }
+    to   { transform: scale(1.06); }
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(8,8,8,0.55) 0%,
+      rgba(8,8,8,0.1) 30%,
+      rgba(8,8,8,0.15) 50%,
+      rgba(8,8,8,0.85) 80%,
+      rgba(8,8,8,1) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 480px;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .hero-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 18vw, 96px);
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .hero-phonetic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(14px, 4vw, 18px);
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 32px;
+  }
+  .hero-tagline {
+    font-size: clamp(15px, 4vw, 18px);
+    color: var(--cream-dim);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .hero-tagline strong { color: var(--cream); font-weight: 500; }
+  .btn-primary {
+    display: inline-block;
+    padding: 16px 48px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    max-width: 320px;
+  }
+  .btn-primary:hover { background: #E8C97A; }
+  .scroll-hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+  .scroll-hint span {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  /* ── SECTION BASE ──────────────────────────────── */
+  section {
+    padding: 80px 24px;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 8vw, 46px);
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  h2 em { color: var(--gold); font-style: italic; }
+  .lead {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--cream-dim);
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+
+  /* ── IMAGE STRIP ───────────────────────────────── */
+  .img-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0;
+    max-width: 100%;
+    margin: 0 -24px;
+  }
+  .img-strip img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+  .img-strip .wide {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+    object-position: center 30%;
+  }
+
+  /* ── OFFER CARDS ───────────────────────────────── */
+  .offer-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+  .offer-card {
+    padding: 28px 24px;
+    background: var(--cream-faint);
+    border-left: 2px solid var(--gold);
+  }
+  .offer-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .offer-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .offer-card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray);
+    font-weight: 300;
+  }
+
+  /* ── MARQUEE ───────────────────────────────────── */
+  .marquee-wrap {
+    overflow: hidden;
+    padding: 24px 0;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    margin: 0 -24px;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 48px;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .marquee-dot { color: rgba(201,168,76,0.3); }
+
+  /* ── FULL BLEED IMAGE ──────────────────────────── */
+  .full-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    object-position: center 35%;
+    display: block;
+  }
+  .full-img-portrait {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  /* ── WHAT YOU NEED ─────────────────────────────── */
+  .requirement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 40px;
+  }
+  .req-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+  }
+  .req-icon {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .req-icon span { font-size: 14px; }
+  .req-item h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .req-item p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── DIVIDER ───────────────────────────────────── */
+  .rule {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 32px;
+  }
+
+  /* ── FORM ──────────────────────────────────────── */
+  #apply {
+    background: var(--near-black);
+    padding: 80px 24px;
+    max-width: 100%;
+  }
+  .form-inner {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .form-group {
+    margin-bottom: 24px;
+  }
+  label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  input, textarea, select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.05);
+  }
+  input::placeholder, textarea::placeholder { color: rgba(240,234,214,0.25); }
+  select option { background: #1a1a1a; color: var(--cream); }
+  textarea { resize: vertical; min-height: 120px; }
+
+  .checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .check-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.15);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--cream-dim);
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 300;
+    transition: all 0.2s;
+  }
+  .check-label:hover { border-color: rgba(201,168,76,0.4); color: var(--cream); }
+  .check-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    flex-shrink: 0;
+    accent-color: var(--gold);
+  }
+
+  .form-note {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-top: 16px;
+    font-weight: 300;
+  }
+  .btn-submit {
+    width: 100%;
+    padding: 18px;
+    background: var(--gold);
+    color: var(--black);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    margin-top: 32px;
+    transition: background 0.3s;
+  }
+  .btn-submit:hover { background: #E8C97A; }
+
+  /* ── FOOTER ────────────────────────────────────── */
+  footer {
+    padding: 48px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(201,168,76,0.08);
+  }
+  .footer-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .footer-sub {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .footer-links a { color: var(--gray); text-decoration: none; }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ── SUCCESS STATE ─────────────────────────────── */
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 60px 0;
+  }
+  .success-state h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .success-state p {
+    font-size: 15px;
+    color: var(--cream-dim);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .success-icon {
+    font-size: 40px;
+    margin-bottom: 24px;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ─────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Washington DC · The Circle</p>
+    <h1 class="hero-wordmark">ATCHÉ</h1>
+    <p class="hero-phonetic">ah · SHAY</p>
+    <p class="hero-tagline">
+      You're already going out.<br>
+      <strong>We make it worth more.</strong>
+    </p>
+    <a href="#apply" class="btn-primary">Apply to the Circle</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Keep reading</span>
+  </div>
+</section>
+
+<!-- ── THE OFFER ─────────────────────────────────── -->
+<section>
+  <p class="section-label">The Opportunity</p>
+  <h2>Paid to show up.<br><em>Content included.</em></h2>
+  <p class="lead">ATCHÉ partners with DC's best restaurants, lounges, and venues to produce editorial content nights — and we build the team from women exactly like you. You come dressed. You enjoy the night. We shoot it professionally. You leave with content, cash, and access you didn't have before.</p>
+
+  <div class="offer-grid">
+    <div class="offer-card">
+      <div class="offer-num">01</div>
+      <h3>Professional Content — Yours to Keep</h3>
+      <p>Every shoot produces edited photos and video delivered to you within 48 hours. Portfolio-quality content that looks like it cost $500 to shoot — because it did. Yours free.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-num">02</div>
+      <h3>Cash Per Shoot</h3>
+      <p>Circle members get paid for every engagement — a combination of cash and covered food and drinks at the venue. You're not working for exposure. You're getting paid to be present.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-num">03</div>
+      <h3>Access to the Best Rooms in DC</h3>
+      <p>We operate inside DC's top venues — restaurants, rooftop lounges, private events. As a Circle member you're always on the guest list, always featured, always credited.</p>
+    </div>
+    <div class="offer-card">
+      <div class="offer-num">04</div>
+      <h3>A Network That Actually Works</h3>
+      <p>The Circle connects photographers, models, hosts, stylists, and content creators who are serious about building. The introduction you need might already be in the room.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── GROUP PORTRAIT BREAK ──────────────────────── -->
+<div style="position:relative; overflow:hidden;">
+  <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_214431_2e927a18-8c6f-4b5e-81cb-5c2451811bb8.png"
+    alt="The Circle" loading="lazy"
+    style="width:100%; max-height:85vh; object-fit:cover; object-position:center 28%; display:block;">
+  <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(8,8,8,0.85) 0%, transparent 40%, rgba(8,8,8,0.3) 100%);"></div>
+  <div style="position:absolute; bottom:32px; left:0; right:0; text-align:center;">
+    <p style="font-size:9px; letter-spacing:0.45em; text-transform:uppercase; color:var(--gold); font-weight:500; margin-bottom:8px;">The Circle · Washington DC</p>
+    <p style="font-family:'Playfair Display',serif; font-size:clamp(20px,5vw,28px); color:var(--white); font-style:italic;">These are the women already in the room.</p>
+  </div>
+</div>
+
+<!-- ── MARQUEE ───────────────────────────────────── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Professional Content</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Cash Per Shoot</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Venue Access</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">The Circle</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Washington DC</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">ATCHÉ</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">ah · SHAY</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Professional Content</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Cash Per Shoot</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Venue Access</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">The Circle</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Washington DC</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">ATCHÉ</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">ah · SHAY</span><span class="marquee-dot">◆</span>
+  </div>
+</div>
+
+<!-- ── IMAGERY ───────────────────────────────────── -->
+<div style="padding: 48px 0 0;">
+  <img class="full-img" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_221237_c434c77a-4484-414f-8eeb-7058ba487f24.png" alt="ATCHÉ Circle Rooftop" loading="lazy" style="object-position: center 40%;">
+</div>
+
+<!-- ── OLDER SOLO BREAK ───────────────────────────── -->
+<div style="position:relative; overflow:hidden; max-height:80vh;">
+  <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_214509_dd1b51ef-11b5-4807-87af-eacb41580f4c.png"
+    alt="ATCHÉ" loading="lazy"
+    style="width:100%; max-height:80vh; object-fit:cover; object-position:center 20%; display:block;">
+  <div style="position:absolute; inset:0; background:linear-gradient(to bottom, transparent 35%, rgba(8,8,8,0.88) 100%);"></div>
+  <div style="position:absolute; bottom:32px; left:24px;">
+    <p style="font-family:'Playfair Display',serif; font-size:clamp(20px,5vw,30px); color:var(--white); font-style:italic; line-height:1.3; margin-bottom:8px;">The Circle doesn't<br>have an age limit.</p>
+    <p style="font-size:9px; letter-spacing:0.4em; color:var(--gold); text-transform:uppercase; font-weight:500;">22 to 40 · All welcome</p>
+  </div>
+</div>
+
+<!-- ── WHO WE'RE LOOKING FOR ─────────────────────── -->
+<section>
+  <p class="section-label">Who This Is For</p>
+  <h2>You're already<br><em>that girl.</em></h2>
+  <p class="lead">You don't need 50,000 followers to join. You need the right energy, the right look, and the willingness to show up when it counts. We're looking for women who are building something — or who are ready to start.</p>
+
+  <div class="requirement-list">
+    <div class="req-item">
+      <div class="req-icon"><span>✦</span></div>
+      <div>
+        <h4>Based in DC or visiting regularly</h4>
+        <p>Our shoots happen in DC on weekends and select weeknights. You need to be here.</p>
+      </div>
+    </div>
+    <div class="req-item">
+      <div class="req-icon"><span>✦</span></div>
+      <div>
+        <h4>18 or older</h4>
+        <p>We operate in nightlife and event spaces. All Circle members must be 18+.</p>
+      </div>
+    </div>
+    <div class="req-item">
+      <div class="req-icon"><span>✦</span></div>
+      <div>
+        <h4>Active on social media</h4>
+        <p>The content we produce is meant to be shared. You don't need a huge following — you need an active, real one.</p>
+      </div>
+    </div>
+    <div class="req-item">
+      <div class="req-icon"><span>✦</span></div>
+      <div>
+        <h4>Professional and on time</h4>
+        <p>We shoot on a schedule for paying clients. Show up when you say you will, dressed as agreed.</p>
+      </div>
+    </div>
+    <div class="req-item">
+      <div class="req-icon"><span>✦</span></div>
+      <div>
+        <h4>Willing to post and tag</h4>
+        <p>After each shoot you post at least one piece of content tagging @atcheofficial and the venue. That's the deal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PORTRAIT IMAGE ────────────────────────────── -->
+<div style="position:relative; overflow:hidden;">
+  <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260605_214449_8770bb13-27c7-4651-9791-9d101ba9d0d2.png"
+    alt="ATCHÉ Circle" loading="lazy" class="full-img-portrait"
+    style="object-position: center 20%;">
+  <div style="position:absolute; inset:0; background:linear-gradient(to bottom, transparent 50%, rgba(8,8,8,0.9) 100%);"></div>
+  <div style="position:absolute; bottom:28px; right:24px; text-align:right;">
+    <p style="font-family:'Playfair Display',serif; font-size:clamp(18px,5vw,24px); color:var(--white); font-style:italic; line-height:1.3;">She doesn't need to<br>ask for the room.</p>
+    <p style="font-size:9px; letter-spacing:0.35em; color:var(--gold); text-transform:uppercase; margin-top:8px; font-weight:500;">ATCHÉ · The Circle</p>
+  </div>
+</div>
+
+<!-- ── QUOTE ─────────────────────────────────────── -->
+<section style="text-align: center; padding: 80px 24px;">
+  <div class="rule"></div>
+  <p style="font-family: 'Playfair Display', serif; font-size: clamp(22px, 6vw, 32px); font-style: italic; color: var(--white); line-height: 1.4; margin-bottom: 24px;">
+    "You've been building in rooms that take everything and give you the minimum back. ATCHÉ is the room that was built for you."
+  </p>
+  <p style="font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold);">Xavier Snow · Founder · ATCHÉ</p>
+</section>
+
+<!-- ── APPLICATION FORM ──────────────────────────── -->
+<div id="apply">
+  <div class="form-inner">
+    <p class="section-label" style="text-align:center;">Circle Application</p>
+    <h2 style="text-align:center; margin-bottom: 12px;">Apply for<br><em>Priority Access</em></h2>
+    <p class="lead" style="text-align:center; margin-bottom: 48px;">We review every application personally. If you're right for the Circle, you'll hear from us within 48 hours.</p>
+
+    <form id="circleForm">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" name="name" placeholder="Your full name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Instagram Handle</label>
+        <input type="text" name="instagram" placeholder="@yourhandle" required>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="your@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" placeholder="(202) 000-0000" required>
+      </div>
+
+      <div class="form-group">
+        <label>TikTok Handle (if applicable)</label>
+        <input type="text" name="tiktok" placeholder="@yourhandle">
+      </div>
+
+      <div class="form-group">
+        <label>Approximate Follower Count</label>
+        <select name="followers" required>
+          <option value="" disabled selected>Select range</option>
+          <option>Under 1,000</option>
+          <option>1,000 – 5,000</option>
+          <option>5,000 – 15,000</option>
+          <option>15,000 – 50,000</option>
+          <option>50,000+</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>What do you do? (select all that apply)</label>
+        <div class="checkbox-group">
+          <label class="check-label"><input type="checkbox" name="role" value="Model"> Model</label>
+          <label class="check-label"><input type="checkbox" name="role" value="Content Creator"> Content Creator</label>
+          <label class="check-label"><input type="checkbox" name="role" value="Photographer"> Photographer</label>
+          <label class="check-label"><input type="checkbox" name="role" value="Host / Brand Ambassador"> Host</label>
+          <label class="check-label"><input type="checkbox" name="role" value="Stylist"> Stylist</label>
+          <label class="check-label"><input type="checkbox" name="role" value="DJ"> DJ</label>
+          <label class="check-label"><input type="checkbox" name="role" value="Influencer"> Influencer</label>
+          <label class="check-label"><input type="checkbox" name="role" value="Other"> Other</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Your Neighborhood / City</label>
+        <input type="text" name="location" placeholder="e.g. DC, Silver Spring, PG County..." required>
+      </div>
+
+      <div class="form-group">
+        <label>Availability</label>
+        <select name="availability" required>
+          <option value="" disabled selected>When can you shoot?</option>
+          <option>Weekends only</option>
+          <option>Weeknights only</option>
+          <option>Weekends + weeknights</option>
+          <option>Flexible — let's talk</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>How did you hear about ATCHÉ?</label>
+        <input type="text" name="referral" placeholder="Instagram, a friend, an event...">
+      </div>
+
+      <div class="form-group">
+        <label>Tell us about yourself</label>
+        <textarea name="bio" placeholder="Who are you, what are you building, and why do you want to be part of the Circle? Keep it real." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Portfolio / Link (optional)</label>
+        <input type="url" name="portfolio" placeholder="Instagram, website, TikTok, or any link to your work">
+      </div>
+
+      <p class="form-note">By submitting this application you confirm you are 18 or older and agree to be contacted by ATCHÉ regarding Circle membership opportunities. We do not share your information with third parties.</p>
+
+      <button type="submit" class="btn-submit">Submit My Application</button>
+    </form>
+
+    <div class="success-state" id="successState">
+      <span class="success-icon">✦</span>
+      <h3>Application received.</h3>
+      <p>We review every application personally. If you're right for the Circle, you'll hear from us within 48 hours at your Instagram. Keep showing up.</p>
+      <br>
+      <p style="color: var(--gold); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;">— The ATCHÉ Circle</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────── -->
+<footer>
+  <div class="footer-wordmark">ATCHÉ</div>
+  <div class="footer-sub">ah · SHAY · Washington DC · 2026</div>
+  <div class="footer-links">
+    <a href="https://instagram.com/atcheofficial" target="_blank">@atcheofficial</a>
+    <a href="mailto:thedigitalmarxman@gmail.com">Contact</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const _sb = supabase.createClient(
+    'https://aayigsbmmdolvnicxacs.supabase.co',
+    'sb_publishable_ofAZ_64cKZXJefM5nbbt3g_wNOoF5DC'
+  );
+
+  document.getElementById('circleForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.btn-submit');
+    btn.textContent = 'Submitting…';
+    btn.disabled = true;
+
+    // Collect fields
+    const g = id => (this.querySelector(`[name="${id}"]`) || {}).value || '';
+    const roles = [...this.querySelectorAll('[name="role"]:checked')].map(el => el.value);
+
+    const payload = {
+      name:         g('name'),
+      instagram:    g('instagram'),
+      email:        g('email'),
+      phone:        g('phone'),
+      tiktok:       g('tiktok'),
+      followers:    g('followers'),
+      roles,
+      location:     g('location'),
+      availability: g('availability'),
+      referral:     g('referral'),
+      bio:          g('bio'),
+      portfolio:    g('portfolio'),
+      status:       'pending'
+    };
+
+    const { error } = await _sb.from('circle_applications').insert(payload);
+
+    if (error) {
+      console.error('Submission error:', error);
+      btn.textContent = 'Submit My Application';
+      btn.disabled = false;
+      alert('Something went wrong — please try again or DM us on Instagram.');
+      return;
+    }
+
+    // Success
+    this.style.display = 'none';
+    document.getElementById('successState').style.display = 'block';
+    document.getElementById('successState').scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
