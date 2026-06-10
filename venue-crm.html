@@ -614,7 +614,13 @@ async function loadFromSupabase() {
   setSyncStatus('loading');
   const { data, error } = await sb.from('atche_venues')
     .select('venues').eq('user_id', currentUser.id).maybeSingle();
-  if(error && error.code !== 'PGRST116') { setSyncStatus('error'); return; }
+  if(error && error.code !== 'PGRST116') {
+    // Don't leave the page with an empty venues list on a sync error —
+    // fall back to seed data so the dashboard still renders.
+    setSyncStatus('error');
+    venues = getSeedVenues();
+    return;
+  }
   if(data && data.venues) {
     venues = typeof data.venues === 'string' ? JSON.parse(data.venues) : data.venues;
   } else {
@@ -666,8 +672,17 @@ async function bootApp() {
   const { data: { session } } = await sb.auth.getSession();
   if(!session) { window.location.href = 'atche-hub.html'; return; }
   currentUser = session.user;
-  await loadFromSupabase();
-  renderAll();
+  try {
+    await loadFromSupabase();
+  } catch(e) {
+    console.error('loadFromSupabase failed, using seed data', e);
+    venues = getSeedVenues();
+  }
+  try {
+    renderAll();
+  } catch(e) {
+    console.error('renderAll failed', e);
+  }
   sb.auth.onAuthStateChange(async (event, session) => {
     if(event === 'SIGNED_OUT') window.location.href = 'atche-hub.html';
   });

@@ -591,7 +591,12 @@ async function boot() {
   document.getElementById('loadScreen').style.display = 'none';
   if(!session) { window.location.href = 'atche-hub.html'; return; }
   currentUser = session.user;
-  await loadQueue();
+  try {
+    await loadQueue();
+  } catch(e) {
+    console.error('loadQueue failed', e);
+    renderQueue();
+  }
   sb.auth.onAuthStateChange((event) => {
     if(event === 'SIGNED_OUT') window.location.href = 'atche-hub.html';
   });

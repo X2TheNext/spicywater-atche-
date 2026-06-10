@@ -2095,24 +2095,38 @@ function promoteApplicant(appData) {
 }
 
 // ── INIT ──
+async function enterApp(session){
+  currentUser = session.user;
+  try {
+    await loadFromSupabase();
+  } catch(e) {
+    console.error('loadFromSupabase failed, falling back to local cache', e);
+    models = JSON.parse(localStorage.getItem('atcheModels')||'[]');
+    notes  = JSON.parse(localStorage.getItem('atcheNotes')||'[]');
+    events = JSON.parse(localStorage.getItem('atcheEvents')||'[]');
+  }
+  // Always clear the login overlay once boot finishes, even if a render
+  // step below throws — otherwise the page looks stuck behind a second
+  // login screen even though the user is already authenticated.
+  document.getElementById('loginScreen').style.display='none';
+  try {
+    renderDashboard(); renderPrompts('all'); renderNotes(); loadApplications();
+  } catch(e) {
+    console.error('render failed', e);
+  }
+}
+
 async function bootApp(){
   const { data:{ session } } = await sb.auth.getSession();
-  if(session){
-    currentUser = session.user;
-    await loadFromSupabase();
-    document.getElementById('loginScreen').style.display='none';
-    renderDashboard(); renderPrompts('all'); renderNotes(); loadApplications();
-  } else {
-    // No session — redirect to hub for login
+  if(!session){
+    // No session — bounce to hub for login (single sign-on lives there)
     window.location.href = 'atche-hub.html';
     return;
   }
+  await enterApp(session);
   sb.auth.onAuthStateChange(async (event, session)=>{
-    if(event==='SIGNED_IN'){
-      currentUser = session.user;
-      await loadFromSupabase();
-      document.getElementById('loginScreen').style.display='none';
-      renderDashboard(); renderPrompts('all'); renderNotes(); loadApplications();
+    if(event==='SIGNED_IN' && session){
+      await enterApp(session);
     } else if(event==='SIGNED_OUT'){
       window.location.href = 'atche-hub.html';
     }
