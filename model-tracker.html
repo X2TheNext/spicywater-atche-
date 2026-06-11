@@ -2013,7 +2013,7 @@ function renderApplications() {
     const statusColor = { pending:'var(--gold)', approved:'var(--sage)', passed:'var(--text3)' }[a.status] || 'var(--text3)';
     const initials = (a.name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
 
-    return `<div style="background:var(--surface);border:1px solid var(--border${a.status==='pending'?'2':'});border-radius:var(--radius-lg);overflow:hidden;transition:var(--t)}" id="app-card-${a.id}">
+    return `<div style="background:var(--surface);border:1px solid var(--border${a.status==='pending'?'2':''});border-radius:var(--radius-lg);overflow:hidden;transition:var(--t)" id="app-card-${a.id}">
       <div style="background:linear-gradient(135deg,var(--surface2),var(--surface3));padding:16px 20px;display:flex;align-items:center;gap:16px">
         <div style="width:52px;height:52px;border-radius:50%;background:var(--gold-dim);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--gold);flex-shrink:0">${initials}</div>
         <div style="flex:1">
