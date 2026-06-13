@@ -37,15 +37,19 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* AMBIENT BACKGROUND — soft moving glows + drifting gold dust, kept slow and faint */
 .bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .bg-glow{position:absolute;border-radius:50%;filter:blur(50px);will-change:transform}
-.bg-glow-gold{top:-140px;left:50%;width:560px;height:420px;transform:translate(-50%,var(--py1,0px));background:radial-gradient(ellipse at center, rgba(201,168,76,0.10) 0%, transparent 70%)}
-.bg-glow-rose{bottom:-180px;right:-100px;width:460px;height:460px;transform:translateY(var(--py2,0px));background:radial-gradient(ellipse at center, rgba(194,105,122,0.07) 0%, transparent 70%)}
-.bg-glow-sage{top:40%;left:-160px;width:380px;height:380px;transform:translateY(var(--py3,0px));background:radial-gradient(ellipse at center, rgba(107,158,122,0.06) 0%, transparent 70%)}
+.bg-glow-gold{top:-140px;left:50%;width:620px;height:460px;transform:translate(-50%,var(--py1,0px));background:radial-gradient(ellipse at center, rgba(201,168,76,0.16) 0%, transparent 70%);animation:glow-pulse 12s ease-in-out infinite}
+.bg-glow-rose{bottom:-180px;right:-100px;width:520px;height:520px;transform:translateY(var(--py2,0px));background:radial-gradient(ellipse at center, rgba(194,105,122,0.12) 0%, transparent 70%);animation:glow-pulse 14s ease-in-out infinite 2s}
+.bg-glow-sage{top:40%;left:-160px;width:420px;height:420px;transform:translateY(var(--py3,0px));background:radial-gradient(ellipse at center, rgba(107,158,122,0.10) 0%, transparent 70%);animation:glow-pulse 16s ease-in-out infinite 4s}
+.bg-glow-rose2{top:62%;right:-120px;width:360px;height:360px;transform:translateY(calc(var(--py2,0px) * -0.6));background:radial-gradient(ellipse at center, rgba(194,105,122,0.10) 0%, transparent 70%);animation:glow-pulse 13s ease-in-out infinite 6s}
+@keyframes glow-pulse{0%,100%{opacity:0.65;filter:blur(50px)}50%{opacity:1;filter:blur(60px)}}
 .spark{position:absolute;border-radius:50%;background:var(--gold-light);opacity:0;animation:spark-float linear infinite}
+.spark.spark-rose{background:var(--rose)}
+.spark.spark-gold2{background:var(--gold)}
 @keyframes spark-float{
   0%{opacity:0;transform:translateY(0) scale(0.6)}
-  8%{opacity:0.55}
-  92%{opacity:0.35}
-  100%{opacity:0;transform:translateY(-140px) scale(1)}
+  8%{opacity:0.6}
+  92%{opacity:0.4}
+  100%{opacity:0;transform:translateY(-180px) scale(1)}
 }
 
 .wrap{max-width:640px;margin:0 auto;position:relative;z-index:1}
@@ -83,6 +87,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .center-msg p{font-size:13px;color:var(--text2);line-height:1.7;max-width:380px;margin:0 auto}
 @keyframes icon-breathe{0%,100%{opacity:0.6;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
 
+/* PREP / ANTICIPATION REVEAL */
+#prepCard{opacity:0;transform:scale(0.98);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1)}
+#prepCard.visible{opacity:1;transform:scale(1)}
+.prep-icon{animation:prep-glow 1.6s ease-in-out infinite}
+@keyframes prep-glow{0%,100%{opacity:0.45;transform:scale(1) rotate(0deg)}50%{opacity:1;transform:scale(1.15) rotate(10deg)}}
+.prep-sub{font-size:12px;letter-spacing:0.5px;color:var(--gold-light);margin-top:2px}
+#mainFlow{opacity:0;transition:opacity .7s cubic-bezier(.16,1,.3,1)}
+#mainFlow.show{opacity:1}
+
 /* GALLERY */
 .gallery-empty{text-align:center;font-size:12px;color:var(--text3);padding:24px 0;font-style:italic}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
@@ -108,6 +121,20 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .pkg.active .pkg-radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--gold);animation:radio-pop .35s cubic-bezier(.34,1.56,.64,1)}
 @keyframes pkg-pulse{0%{box-shadow:0 0 0 0 rgba(201,168,76,0.35)}100%{box-shadow:0 0 0 10px rgba(201,168,76,0)}}
 @keyframes radio-pop{from{transform:scale(0)}to{transform:scale(1)}}
+.pkg-thumb{width:60px;height:60px;border-radius:8px;overflow:hidden;flex-shrink:0;border:1px solid var(--border2);transition:border-color .3s var(--t),box-shadow .3s var(--t)}
+.pkg-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.pkg.pkg-static{transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .25s var(--t),background .25s var(--t),box-shadow .3s var(--t);animation:pkg-in .6s cubic-bezier(.16,1,.3,1) both}
+.landing-section .pkg.pkg-static:nth-child(2){animation-delay:.08s}
+.landing-section .pkg.pkg-static:nth-child(3){animation-delay:.14s}
+.landing-section .pkg.pkg-static:nth-child(4){animation-delay:.2s}
+.landing-section .pkg.pkg-static:nth-child(5){animation-delay:.26s}
+.landing-section .pkg.pkg-static:nth-child(6){animation-delay:.32s}
+.landing-section .pkg.pkg-static:nth-child(7){animation-delay:.38s}
+@keyframes pkg-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.pkg.pkg-static:hover{transform:translateY(-3px) scale(1.012);border-color:rgba(201,168,76,0.5);background:var(--surface3);box-shadow:0 16px 36px -18px rgba(201,168,76,0.3)}
+.pkg.pkg-static:active{transform:translateY(-1px) scale(0.99)}
+.pkg.pkg-static:hover .pkg-thumb{border-color:var(--gold);box-shadow:0 0 16px rgba(201,168,76,0.35)}
+.pkg.pkg-static:hover .pkg-thumb img{transform:scale(1.14)}
 .pkg-body{flex:1}
 .pkg-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
 .pkg-desc{font-size:12px;color:var(--text2);line-height:1.6}
@@ -121,9 +148,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes amt-bump{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
 
 /* PAYMENT */
-.pay-box{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-.pay-qr{width:140px;height:140px;border-radius:10px;border:1px solid var(--border2);background:#fff;flex-shrink:0;overflow:hidden}
+.pay-box{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.pay-qr{width:200px;height:200px;border-radius:12px;border:1px solid var(--border2);background:#fff;flex-shrink:0;overflow:hidden;padding:10px;box-sizing:border-box;animation:qr-glow 4s ease-in-out infinite}
+@keyframes qr-glow{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}50%{box-shadow:0 0 26px 2px rgba(201,168,76,0.35)}}
 .pay-qr img{width:100%;height:100%;display:block}
+.pay-qr-label{text-align:center;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin-top:8px}
+.pay-qr-wrap{display:flex;flex-direction:column;align-items:center}
 .pay-info{flex:1;min-width:180px}
 .pay-handle{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px}
 .pay-note{font-size:12px;color:var(--text2);line-height:1.7}
@@ -143,10 +173,24 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 @keyframes unlock-glow{0%{box-shadow:0 0 0 0 rgba(201,168,76,0.55)}70%{box-shadow:0 0 0 18px rgba(201,168,76,0)}100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}}
 .delivery-msg{display:none;text-align:center;padding:18px 0 4px;font-size:13px;color:var(--sage)}
 .delivery-msg.show{display:block;animation:fade-up .5s cubic-bezier(.16,1,.3,1)}
+.circle-nudge{display:none;text-align:center;margin-top:18px;padding-top:18px;border-top:1px solid var(--border2)}
+.circle-nudge.show{display:block;animation:fade-up .6s cubic-bezier(.16,1,.3,1) .15s both}
+.circle-nudge-text{font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 12px}
 .pay-pending{text-align:center;font-size:12px;color:var(--text3);line-height:1.6;padding:14px;border:1px solid var(--border2);border-radius:10px;margin-bottom:16px;background:var(--surface2);display:flex;align-items:center;justify-content:center;gap:8px;animation:fade-up .5s cubic-bezier(.16,1,.3,1)}
 .pay-pending::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;animation:pulse-dot 1.4s ease-in-out infinite}
 @keyframes pulse-dot{0%,100%{opacity:0.35;transform:scale(0.85)}50%{opacity:1;transform:scale(1.15)}}
 @keyframes fade-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* LANDING — code entry / menu / tip */
+.code-entry{display:flex;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.code-entry input{flex:1 1 140px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:17px;letter-spacing:5px;text-transform:uppercase;text-align:center;padding:14px 10px;font-weight:700;font-family:inherit}
+.code-entry input::placeholder{letter-spacing:2px;color:var(--text3);font-weight:400}
+.code-entry input:focus{outline:none;border-color:var(--gold)}
+.code-entry .btn-primary{width:auto;flex:1 1 140px}
+.landing-section{margin-top:22px;padding-top:18px;border-top:1px solid var(--border2)}
+.menu-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;color:var(--text2);padding:7px 0}
+.menu-row .menu-name{color:var(--text)}
+.menu-price{font-family:'Playfair Display',serif;color:var(--gold);font-weight:700;white-space:nowrap}
 
 /* FOOTER / RECRUIT */
 .recruit{text-align:center;padding:8px 4px 4px}
@@ -155,24 +199,71 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .recruit a.btn-link{background:transparent;border:1px solid var(--gold);color:var(--gold)}
 .recruit a.btn-link:hover{background:var(--gold-dim)}
 
-/* RECRUIT — QUICK INTEREST */
-.recruit-quick{margin-top:18px;padding-top:16px;border-top:1px solid var(--border2)}
-.recruit-quick-label{font-size:11px;color:var(--text3);margin-bottom:8px;letter-spacing:0.3px}
-.recruit-quick-row{display:flex;gap:8px}
-.recruit-quick-row input{flex:1;min-width:0;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-size:13px;outline:none;transition:border-color var(--t);font-family:'Inter',sans-serif}
-.recruit-quick-row input:focus{border-color:var(--gold)}
-.recruit-quick-row input::placeholder{color:var(--text3)}
-.recruit-quick-row button.btn-link{margin-top:0;padding:10px 16px;flex-shrink:0;white-space:nowrap;border:1px solid var(--gold);background:transparent;color:var(--gold);font-family:'Inter',sans-serif;cursor:pointer}
-.recruit-quick-row button.btn-link:hover{background:var(--gold-dim)}
-.recruit-quick-row button.btn-link:disabled{opacity:0.5;cursor:default}
-.recruit-quick-status{font-size:11px;color:var(--sage);margin-top:8px;min-height:14px}
-.recruit-quick-status.err{color:var(--rose)}
-
 .av-footer{text-align:center;font-size:10px;color:var(--text3);letter-spacing:1px;padding:18px 0 4px}
+
+/* PREVIEW LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(8,8,8,0.92);display:none;align-items:center;justify-content:center;z-index:50;padding:28px;cursor:pointer;backdrop-filter:blur(4px)}
+.lightbox.show{display:flex;animation:fade-up .3s cubic-bezier(.16,1,.3,1)}
+.lightbox-inner{max-width:480px;width:100%;text-align:center;cursor:default}
+.lightbox img{width:100%;max-height:65vh;object-fit:cover;border-radius:14px;border:1px solid var(--border2);box-shadow:0 30px 80px -20px rgba(0,0,0,0.8),0 0 50px -10px rgba(201,168,76,0.25);animation:lightbox-in .45s cubic-bezier(.16,1,.3,1)}
+@keyframes lightbox-in{from{opacity:0;transform:scale(0.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.lightbox-cap{margin-top:16px}
+.lightbox-cap .pkg-name{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold-light);margin-bottom:4px}
+.lightbox-cap .pkg-desc{color:var(--text2);font-size:13px;margin-bottom:6px}
+.lightbox-cap .pkg-price{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+.lightbox-close{margin-top:18px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
+
+/* ===== MOBILE OPTIMIZATION ===== */
+@media (max-width:600px){
+  body{padding:14px}
+  .card{padding:18px;border-radius:14px}
+  .av-header{margin-bottom:24px}
+  .av-wordmark{font-size:26px;letter-spacing:4px}
+  .av-sub{font-size:11px;letter-spacing:2px}
+  .av-tagline{letter-spacing:2px}
+  .card h2{font-size:17px}
+  .center-msg{padding:28px 8px}
+  .center-msg .icon{font-size:30px}
+  .center-msg h2{font-size:18px}
+  .center-msg p{font-size:12.5px}
+}
 
 @media (max-width:480px){
   .gallery-grid{grid-template-columns:repeat(2,1fr)}
-  .pay-box{justify-content:center}
+  .pay-box{justify-content:center;text-align:center}
+  .pay-qr{width:180px;height:180px}
+
+  /* package cards: shrink thumb + tighten spacing so text has room */
+  .pkg{gap:10px;padding:12px}
+  .pkg-thumb{width:46px;height:46px}
+  .pkg-name{font-size:13px}
+  .pkg-desc{font-size:11.5px;line-height:1.5}
+  .pkg-price{font-size:16px}
+  .pkg-radio{width:16px;height:16px}
+
+  /* code entry: stack input + button full width */
+  .code-entry{flex-direction:column}
+  .code-entry input,.code-entry .btn-primary{flex:1 1 auto;width:100%}
+
+  /* buttons: slightly tighter so long labels don't wrap awkwardly */
+  .btn-primary{font-size:12px;letter-spacing:1px;padding:13px}
+
+  .total-amt{font-size:24px}
+  .lightbox{padding:14px}
+  .lightbox-cap .pkg-name{font-size:16px}
+  .lightbox-cap .pkg-price{font-size:19px}
+}
+
+@media (max-width:360px){
+  body{padding:10px}
+  .card{padding:14px}
+  .av-wordmark{font-size:21px;letter-spacing:2px}
+  .av-tagline{letter-spacing:1.5px;font-size:9px}
+  .step-tag{font-size:9px;padding:3px 8px}
+  .pkg{gap:8px;padding:10px}
+  .pkg-thumb{width:40px;height:40px}
+  .pkg-price{font-size:15px}
+  .pay-qr{width:160px;height:160px}
 }
 </style>
 </head>
@@ -183,6 +274,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <div class="bg-glow bg-glow-gold"></div>
   <div class="bg-glow bg-glow-rose"></div>
   <div class="bg-glow bg-glow-sage"></div>
+  <div class="bg-glow bg-glow-rose2"></div>
   <div id="sparkleField"></div>
 </div>
 
@@ -204,12 +296,102 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </div>
   </div>
 
-  <!-- NO CODE / LANDING -->
-  <div class="card" id="landingCard" style="display:none">
+  <!-- PREPARING GALLERY (anticipation reveal) -->
+  <div class="card" id="prepCard" style="display:none">
     <div class="center-msg">
+      <span class="icon prep-icon">✦</span>
+      <h2>Preparing your gallery…</h2>
+      <p class="prep-sub" id="prepSub"></p>
+    </div>
+  </div>
+
+  <!-- NO CODE / LANDING -->
+  <div class="card reveal" id="landingCard" style="display:none">
+    <div class="center-msg" style="padding-bottom:6px">
       <span class="icon">📷</span>
       <h2>Get your shots from tonight</h2>
-      <p>If a photographer from ATCHÉ Visuals shot you tonight, ask them for your link or scan the QR code they show you — it opens your private gallery right here.</p>
+      <p>Here's what's on offer tonight. Got a code from your photographer? Enter it below to open your private gallery.</p>
+    </div>
+
+    <div class="landing-section" style="margin-top:6px;padding-top:18px">
+      <span class="step-tag">Tonight's Menu</span>
+
+      <div class="pkg pkg-static" onclick="openPreview(0)">
+        <div class="pkg-thumb"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_005538_be580b13-e2b5-4009-a425-a12c797e7f89_min.webp" alt="Quick Shot preview" loading="lazy"></div>
+        <div class="pkg-body">
+          <div class="pkg-name">Quick Shot</div>
+          <div class="pkg-desc">One full-resolution photo, your pick — tap to see the vibe</div>
+        </div>
+        <div class="pkg-price">$5</div>
+      </div>
+
+      <div class="pkg pkg-static" onclick="openPreview(1)">
+        <div class="pkg-thumb"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010304_ca7ed54c-53ee-4a4f-9b64-3e8d76036eff_min.webp" alt="Photo Bundle preview" loading="lazy"></div>
+        <div class="pkg-body">
+          <div class="pkg-name">Photo Bundle</div>
+          <div class="pkg-desc">Up to 8 edited photos — your whole night, curated</div>
+        </div>
+        <div class="pkg-price">$20</div>
+      </div>
+
+      <div class="pkg pkg-static" onclick="openPreview(2)">
+        <div class="pkg-thumb"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010305_5b02bc43-c1f9-46bf-8d31-ca3451e99b7a_min.webp" alt="Spotlight Package preview" loading="lazy"></div>
+        <div class="pkg-body">
+          <div class="pkg-name">Spotlight Package</div>
+          <div class="pkg-desc">5–10 curated photos + 1 short vertical clip, edited for your story — main character treatment</div>
+        </div>
+        <div class="pkg-price">$40</div>
+      </div>
+
+      <div class="pkg pkg-static" onclick="openPreview(3)">
+        <div class="pkg-thumb"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010307_424e40c8-f791-46be-8a19-eafa1b0253ff_min.webp" alt="Performance Reel Basic preview" loading="lazy"></div>
+        <div class="pkg-body">
+          <div class="pkg-name">Performance Reel — Basic</div>
+          <div class="pkg-desc">A 60–90 sec highlight reel + 5 photos — built for your story</div>
+        </div>
+        <div class="pkg-price">$50</div>
+      </div>
+
+      <div class="pkg pkg-static" onclick="openPreview(4)">
+        <div class="pkg-thumb"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010309_5bf0f52c-7833-404d-8344-2c6338e26eac_min.webp" alt="Table Package preview" loading="lazy"></div>
+        <div class="pkg-body">
+          <div class="pkg-name">Table Package</div>
+          <div class="pkg-desc">Photos + a quick group reel for your whole table — built for bottle service, one pickup covers everyone</div>
+        </div>
+        <div class="pkg-price">$60</div>
+      </div>
+
+      <div class="pkg pkg-static" style="margin-bottom:0" onclick="openPreview(5)">
+        <div class="pkg-thumb"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010310_3a674cd5-8df4-494e-935a-6b8514ca9e7a_min.webp" alt="Performance Reel Premium preview" loading="lazy"></div>
+        <div class="pkg-body">
+          <div class="pkg-name">Performance Reel — Premium</div>
+          <div class="pkg-desc">Full edit, color grade &amp; captions + 10 photos — polished, ready to post</div>
+        </div>
+        <div class="pkg-price">$100</div>
+      </div>
+    </div>
+
+    <div class="landing-section">
+      <span class="step-tag">Got Your Code?</span>
+      <h2 style="margin-bottom:10px">Open your gallery</h2>
+      <div class="code-entry">
+        <input type="text" id="codeInput" maxlength="5" placeholder="CODE" autocapitalize="characters" autocomplete="off" inputmode="text" onkeydown="if(event.key==='Enter') goToCode()">
+        <button class="btn-primary" style="margin-top:0" onclick="goToCode()">View My Gallery</button>
+      </div>
+    </div>
+
+    <div class="landing-section">
+      <span class="step-tag">Pay / Tip Your Photographer</span>
+      <div class="pay-box">
+        <div class="pay-qr-wrap">
+          <div class="pay-qr"><img id="landingQrImg" alt="Cash App QR code"></div>
+          <div class="pay-qr-label">Scan with Cash App</div>
+        </div>
+        <div class="pay-info">
+          <div class="pay-handle">$XaveirMSnow</div>
+          <div class="pay-note">Scan to send a payment or tip via Cash App — your photographer will see it instantly.</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -225,21 +407,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <!-- MAIN FLOW (hidden until session loads) -->
   <div id="mainFlow" style="display:none">
 
-    <!-- STEP 1: GALLERY -->
+    <!-- STEP 1: PACKAGES -->
     <div class="card reveal">
-      <span class="step-tag" id="sessionLabelTag">Your Gallery</span>
-      <h2>Pick what you want</h2>
-      <p class="card-desc">Previews are watermarked. Tap what you want, choose a package below, and your clean, full-resolution originals unlock the moment you pay.</p>
-      <div class="gallery-empty" id="galleryEmpty">Your photographer is still uploading — check back in a moment.</div>
-      <div class="gallery-grid" id="galleryGrid" style="display:none"></div>
-      <div class="gallery-count" id="galleryCount" style="display:none"></div>
-    </div>
-
-    <!-- STEP 2: PACKAGES -->
-    <div class="card reveal">
-      <span class="step-tag">Step 2 — Pick Your Package</span>
-      <h2>Choose what you want</h2>
-      <p class="card-desc">No edits, no waiting around — content is yours once it's paid for.</p>
+      <span class="step-tag">Step 1 — Pick Your Package</span>
+      <h2>What's tonight worth to you?</h2>
+      <p class="card-desc">Pick a package below — this sets your total. You can change it any time before you pay.</p>
 
       <div class="pkg active" data-price="5" data-name="Quick Shot" onclick="selectPkg(this)">
         <div class="pkg-radio"></div>
@@ -301,13 +473,26 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
     </div>
 
+    <!-- STEP 2: GALLERY -->
+    <div class="card reveal">
+      <span class="step-tag" id="sessionLabelTag">Step 2 — Your Photos</span>
+      <h2>Tap to pick your shots</h2>
+      <p class="card-desc">Previews are watermarked. Tap what you want — your clean, full-resolution originals unlock the second you pay.</p>
+      <div class="gallery-empty" id="galleryEmpty">Your photographer is still uploading — check back in a moment.</div>
+      <div class="gallery-grid" id="galleryGrid" style="display:none"></div>
+      <div class="gallery-count" id="galleryCount" style="display:none"></div>
+    </div>
+
     <!-- STEP 3: PAYMENT -->
     <div class="card reveal">
       <span class="step-tag">Step 3 — Pay</span>
       <h2>Scan to pay with Cash App</h2>
-      <p class="card-desc">Scan the code or tap the button — it's pre-loaded with your total. Once paid, check the box below to unlock your download.</p>
+      <p class="card-desc">Scan the QR or tap the button — your total's already loaded in. Once it's sent, hit the button below to unlock your download.</p>
       <div class="pay-box">
-        <div class="pay-qr"><img id="qrImg" alt="Cash App QR code"></div>
+        <div class="pay-qr-wrap">
+          <div class="pay-qr"><img id="qrImg" alt="Cash App QR code"></div>
+          <div class="pay-qr-label">Scan with Cash App</div>
+        </div>
         <div class="pay-info">
           <div class="pay-handle">$XaveirMSnow</div>
           <div class="pay-note">Cash App handles all payments. Tap below to open Cash App with your total already filled in.</div>
@@ -319,14 +504,18 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <!-- STEP 4: CONFIRM & DOWNLOAD -->
     <div class="card reveal">
       <span class="step-tag">Step 4 — Get Your Content</span>
-      <h2>Confirm payment &amp; download</h2>
-      <p class="card-desc" id="payHelp">Once you've sent payment, tap below to let us know. We'll confirm it and your download will unlock here automatically — no need to refresh.</p>
+      <h2>Confirm &amp; download</h2>
+      <p class="card-desc" id="payHelp">Sent the payment? Tap below. We'll confirm it and your download unlocks right here — no refresh needed.</p>
       <div class="confirm-row" id="payConfirmRow">
         <button class="btn-primary" id="paidBtn" onclick="requestPaymentConfirmation()">I've sent payment via Cash App</button>
       </div>
       <div class="pay-pending" id="payPending" style="display:none">Waiting for ATCHÉ Visuals to confirm your payment — keep this page open, this is usually quick.</div>
       <button class="btn-primary" id="downloadBtn" disabled style="display:none" onclick="downloadSelected()">Download Your Content</button>
       <div class="delivery-msg" id="deliveryMsg">✓ Content downloaded — thanks for booking ATCHÉ Visuals tonight!</div>
+      <div class="circle-nudge" id="circleNudge">
+        <p class="circle-nudge-text">Were you the one in the photos? ATCHÉ is a community for creative women in DC nightlife — photographers, dancers, hosts, DJs, stylists, content creators — to get booked, paid on time, and protected.</p>
+        <a class="btn-link" href="circle-application.html">Apply to The Circle</a>
+      </div>
     </div>
 
   </div>
@@ -336,17 +525,22 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <h2 style="margin-bottom:10px">Are you a creative?</h2>
     <p>ATCHÉ Visuals is part of <strong>ATCHÉ</strong> — a community for creative women in DC nightlife (photographers, dancers, hosts, DJs, stylists, content creators) to get booked, paid on time, and protected. If tonight's shoot is your vibe, we want to meet you.</p>
     <a class="btn-link" href="circle-application.html">Apply to The Circle</a>
-    <div class="recruit-quick">
-      <p class="recruit-quick-label">Not ready for the full application? Drop your Instagram and we'll reach out.</p>
-      <div class="recruit-quick-row">
-        <input type="text" id="recruitHandle" placeholder="@yourhandle" autocomplete="off">
-        <button class="btn-link" id="recruitBtn" onclick="submitInterest()">Notify Me</button>
-      </div>
-      <div class="recruit-quick-status" id="recruitStatus"></div>
-    </div>
   </div>
 
   <div class="av-footer">ATCHÉ VISUALS · Powered by ATCHÉ · Washington, DC</div>
+</div>
+
+<!-- PACKAGE PREVIEW LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-inner">
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-cap">
+      <div class="pkg-name" id="lightboxName"></div>
+      <div class="pkg-desc" id="lightboxDesc"></div>
+      <div class="pkg-price" id="lightboxPrice"></div>
+    </div>
+    <div class="lightbox-close">Tap anywhere to close</div>
+  </div>
 </div>
 
 <script>
@@ -365,17 +559,19 @@ let currentName = 'Quick Shot';
 function initBgFx(){
   const field = document.getElementById('sparkleField');
   if(field){
-    const n = 14;
+    const n = 26;
     for(let i=0;i<n;i++){
       const s = document.createElement('div');
       s.className = 'spark';
-      const size = 2 + Math.random()*3;
+      if(i % 5 === 0) s.classList.add('spark-rose');
+      else if(i % 7 === 0) s.classList.add('spark-gold2');
+      const size = 2 + Math.random()*4;
       s.style.width = size+'px';
       s.style.height = size+'px';
       s.style.left = Math.random()*100+'%';
-      s.style.top = (55 + Math.random()*45)+'%';
-      s.style.animationDuration = (10 + Math.random()*10)+'s';
-      s.style.animationDelay = (-Math.random()*20)+'s';
+      s.style.top = (8 + Math.random()*92)+'%';
+      s.style.animationDuration = (9 + Math.random()*12)+'s';
+      s.style.animationDelay = (-Math.random()*22)+'s';
       field.appendChild(s);
     }
   }
@@ -392,6 +588,38 @@ function initBgFx(){
       ticking = false;
     });
   }, {passive:true});
+}
+
+// ---- LANDING: package previews ----
+const PKG_PREVIEWS = [
+  { name:'Quick Shot', desc:'One full-resolution photo, your pick from tonight.', price:'$5', img:'https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_005538_be580b13-e2b5-4009-a425-a12c797e7f89.png' },
+  { name:'Photo Bundle', desc:'Up to 8 edited photos from tonight — your whole night, curated.', price:'$20', img:'https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010304_ca7ed54c-53ee-4a4f-9b64-3e8d76036eff.png' },
+  { name:'Spotlight Package', desc:'5–10 curated photos + 1 short vertical clip, edited for your story — main character treatment.', price:'$40', img:'https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010305_5b02bc43-c1f9-46bf-8d31-ca3451e99b7a.png' },
+  { name:'Performance Reel — Basic', desc:'60–90 sec highlight reel + 5 photos — built for your story.', price:'$50', img:'https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010307_424e40c8-f791-46be-8a19-eafa1b0253ff.png' },
+  { name:'Table Package', desc:"Photos + a quick group reel for your whole table — built for bottle service, one pickup covers everyone.", price:'$60', img:'https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010309_5bf0f52c-7833-404d-8344-2c6338e26eac.png' },
+  { name:'Performance Reel — Premium', desc:'Full edit, color grade & captions + 10 photos — polished, ready to post.', price:'$100', img:'https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_010310_3a674cd5-8df4-494e-935a-6b8514ca9e7a.png' }
+];
+
+function openPreview(idx){
+  const p = PKG_PREVIEWS[idx];
+  if(!p) return;
+  document.getElementById('lightboxImg').src = p.img;
+  document.getElementById('lightboxImg').alt = p.name + ' preview';
+  document.getElementById('lightboxName').textContent = p.name;
+  document.getElementById('lightboxDesc').textContent = p.desc;
+  document.getElementById('lightboxPrice').textContent = p.price;
+  document.getElementById('lightbox').classList.add('show');
+}
+
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('show');
+}
+
+// ---- LANDING: code entry ----
+function goToCode(){
+  const v = document.getElementById('codeInput').value.trim().toUpperCase();
+  if(!v) return;
+  location.href = location.pathname + '?s=' + encodeURIComponent(v);
 }
 
 // ---- SCROLL REVEAL (cards rise + fade into place) ----
@@ -423,6 +651,7 @@ async function boot(){
   if(!code){
     document.getElementById('loadingCard').style.display = 'none';
     document.getElementById('landingCard').style.display = 'block';
+    document.getElementById('landingQrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=8&data=${encodeURIComponent('https://cash.app/$'+CASHTAG)}`;
     initReveal();
     return;
   }
@@ -437,12 +666,20 @@ async function boot(){
   }
 
   session = data;
-  document.getElementById('loadingCard').style.display = 'none';
-  document.getElementById('mainFlow').style.display = 'block';
   if(session.label){
     document.getElementById('sessionLabelTag').textContent = session.label;
   }
+
+  // Load gallery data quietly behind the scenes, then deliver a brief
+  // "preparing your gallery" anticipation beat before the reveal.
   await loadGallery();
+  document.getElementById('loadingCard').style.display = 'none';
+  await showPrepReveal();
+
+  const flow = document.getElementById('mainFlow');
+  flow.style.display = 'block';
+  requestAnimationFrame(() => flow.classList.add('show'));
+
   updatePayment();
   initReveal();
 
@@ -455,6 +692,32 @@ async function boot(){
     document.getElementById('payHelp').style.display = 'none';
     startPaymentPoll();
   }
+}
+
+// ---- ANTICIPATION REVEAL ----
+// A brief branded "preparing your gallery" beat between the loading
+// state and the actual reveal — turns an instant DB lookup into a
+// small moment of anticipation, and surfaces the photo count up front.
+function showPrepReveal(){
+  return new Promise(resolve => {
+    const prep = document.getElementById('prepCard');
+    const sub = document.getElementById('prepSub');
+    const n = galleryItems.length;
+    sub.textContent = n > 0
+      ? `${n} ${n === 1 ? 'shot' : 'shots'} from tonight`
+      : 'Your photographer is still uploading';
+
+    prep.style.display = 'block';
+    requestAnimationFrame(() => prep.classList.add('visible'));
+
+    setTimeout(() => {
+      prep.classList.remove('visible');
+      setTimeout(() => {
+        prep.style.display = 'none';
+        resolve();
+      }, 500);
+    }, 1300);
+  });
 }
 
 // ---- GALLERY ----
@@ -555,7 +818,7 @@ function selectPkg(el){
 function updatePayment(){
   const cashUrl = `https://cash.app/$${CASHTAG}/${currentPrice}`;
   document.getElementById('payLink').href = cashUrl;
-  document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=8&data=${encodeURIComponent(cashUrl)}`;
+  document.getElementById('qrImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=8&data=${encodeURIComponent(cashUrl)}`;
 }
 
 // ---- CONFIRM & DOWNLOAD ----
@@ -596,40 +859,6 @@ function startPaymentPoll(){
       unlockDownload();
     }
   }, 4000);
-}
-
-// ---- RECRUIT: QUICK INTEREST ----
-async function submitInterest(){
-  const input = document.getElementById('recruitHandle');
-  const btn = document.getElementById('recruitBtn');
-  const status = document.getElementById('recruitStatus');
-  const handle = input.value.trim();
-  if(!handle){
-    status.textContent = 'Drop an Instagram handle so we can find you.';
-    status.className = 'recruit-quick-status err';
-    return;
-  }
-  btn.disabled = true;
-  status.textContent = '';
-  status.className = 'recruit-quick-status';
-  const codeNote = session && session.code ? ` (via ATCHÉ Visuals, session ${session.code})` : ' (via ATCHÉ Visuals)';
-  const { error } = await sb.from('circle_applications').insert({
-    name: handle,
-    instagram: handle,
-    track: 'circle',
-    status: 'pending',
-    referral: 'ATCHÉ Visuals' + codeNote
-  });
-  if(error){
-    status.textContent = "Couldn't submit right now — try the full application instead.";
-    status.className = 'recruit-quick-status err';
-    btn.disabled = false;
-    return;
-  }
-  status.textContent = "✓ Got it — we'll reach out on Instagram soon.";
-  input.value = '';
-  input.disabled = true;
-  btn.textContent = 'Sent';
 }
 
 function unlockDownload(){
@@ -678,6 +907,7 @@ async function downloadSelected(){
   }
 
   document.getElementById('deliveryMsg').classList.add('show');
+  document.getElementById('circleNudge').classList.add('show');
 }
 
 boot();
