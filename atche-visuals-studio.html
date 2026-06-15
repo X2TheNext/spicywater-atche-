@@ -184,6 +184,19 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .sess-confirm{animation:confirm-pulse 2.2s ease-in-out infinite;transition:var(--t)}
 .sess-confirm:hover{background:rgba(107,158,122,0.28);animation-play-state:paused}
 
+/* ---- MANUAL MARK PAID (no client-side request yet) ---- */
+/* Same shape as Confirm Paid but muted/no pulse — it's a staff-initiated
+   override for "they paid but never tapped the button", not an urgent
+   client-side request. */
+.sess-manual-pay{animation:none;color:var(--text2);border-color:var(--border2);background:var(--surface3)}
+.sess-manual-pay:hover{background:var(--surface2);color:var(--gold)}
+
+/* ---- SEND FEEDBACK REQUEST ---- */
+/* Pilot-feedback nudge for anyone who hasn't paid yet — same muted shape as
+   Mark Paid, just a different accent on hover so it doesn't look urgent. */
+.sess-feedback{animation:none;color:var(--text2);border-color:var(--border2);background:var(--surface3)}
+.sess-feedback:hover{background:var(--surface2);color:var(--gold-light)}
+
 /* ---- PAYMENT BANNER (active session card) ---- */
 .payment-banner{display:none;align-items:center;justify-content:space-between;gap:10px;background:var(--sage-dim);border:1px solid rgba(107,158,122,0.35);border-radius:12px;padding:12px 14px;margin-bottom:16px;animation:confirm-pulse 2.2s ease-in-out infinite}
 .payment-banner.show{display:flex}
@@ -196,13 +209,16 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* ---- AI EDIT OWED BANNER (active session card) ---- */
 @keyframes ai-edit-pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.45)}50%{box-shadow:0 0 0 5px rgba(201,168,76,0)}}
-.ai-edit-banner{display:none;align-items:center;justify-content:space-between;gap:10px;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.35);border-radius:12px;padding:12px 14px;margin-bottom:16px;animation:ai-edit-pulse 2.2s ease-in-out infinite}
+.ai-edit-banner{display:none;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.35);border-radius:12px;padding:12px 14px;margin-bottom:16px;animation:ai-edit-pulse 2.2s ease-in-out infinite}
 .ai-edit-banner.show{display:flex}
 .ai-edit-banner-text{font-size:13px;color:var(--gold);font-weight:600}
 .ai-edit-banner-text small{display:block;font-size:11px;color:var(--text2);font-weight:400;margin-top:2px}
+.ai-edit-banner-actions{display:flex;gap:8px;flex-shrink:0}
 .ai-edit-banner-btn{font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;letter-spacing:0.5px;border:1px solid rgba(201,168,76,0.4);border-radius:20px;padding:6px 14px;background:rgba(201,168,76,0.15);flex-shrink:0;transition:var(--t)}
 .ai-edit-banner-btn:hover{background:rgba(201,168,76,0.28)}
 .ai-edit-banner-btn.uploading{opacity:0.6;pointer-events:none}
+.ai-edit-banner-btn.copied{background:var(--sage-dim);color:var(--sage);border-color:rgba(107,158,122,0.4)}
+.ai-edit-banner-prompt{flex:1 1 100%;font-size:11px;color:var(--text2);line-height:1.6;background:rgba(0,0,0,0.18);border-radius:8px;padding:10px 12px;margin-top:4px}
 
 /* ---- NOTIFY CLIENT EMPHASIS ---- */
 @keyframes notify-pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.45)}50%{box-shadow:0 0 0 5px rgba(201,168,76,0)}}
@@ -310,10 +326,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2>Start a client session</h2>
       <p class="card-desc">One session = one client/group/performer. You upload their shots here; they get a private link + QR to pick, pay, and download on their own phone.</p>
       <div class="row">
-        <input class="form-input" id="newLabel" type="text" placeholder="Label (e.g. &quot;DJ Booth Reel&quot;, &quot;Table 4&quot;) — optional">
+        <input class="form-input" id="newLabel" type="text" placeholder="Use a name they'll recognize (e.g. &quot;Jasmine&quot;, &quot;Tiffany + friends&quot;) — optional">
         <input class="form-input" id="newContact" type="text" placeholder="IG handle, phone, or email — optional" style="max-width:200px">
       </div>
-      <p class="card-desc" style="margin:8px 0 0">Contact lets you follow up if they don't unlock or download tonight. If it's a phone number, "Notify Client" texts them the link; if it's an email, it opens a pre-filled email instead. Totally optional.</p>
+      <p class="card-desc" style="margin:8px 0 0">The label is what they'll see in their "Hey ___" notification, so a name beats "Table 4." Contact lets you follow up if they don't unlock or download tonight — if it's a phone number, "Notify Client" texts them the link; if it's an email, it opens a pre-filled email instead. Both optional.</p>
       <button class="btn-primary" style="width:100%;margin-top:10px" onclick="createSession()">Create Session</button>
     </div>
 
@@ -329,8 +345,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
       <div class="ai-edit-banner" id="aiEditBanner">
         <div class="ai-edit-banner-text">✨ AI Edit owed — <span id="aiEditBannerTheme"></span><small id="aiEditBannerPhoto"></small></div>
-        <label class="ai-edit-banner-btn" id="aiEditBannerBtn" for="aiEditUploadInput">Upload AI Edit</label>
-        <input type="file" id="aiEditUploadInput" accept="image/*" style="display:none">
+        <div class="ai-edit-banner-actions">
+          <span class="ai-edit-banner-btn" id="aiEditCopyPromptBtn" onclick="copyAiEditPrompt()">📋 Copy Prompt</span>
+          <label class="ai-edit-banner-btn" id="aiEditBannerBtn" for="aiEditUploadInput">Upload AI Edit</label>
+          <input type="file" id="aiEditUploadInput" accept="image/*" style="display:none">
+        </div>
+        <div class="ai-edit-banner-prompt" id="aiEditBannerPrompt"></div>
       </div>
       <div class="share-box">
         <div class="share-qr"><img id="shareQr" alt="Session QR code"></div>
@@ -662,6 +682,34 @@ function clientLink(code){
   return CLIENT_GALLERY_BASE + '?s=' + code;
 }
 
+function feedbackLink(code){
+  return CLIENT_GALLERY_BASE + 'atche-visuals-feedback.html?s=' + code;
+}
+
+// ---- AI EDIT GENERATION PROMPTS ----
+// Non-destructive / editorial: every prompt leads with an explicit instruction
+// to preserve the subject's face, identity, skin tone, pose, and outfit, then
+// only describes changes to the environment, lighting, and added props. This
+// is the prompt text staff pastes into the generation tool (Higgsfield or
+// similar) when fulfilling an AI Edit. Keys match the `name` field in
+// AI_EDIT_THEMES (atche-visuals.html).
+const AI_EDIT_PROMPTS = {
+  'Private Jet Glam':
+    "Non-destructive edit — keep the subject's face, identity, skin tone, hairstyle, expression, body shape, and pose exactly as in the original photo. Do not alter facial features or proportions, and keep their outfit unchanged. " +
+    "Replace only the background and environment: place them on a private jet tarmac at golden hour, with a sleek private jet behind them and designer luggage nearby; if their pose allows, add a glass of champagne naturally in hand. " +
+    "Light the subject to match the warm golden-hour environment with soft, flattering falloff and shallow depth of field. Finish with a polished, editorial color grade — crisp but natural, no skin smoothing or body reshaping.",
+
+  'Penthouse Night':
+    "Non-destructive edit — keep the subject's face, identity, skin tone, hairstyle, expression, body shape, and pose exactly as in the original photo. Do not alter facial features, proportions, or outfit. " +
+    "Replace only the background and environment: a glowing penthouse lounge at night with floor-to-ceiling windows overlooking a city skyline, warm ambient interior light, soft bokeh city lights in the distance. " +
+    "Relight the subject to feel naturally lit by the room's warm glow with subtle cool reflections from the skyline. Finish with rich, moody editorial color grading and a clean, magazine-quality composition — no skin smoothing or body reshaping.",
+
+  'Red Carpet':
+    "Non-destructive edit — keep the subject's face, identity, skin tone, hairstyle, expression, body shape, and pose exactly as in the original photo. Do not alter facial features, proportions, or outfit. " +
+    "Replace only the background and environment: a step-and-repeat red carpet backdrop with a subtle premiere-branding pattern, plus soft paparazzi-style flash highlights/light flares around the frame edges as if caught mid-photo at a premiere. " +
+    "Apply crisp, high-contrast editorial lighting consistent with red carpet event photography. Finish polished and magazine-ready — no skin smoothing or body reshaping."
+};
+
 async function createSession(){
   const label = document.getElementById('newLabel').value.trim();
   const contact = document.getElementById('newContact').value.trim();
@@ -741,7 +789,48 @@ function updateAiEditBanner(){
   document.getElementById('aiEditBannerPhoto').textContent = activeSession.ai_edit_photo
     ? `Base it on: ${activeSession.ai_edit_photo}`
     : '';
+
+  // Show the non-destructive/editorial generation prompt for this theme so
+  // staff can paste it straight into Higgsfield (or whatever they're using)
+  // without hunting for it elsewhere.
+  const promptEl = document.getElementById('aiEditBannerPrompt');
+  const copyBtn = document.getElementById('aiEditCopyPromptBtn');
+  const prompt = AI_EDIT_PROMPTS[activeSession.ai_edit_theme];
+  if(prompt){
+    promptEl.textContent = prompt;
+    promptEl.style.display = 'block';
+    copyBtn.style.display = '';
+  } else {
+    promptEl.style.display = 'none';
+    copyBtn.style.display = 'none';
+  }
+  copyBtn.classList.remove('copied');
+  copyBtn.textContent = '📋 Copy Prompt';
+
   banner.classList.add('show');
+}
+
+// Copies the generation prompt for the active session's AI Edit theme to the
+// clipboard so staff can paste it directly into their image-gen tool.
+async function copyAiEditPrompt(){
+  if(!activeSession) return;
+  const prompt = AI_EDIT_PROMPTS[activeSession.ai_edit_theme];
+  if(!prompt) return;
+  try{
+    await navigator.clipboard.writeText(prompt);
+  }catch(e){
+    // Clipboard API can fail without a user gesture/HTTPS in some contexts —
+    // fall back to a manual prompt the user can copy from.
+    window.prompt('Copy the AI Edit prompt:', prompt);
+    return;
+  }
+  const copyBtn = document.getElementById('aiEditCopyPromptBtn');
+  copyBtn.textContent = '✓ Copied';
+  copyBtn.classList.add('copied');
+  setTimeout(() => {
+    copyBtn.textContent = '📋 Copy Prompt';
+    copyBtn.classList.remove('copied');
+  }, 2000);
 }
 
 async function closeSession(){
@@ -787,6 +876,8 @@ async function loadSessions(){
     const time = new Date(s.created_at).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
     let badge, badgeClass;
     const needsConfirm = s.payment_requested && !s.paid;
+    const canManualPay = s.status === 'active' && !s.paid && !needsConfirm;
+    const canFeedback = !s.paid;
     if(s.status === 'closed'){ badge = 'Closed'; badgeClass = 'badge-closed'; }
     else if(s.paid){ badge = 'Paid $' + s.package_price; badgeClass = 'badge-paid'; }
     else if(needsConfirm){ badge = 'Confirm $' + (s.package_price || 0); badgeClass = 'badge-pending'; }
@@ -800,12 +891,20 @@ async function loadSessions(){
       </div>
       <div class="sess-badge ${badgeClass}">${badge}</div>
       ${needsConfirm ? `<div class="sess-confirm" data-id="${s.id}">Confirm Paid</div>` : ''}
+      ${canManualPay ? `<div class="sess-confirm sess-manual-pay" data-id="${s.id}">Mark Paid</div>` : ''}
+      ${canFeedback ? `<div class="sess-confirm sess-feedback" data-id="${s.id}">Send Feedback</div>` : ''}
       ${s.status === 'closed' ? `<div class="sess-reopen" data-id="${s.id}">Reopen</div>` : ''}
       ${s.status === 'closed' ? `<div class="sess-delete" data-id="${s.id}">Delete</div>` : ''}
       <div class="sess-open" data-id="${s.id}">Open →</div>
     `;
     if(needsConfirm){
       div.querySelector('.sess-confirm').onclick = (e) => { e.stopPropagation(); markPaid(s); };
+    }
+    if(canManualPay){
+      div.querySelector('.sess-manual-pay').onclick = (e) => { e.stopPropagation(); manualMarkPaid(s); };
+    }
+    if(canFeedback){
+      div.querySelector('.sess-feedback').onclick = (e) => { e.stopPropagation(); sendFeedbackRequest(s); };
     }
     if(s.status === 'closed'){
       div.querySelector('.sess-reopen').onclick = (e) => { e.stopPropagation(); reopenSession(s); };
@@ -827,6 +926,38 @@ async function markPaid(s){
     paid: true,
     paid_at: new Date().toISOString(),
     payment_requested: false
+  }).eq('id', s.id);
+  if(error){ alert('Error: ' + error.message); return; }
+  loadSessions();
+}
+
+// ---- MANUAL MARK PAID (no client-side request) ----
+// For sessions where the client paid via Cash App but never tapped "I've
+// sent payment" in their gallery — staff sees the Cash App notification and
+// unlocks the download directly. Since the client never sent a package
+// name/price via request_payment_confirmation, ask for it here so revenue
+// totals and the unlocked download still reflect the right package.
+async function manualMarkPaid(s){
+  let pkgName = s.package_name || '';
+  let pkgPrice = s.package_price || 0;
+
+  if(!pkgPrice){
+    const nameInput = prompt(`What package did ${s.label || s.code} pay for? (e.g. "3 Photos", "Reel + 3 Photos")`, pkgName);
+    if(nameInput === null) return;
+    const priceInput = prompt(`Amount paid for ${s.code}? ($)`, '');
+    if(priceInput === null) return;
+    pkgName = nameInput.trim();
+    pkgPrice = Number(priceInput) || 0;
+  }
+
+  if(!confirm(`Mark ${s.code} as paid${pkgName ? ` for "${pkgName}"` : ''}${pkgPrice ? ` — $${pkgPrice}` : ''}? This unlocks their download even though they never tapped "I've sent payment."`)) return;
+
+  const { error } = await sb.from('visuals_sessions').update({
+    paid: true,
+    paid_at: new Date().toISOString(),
+    payment_requested: false,
+    package_name: pkgName || s.package_name,
+    package_price: pkgPrice
   }).eq('id', s.id);
   if(error){ alert('Error: ' + error.message); return; }
   loadSessions();
@@ -965,14 +1096,34 @@ async function handleFiles(fileList){
 }
 
 // ---- NOTIFY CLIENT ----
-function notifyClient(){
+async function notifyClient(){
   if(!activeSession) return;
+
+  // Guard against sending "your photos are ready" before anything's actually
+  // uploaded — this is what happened when a client got a link to an empty
+  // gallery. Check storage directly rather than the DOM so it's accurate
+  // even if loadThumbs hasn't run yet.
+  const code = activeSession.code;
+  const { data: files } = await sb.storage.from(BUCKET).list(`${code}/full`, {limit:1});
+  const hasUploads = files && files.some(f => f.name !== '.emptyFolderPlaceholder');
+  if(!hasUploads){
+    if(!confirm(`No photos or reels have been uploaded for ${code} yet. Send the link anyway?\n\nIf you continue, they'll open an empty gallery — better to upload first.`)) return;
+  }
+
   const link = clientLink(activeSession.code);
   const who = activeSession.label ? activeSession.label + ' ' : '';
   const msg = `Hey ${who}— your photos & reels from tonight are ready ✨ Pick your favorites and grab them here: ${link}`;
   document.getElementById('notifyBtn').classList.remove('notify-pulse');
 
-  const raw = (activeSession.contact || '').trim();
+  sendClientMessage(activeSession.contact, msg, { emailSubject: 'Your ATCHÉ Visuals photos are ready ✨' });
+}
+
+// ---- SHARED SEND HELPER ----
+// Routes a message to a client via SMS, email, or clipboard based on what's
+// in their `contact` field — same auto-detect logic notifyClient() used,
+// factored out so other actions (like Send Feedback Request) can reuse it.
+function sendClientMessage(contact, msg, opts = {}){
+  const raw = (contact || '').trim();
   const digits = raw.replace(/[^\d+]/g, '');
   const isPhone = digits.replace(/[^\d]/g, '').length >= 7;
   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw);
@@ -982,7 +1133,7 @@ function notifyClient(){
     const sep = isiOS ? '&' : '?';
     window.location.href = `sms:${digits}${sep}body=${encodeURIComponent(msg)}`;
   } else if(isEmail){
-    const subject = 'Your ATCHÉ Visuals photos are ready ✨';
+    const subject = opts.emailSubject || 'A note from ATCHÉ Visuals';
     window.location.href = `mailto:${raw}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg)}`;
   } else {
     const fallback = raw
@@ -994,6 +1145,21 @@ function notifyClient(){
       alert(`Message to send:\n\n${msg}`);
     }
   }
+}
+
+// ---- SEND FEEDBACK REQUEST ----
+// Pilot-feedback nudge, mainly for clients who didn't end up purchasing.
+// Frames tonight as a pilot launch, links the short survey (atche-visuals-feedback.html)
+// with the session code attached, and mentions the free-juice incentive for
+// leaving contact info on the survey itself.
+async function sendFeedbackRequest(s){
+  const link = feedbackLink(s.code);
+  const who = s.label ? s.label + ' ' : '';
+  const msg = `Hey ${who}— thanks for being part of our ATCHÉ Visuals pilot launch tonight! Mind giving quick (60-sec) feedback? ${link} — leave your info on the survey and we'll hook you up with a free juice next time 🍹`;
+
+  if(!confirm(`Send a pilot-feedback request to ${s.label || s.code}${s.contact ? ' via ' + s.contact : ' (no contact on file — message will be copied for you to send manually)'}?`)) return;
+
+  sendClientMessage(s.contact, msg, { emailSubject: 'Quick feedback on tonight — ATCHÉ Visuals' });
 }
 
 async function loadThumbs(){

@@ -99,6 +99,13 @@
   .strip figcaption{position:absolute;left:0;right:0;bottom:0;padding:18px 12px 10px;font-size:11.5px;letter-spacing:.04em;color:var(--cream);background:linear-gradient(transparent,rgba(10,10,11,.85));font-weight:500}
   @media (max-width:680px){.strip{grid-template-columns:1fr}.strip figure{aspect-ratio:16/10}}
 
+  /* PORTFOLIO GALLERY */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:34px}
+  .gallery figure{margin:0;border-radius:12px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/4}
+  .gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;filter:saturate(1.03)}
+  .gallery figure:hover img{transform:scale(1.04)}
+  @media (max-width:680px){.gallery{grid-template-columns:1fr 1fr;gap:8px}}
+
   /* VALUE STACK */
   .vs-table{width:100%;border-collapse:collapse;margin-top:30px;font-size:15px}
   .vs-table th{text-align:left;font-family:'Inter';font-weight:600;letter-spacing:.04em;color:var(--muted);font-size:12.5px;text-transform:uppercase;padding:0 0 14px}
@@ -111,13 +118,13 @@
   .vs-note b{color:var(--gold-bright)}
 
   /* TIERS */
-  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+  .tiers{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:36px}
   .tier{
     background:linear-gradient(180deg,var(--panel),var(--ink));
     border:1px solid var(--line-soft);border-radius:16px;padding:30px 24px;display:flex;flex-direction:column;
   }
   .tier.feature{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 24px 60px -30px rgba(201,162,75,.5);position:relative}
-  .tier.feature::after{content:"MOST POPULAR";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1a1404;font-size:10px;font-weight:700;letter-spacing:.18em;padding:5px 14px;border-radius:100px}
+  .tier.feature::after{content:"RECOMMENDED START";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1a1404;font-size:10px;font-weight:700;letter-spacing:.18em;padding:5px 14px;border-radius:100px}
   .tier .name{font-family:'Playfair Display';font-size:22px;font-weight:700;color:var(--cream)}
   .tier .price{font-family:'Playfair Display';font-size:40px;font-weight:800;color:var(--gold-bright);margin:14px 0 2px;line-height:1}
   .tier .price span{font-size:15px;color:var(--muted);font-weight:400;font-family:'Inter'}
@@ -178,8 +185,8 @@
   <div class="hero-bg" style="background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_132552_f997185d-e848-491c-ac21-b5cfb0d36f6a.png')"></div>
   <div class="wrap">
     <div class="mark">ATCHÉ</div>
-    <h1>The full package.<br><em>On the house, first.</em></h1>
-    <p class="sub">A content &amp; marketing partnership built to fill your tables and make Spicy Water the most talked-about African kitchen in the District.</p>
+    <h1>See it first.<br><em>Then make it yours.</em></h1>
+    <p class="sub">We show you a full content shoot at Spicy Water before you spend a dollar. Love it, and a simple activation unlocks the files &mdash; and the partnership that keeps your tables full.</p>
     <div class="meta-row">
       <div><b>Prepared for</b> · Spicy Water African Grill</div>
       <div><b>2019 11th St NW</b> · Washington, DC</div>
@@ -204,28 +211,47 @@
 
 <section>
   <div class="wrap">
-    <div class="section-label"><span class="eyebrow">Where we start</span></div>
-    <h2>You said yes. Here's our handshake.</h2>
-    <p class="lead">Before you spend a dollar, we prove it. We produce a full content night at Spicy Water — completely free — so you see the work, the women, and the response before any partnership begins.</p>
+    <div class="section-label"><span class="eyebrow">Phase 01 — the proof</span></div>
+    <h2>We don't ask you to imagine it. We show you.</h2>
+    <p class="lead">Before you spend a dollar, we plan, style, shoot, and edit a full content night at Spicy Water — then present it to you. You see the exact quality, the women in your room, and the live response from their posts. <b>The preview is free. The files are the product.</b></p>
 
     <div class="gift">
-      <span class="free-badge">$0 — Our gift to you</span>
-      <h3>The Proof-of-Concept Shoot</h3>
-      <p class="muted" style="margin-bottom:6px">One Friday night. Our team, our talent, our cameras. You keep everything.</p>
+      <span class="free-badge">$0 — Free to see</span>
+      <h3>The Proof-of-Concept Screening</h3>
+      <p class="muted" style="margin-bottom:6px">One Friday night. Our team, our talent, our cameras &mdash; presented back to you, watermarked, before anything changes hands.</p>
       <ul class="clean">
         <li><b>3–4 ATCHÉ creative women</b> styled and hosted in your dining room, turning an ordinary night into a scene</li>
         <li><b>A professional menu &amp; food shoot</b> — your signature dishes shot to look as good as they taste</li>
-        <li><b>Lifestyle &amp; behind-the-scenes video</b> the women post to their own followings that same night</li>
-        <li><b>A delivered library of edited photos &amp; short-form video</b> — yours to use forever, no strings</li>
+        <li><b>Live social buzz</b> — the women post behind-the-scenes to their own followings that same night, real eyes on Spicy Water immediately</li>
+        <li><b>A private screening</b> of the edited photos &amp; short-form video — so you see exactly what you&rsquo;re getting before you own it</li>
         <li><b>A featured post on @atcheofficial</b> putting Spicy Water in front of our growing audience</li>
       </ul>
       <div class="strip">
         <figure><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_132553_bddaa27a-3510-413b-a38c-4c0fa3aa5563.png" alt="Signature dish, gold-lit"><figcaption>The food, made famous</figcaption></figure>
         <figure><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_132554_6c1bfc50-41c9-4265-b452-11cae44ed73e.png" alt="Stylish women dining in the space"><figcaption>The scene, in your room</figcaption></figure>
-        <figure><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_132555_8bf03bef-4e97-45ca-afc3-e281e06cb508.png" alt="Behind the scenes filming content"><figcaption>The content, posted that night</figcaption></figure>
+        <figure><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_132555_8bf03bef-4e97-45ca-afc3-e281e06cb508.png" alt="Behind the scenes filming content"><figcaption>The proof, ready to unlock</figcaption></figure>
       </div>
-      <div class="vs-note" style="margin-top:24px">A shoot of this scope — full production team, talent, food styling, edit — runs <b>$3,000–$7,750</b> at major-metro market rates. You're getting it for the price of dinner for the crew.</div>
+      <div class="vs-note" style="margin-top:24px">A shoot of this scope — full production team, talent, food styling, edit — runs <b>$3,000–$7,750</b> at major-metro market rates. You get to <b>see all of it free</b>. A simple activation unlocks it for you to keep and use.</div>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label"><span class="eyebrow">Phase 02 — the unlock</span></div>
+    <h2>Ready to own it? One simple activation.</h2>
+    <p class="lead">The screening proves the work. To release the full-resolution, rights-cleared files — yours to post, print, and run as ads — there&rsquo;s a one-time activation fee. It covers the planning, the talent, and the production that went into the night.</p>
+
+    <div class="roi" style="background:linear-gradient(150deg,rgba(201,162,75,.18),var(--ink) 60%)">
+      <h3>Content Activation</h3>
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:6px 0 4px">
+        <span style="font-family:'Playfair Display';font-size:48px;font-weight:800;color:var(--gold-bright);line-height:1">$500</span>
+        <span class="muted" style="font-size:15px">one-time &middot; unlocks the full POC content library</span>
+      </div>
+      <p class="math" style="font-size:20px;margin-top:14px">Start any monthly partnership and this <b>$500 is credited in full</b> toward your first month &mdash; so the content that wins you customers effectively comes with the package.</p>
+      <p>Until activated, all content remains the property of ATCHÉ and is shared for evaluation only (watermarked). Nothing is published on your behalf, and no files are released, before activation.</p>
+    </div>
+    <div class="vs-note" style="margin-top:22px">Think of it as two doors: <b>pay the $500</b> to own just this shoot, or <b>start a partnership</b> and the $500 disappears into month one. Either way, you only pay once you&rsquo;ve already seen the work.</div>
   </div>
 </section>
 
@@ -236,61 +262,45 @@
     <p class="lead">Hiring each piece separately, every month, at standard market rates:</p>
     <table class="vs-table">
       <tr><th>If you bought it yourself</th><th class="r">Monthly market rate</th></tr>
-      <tr><td>Professional food/photo shoot (full day)</td><td class="r">$1,200 – $2,500</td></tr>
-      <tr><td>4× short-form videos / reels</td><td class="r">$2,000 – $6,000</td></tr>
-      <tr><td>On-camera talent &amp; styling</td><td class="r">$800 – $2,000</td></tr>
-      <tr><td>Posting, scheduling &amp; community management</td><td class="r">$600 – $1,200</td></tr>
-      <tr class="total"><td>True monthly value</td><td class="r">$4,600 – $11,700</td></tr>
+      <tr><td>Professional food/photo shoot (single session)</td><td class="r">$600 – $1,200</td></tr>
+      <tr><td>4–6× short-form videos / reels</td><td class="r">$800 – $2,400</td></tr>
+      <tr><td>On-camera talent &amp; styling (1–2 creators)</td><td class="r">$400 – $900</td></tr>
+      <tr class="total"><td>True monthly value</td><td class="r">$1,800 – $4,500</td></tr>
     </table>
-    <div class="vs-note">With ATCHÉ, the <b>Standard partnership is $1,800/month</b> — a fraction of à la carte, because we bring our own talent, crew, and audience to the table. <b>That's the no-brainer.</b></div>
+    <div class="vs-note">With ATCHÉ, <b>Foundation is just $500/month</b> — a fraction of à la carte, because we bring our own talent, crew, and audience to the table. <b>That's the no-brainer.</b></div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="section-label"><span class="eyebrow">The partnership</span></div>
+    <div class="section-label"><span class="eyebrow">Phase 03 — the partnership</span></div>
     <h2>Choose your tier.</h2>
-    <p class="lead">Month-to-month. No long lock-in. Every tier includes full rights to use the content in your own marketing — forever.</p>
+    <p class="lead">Month-to-month. No long lock-in. Your <b>$500 activation credits toward your first month</b>, and every tier includes full rights to use the content in your own marketing — forever.</p>
     <div class="tiers">
-      <div class="tier">
-        <div class="name">Starter</div>
-        <div class="price">$800<span>/mo</span></div>
-        <div class="tag">Keep the feed alive and consistent.</div>
-        <ul>
-          <li><b>Monthly</b> photo refresh</li>
-          <li><b>2</b> short-form videos / mo</li>
-          <li><b>1</b> ATCHÉ model night / mo</li>
-          <li>Quarterly menu shoot</li>
-          <li>Featured on <b>@atcheofficial</b></li>
-          <li>Full content usage rights</li>
-        </ul>
-      </div>
       <div class="tier feature">
-        <div class="name">Standard</div>
-        <div class="price">$1,800<span>/mo</span></div>
-        <div class="tag">The growth engine — our recommendation.</div>
+        <div class="name">Foundation</div>
+        <div class="price">$500<span>/mo</span></div>
+        <div class="tag">Your $500 activation = your first month, free.</div>
         <ul>
-          <li><b>Bi-weekly</b> photo refresh</li>
-          <li><b>4</b> short-form videos / mo</li>
-          <li><b>2</b> ATCHÉ model nights / mo</li>
-          <li><b>Monthly</b> menu / food shoot</li>
-          <li>Models post to their followings</li>
-          <li>Ad creative (add-on available)</li>
+          <li><b>1</b> ATCHÉ content shoot / mo</li>
+          <li><b>1–2</b> ATCHÉ creators</li>
+          <li><b>4–6</b> photos &amp; reels delivered, ready to post</li>
+          <li>You post on your own schedule</li>
+          <li>Featured on <b>@atcheofficial</b> (rotating)</li>
           <li>Full content usage rights</li>
         </ul>
       </div>
       <div class="tier">
-        <div class="name">Full Partnership</div>
-        <div class="price">$3,500<span>/mo</span></div>
-        <div class="tag">Own the conversation in the District.</div>
+        <div class="name">Growth</div>
+        <div class="price">$1,000<span>/mo</span></div>
+        <div class="tag">When Foundation's working and you want more.</div>
         <ul>
-          <li><b>Weekly</b> photo refresh</li>
-          <li><b>8+</b> short-form videos / mo</li>
-          <li><b>Weekly</b> ATCHÉ presence</li>
-          <li>Monthly + seasonal menu shoots</li>
-          <li><b>Paid ad management</b> included</li>
-          <li>Event / activation hosting</li>
-          <li>Priority featured partner status</li>
+          <li><b>2</b> ATCHÉ content shoots / mo</li>
+          <li><b>2–3</b> ATCHÉ creators</li>
+          <li><b>8–10</b> photos &amp; reels / mo</li>
+          <li>ATCHÉ handles posting &amp; scheduling</li>
+          <li>Models post to their own followings</li>
+          <li>Full content usage rights</li>
         </ul>
       </div>
     </div>
@@ -302,8 +312,8 @@
     <div class="section-label"><span class="eyebrow">The math that matters</span></div>
     <div class="roi">
       <h3>It pays for itself before the month is out.</h3>
-      <p class="math">If the content brings in just <b>2 extra tables a week</b> at a $45 average check, that's <b>~$1,560 a month</b> in new revenue — and that's before the loyal regulars those guests become.</p>
-      <p>The Standard partnership is designed to cost less than the new business it creates. We'll set a baseline before the proof-of-concept night — your typical Friday covers, average ticket, follower count — and track every result with a dedicated promo code and door mentions. You renew on numbers, not promises.</p>
+      <p class="math">If the content brings in just <b>1 extra table a week</b> at a $45 average check, that's <b>~$780 a month</b> in new revenue — well over double what Foundation costs, before the loyal regulars those guests become.</p>
+      <p>Foundation is designed to cost less than the new business it creates. We'll set a baseline before the proof-of-concept night — your typical Friday covers, average ticket, follower count — and track every result with a dedicated promo code and door mentions. You renew on numbers, not promises.</p>
     </div>
   </div>
 </section>
@@ -323,19 +333,36 @@
 
 <section>
   <div class="wrap">
+    <div class="section-label"><span class="eyebrow">The caliber</span></div>
+    <h2>This is the look we bring.</h2>
+    <p class="lead">A taste of ATCHÉ&rsquo;s style — warm, editorial, jewel-toned. Imagine your room, your food, your night shot exactly like this.</p>
+    <div class="gallery">
+      <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134145_477e6191-15a3-4f76-9a16-37af35cb5dc7.png" alt="Woman in velvet lounge booth, candlelight"></figure>
+      <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_104547_5048bc95-3544-4ada-8fc6-5496e9af97a7.png" alt="Three women laughing together at a warm-lit lounge"></figure>
+      <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_104449_e93addcb-4e8c-4f34-a8cf-ae588543080e.png" alt="Women clinking glasses, neon bokeh"></figure>
+      <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134147_6399319d-9bb6-405c-b100-8612ebf05c20.png" alt="Woman walking toward warm lounge exit"></figure>
+      <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_040348_02af27e0-727e-4616-a096-bbfb7c51e0b1.png" alt="Two women laughing at a warm-lit bar"></figure>
+      <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_040302_fdbed5fa-6e97-45a5-8c81-14482a92f955.png" alt="Two women clinking drink glasses, neon bokeh"></figure>
+    </div>
+    <p class="footnote">Selected frames from ATCHÉ&rsquo;s creative library. Your Spicy Water shoot is produced fresh, on-site, featuring your space and dishes.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
     <div class="section-label"><span class="eyebrow">How we begin</span></div>
     <h2>Three steps to your first night.</h2>
     <div class="steps">
-      <div class="step"><div class="n"></div><div class="t"><b>Pick a Friday.</b> Reply with a date that works and we lock the proof-of-concept shoot this week.</div></div>
-      <div class="step"><div class="n"></div><div class="t"><b>Choose your dishes.</b> Tell us the menu items you want to make famous.</div></div>
-      <div class="step"><div class="n"></div><div class="t"><b>Five-minute baseline.</b> A quick chat on covers, average ticket, and goals — so we can prove the return.</div></div>
+      <div class="step"><div class="n"></div><div class="t"><b>Pick a Friday.</b> Reply with a date and we lock the proof-of-concept shoot this week. We bring the talent, crew, and creative.</div></div>
+      <div class="step"><div class="n"></div><div class="t"><b>We shoot &amp; screen.</b> You see the edited photos and video — and the live response from the women&rsquo;s posts — no cost, no commitment.</div></div>
+      <div class="step"><div class="n"></div><div class="t"><b>Activate &amp; choose your tier.</b> Unlock the files with the $500 activation, then turn on the monthly partnership — your activation credits to month one.</div></div>
     </div>
   </div>
 </section>
 
 <div class="cta wrap">
   <h2>Let's make Spicy Water unforgettable.</h2>
-  <div class="line">The first night's on us. The rest sells itself.</div>
+  <div class="line">The first look is on us. The work sells the rest.</div>
   <div class="signoff">
     <b>Xavier Snow</b> &nbsp;·&nbsp; ATCHÉ &nbsp;·&nbsp; <a href="https://instagram.com/atcheofficial">@atcheofficial</a><br>
     <a href="mailto:thedigitalmarxman@gmail.com">thedigitalmarxman@gmail.com</a>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATCHÉ × Cookies DC — One Year on U Street</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#070808;
+    --ink:#0f1210;
+    --panel:#141815;
+    --panel-2:#1a1f1a;
+    --mint:#3FB6F0;
+    --mint-deep:#1E7FB8;
+    --mint-glow:rgba(63,182,240,.35);
+    --white:#f6f7f3;
+    --muted:#9aa6ab;
+    --line:rgba(63,182,240,.18);
+    --line-soft:rgba(246,247,243,.07);
+    --gold:#c9a24b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:'Inter',-apple-system,sans-serif;
+    font-weight:300;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 28px}
+  .display{font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:.01em}
+  .mint{color:var(--mint)}
+  .muted{color:var(--muted)}
+  .eyebrow{
+    font-weight:700;letter-spacing:.32em;text-transform:uppercase;
+    font-size:11px;color:var(--mint);
+  }
+
+  /* animated blobs */
+  .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;pointer-events:none;mix-blend-mode:screen}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.15)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,40px) scale(1.1)}}
+  @keyframes pulseGlow{0%,100%{opacity:.25}50%{opacity:.55}}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    padding:110px 0 80px;
+    text-align:center;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+    background:var(--black);
+  }
+  .hero .blob.b1{width:480px;height:480px;background:var(--mint);top:-180px;left:-120px;animation:drift1 18s ease-in-out infinite, pulseGlow 9s ease-in-out infinite}
+  .hero .blob.b2{width:360px;height:360px;background:var(--mint);top:60px;right:-100px;animation:drift2 22s ease-in-out infinite, pulseGlow 11s ease-in-out infinite}
+  .hero-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;opacity:.30}
+  .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,8,8,.45),rgba(7,8,8,.85) 65%,var(--black))}
+  .hero .wrap{position:relative;z-index:1}
+  .hero .mark{font-weight:800;letter-spacing:.5em;font-size:13px;color:var(--mint);padding-left:.5em}
+  .hero .x{display:inline-block;color:var(--mint);font-size:18px;vertical-align:middle;margin:0 10px;opacity:.6}
+  .hero h1{font-size:clamp(48px,9vw,98px);line-height:1.0;margin:28px 0 6px;letter-spacing:.01em}
+  .hero h1 .pop{color:var(--mint);display:inline-block;animation:flicker 4s ease-in-out infinite}
+  @keyframes flicker{0%,92%,100%{opacity:1;text-shadow:0 0 28px var(--mint-glow)}94%{opacity:.55}96%{opacity:1}}
+  .hero .sub{font-size:18px;color:#cfd6c9;max-width:560px;margin:20px auto 0;font-weight:300}
+  .meta-row{margin-top:42px;display:flex;gap:34px;justify-content:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted);letter-spacing:.05em}
+  .meta-row b{color:var(--white);font-weight:600}
+
+  /* MARQUEE */
+  .marquee{
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:14px 0;
+  }
+  .marquee-track{display:inline-flex;animation:scroll 28s linear infinite}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .marquee span{
+    font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:.18em;
+    font-size:14px;color:var(--mint);padding:0 28px;display:inline-flex;align-items:center;gap:28px;
+  }
+  .marquee span::after{content:"●";color:var(--line-soft);font-size:8px}
+
+  section{padding:70px 0;border-bottom:1px solid var(--line-soft)}
+  h2{font-size:clamp(28px,4.4vw,42px);line-height:1.1;margin-bottom:10px;letter-spacing:.01em}
+  .lead{font-size:18px;color:#d4dccd;margin-top:14px;font-weight:300}
+  .section-label{margin-bottom:22px}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+  .stat{
+    background:linear-gradient(180deg,var(--panel),var(--ink));
+    border:1px solid var(--line);border-radius:14px;padding:28px 22px;text-align:center;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .stat:hover{transform:translateY(-6px);box-shadow:0 18px 40px -22px var(--mint-glow)}
+  .stat .num{font-family:'Anton',sans-serif;font-size:42px;color:var(--mint);line-height:1}
+  .stat .lbl{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.4}
+
+  /* GIFT / SPONSOR PACKAGE */
+  .gift{
+    background:linear-gradient(150deg,rgba(63,182,240,.10),rgba(7,8,8,.4) 55%),var(--ink);
+    border:1px solid var(--line);border-radius:18px;padding:40px 36px;margin-top:30px;position:relative;overflow:hidden;
+  }
+  .gift::before{content:"OFFICIAL MEDIA SPONSOR";position:absolute;top:24px;right:28px;font-family:'Anton',sans-serif;letter-spacing:.22em;font-size:11px;color:rgba(63,182,240,.45)}
+  .gift h3{font-family:'Anton',sans-serif;font-size:28px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:8px}
+  .free-badge{display:inline-block;background:var(--mint);color:#06141c;font-weight:800;font-size:12px;letter-spacing:.14em;padding:6px 16px;border-radius:100px;text-transform:uppercase;margin-bottom:18px}
+  ul.clean{list-style:none;margin-top:18px;display:grid;gap:14px}
+  ul.clean li{padding-left:32px;position:relative;font-size:15.5px;color:#dde4d6}
+  ul.clean li::before{content:"";position:absolute;left:0;top:9px;width:10px;height:10px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 5px rgba(63,182,240,.14)}
+  ul.clean li b{color:var(--white);font-weight:700}
+
+  /* IMAGE STRIP / GALLERY */
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+  .strip figure{margin:0;position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/4}
+  .strip img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.02);transition:transform .6s ease}
+  .strip figure:hover img{transform:scale(1.05)}
+  .strip figcaption{position:absolute;left:0;right:0;bottom:0;padding:18px 14px 12px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--white);background:linear-gradient(transparent,rgba(7,8,8,.9));font-weight:600}
+  @media (max-width:680px){.strip{grid-template-columns:1fr}.strip figure{aspect-ratio:16/10}}
+
+  /* CARDS */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px}
+  .card{background:var(--panel);border:1px solid var(--line-soft);border-radius:13px;padding:24px 22px;transition:border-color .3s ease, transform .3s ease}
+  .card:hover{border-color:var(--line);transform:translateY(-4px)}
+  .card h4{font-family:'Anton',sans-serif;font-weight:400;font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:var(--mint);margin-bottom:10px}
+  .card p{font-size:14px;color:#bcc4b5;line-height:1.6}
+
+  /* CONNECTION MAP */
+  .connect{
+    background:linear-gradient(150deg,rgba(63,182,240,.08),var(--ink) 60%);
+    border:1px solid var(--line);border-radius:18px;padding:38px 36px;margin-top:30px;
+  }
+  .connect h3{font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:18px}
+  .node-row{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-top:10px}
+  .node{
+    background:var(--panel);border:1px solid var(--line);border-radius:100px;padding:10px 20px;font-size:13.5px;
+    font-weight:600;color:var(--white);white-space:nowrap;position:relative;
+  }
+  .node.you{border-color:var(--mint);color:var(--mint);box-shadow:0 0 0 1px var(--mint), 0 0 24px -8px var(--mint-glow)}
+  .node-arrow{color:var(--mint);font-size:18px;margin:0 12px;opacity:.6;animation:pulseGlow 3s ease-in-out infinite}
+  @media (max-width:680px){.node-row{flex-direction:column;align-items:flex-start;gap:10px}.node-arrow{transform:rotate(90deg);margin:2px 0}}
+
+  /* TIMELINE / STEPS */
+  .steps{counter-reset:s;display:grid;gap:18px;margin-top:32px}
+  .step{display:flex;gap:20px;align-items:flex-start;opacity:0;transform:translateX(-16px);transition:opacity .6s ease,transform .6s ease}
+  .step.in{opacity:1;transform:translateX(0)}
+  .step .n{counter-increment:s;flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:1px solid var(--mint);color:var(--mint);font-family:'Anton',sans-serif;display:grid;place-items:center;font-size:17px;box-shadow:0 0 18px -6px var(--mint-glow)}
+  .step .n::before{content:counter(s)}
+  .step .t{font-size:16px;color:#dde4d6;padding-top:8px}
+  .step .t b{color:var(--white);font-weight:700}
+
+  /* CTA */
+  .cta{text-align:center;padding:80px 0 30px;position:relative}
+  .cta h2{margin-bottom:18px}
+  .cta .line{display:inline-block;font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:18px;color:var(--mint);margin-top:6px}
+  .signoff{margin-top:36px;font-size:15px;color:#cfd6c9}
+  .signoff b{color:var(--white)}
+  .signoff a{color:var(--mint);text-decoration:none}
+  .btn{
+    display:inline-block;margin-top:28px;background:var(--mint);color:#06141c;font-weight:800;
+    letter-spacing:.08em;text-transform:uppercase;font-size:13px;padding:16px 36px;border-radius:100px;
+    text-decoration:none;transition:transform .25s ease, box-shadow .25s ease;
+    box-shadow:0 0 0 0 var(--mint-glow);
+  }
+  .btn:hover{transform:translateY(-3px);box-shadow:0 14px 34px -10px var(--mint-glow)}
+
+  footer{padding:38px 0 60px;text-align:center;color:#6d756a;font-size:12px;border-top:1px solid var(--line-soft)}
+  .tagline{font-family:'Anton',sans-serif;text-transform:uppercase;letter-spacing:.18em;color:var(--mint);font-size:13px}
+
+  @media (max-width:680px){
+    .stats,.grid2{grid-template-columns:1fr}
+    section{padding:50px 0}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="hero-bg" style="background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_111243_6a322a3a-a290-4e07-8826-c19565ab8639.png')"></div>
+  <div class="wrap">
+    <div class="mark">ATCHÉ <span class="x">×</span> COOKIES DC</div>
+    <h1>One year.<br>One block.<br><span class="pop">One night.</span></h1>
+    <p class="sub">Cookies DC turns one on U Street this July — and right now, nothing's planned for it. ATCHÉ wants to be the official media sponsor that makes sure your first anniversary looks like the milestone it is.</p>
+    <div class="meta-row">
+      <div><b>Prepared for</b> · Cookies DC</div>
+      <div><b>1115 U St NW</b> · Washington, DC</div>
+      <div><b>Anniversary</b> · July 11, 2026</div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>OFFICIAL MEDIA SPONSOR</span><span>JULY 11 ANNIVERSARY</span><span>ONE YEAR ON U STREET</span><span>ATCHÉ × COOKIES DC</span>
+    <span>OFFICIAL MEDIA SPONSOR</span><span>JULY 11 ANNIVERSARY</span><span>ONE YEAR ON U STREET</span><span>ATCHÉ × COOKIES DC</span>
+  </div>
+</div>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-label"><span class="eyebrow">The moment</span></div>
+    <h2>A first anniversary only happens once.<br>Right now, it's an open date.</h2>
+    <p class="lead">Cookies arrived on U Street as a national name with a built-in following. A year in, the brand deserves an anniversary that matches that reputation — produced, documented, and amplified, not just acknowledged.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">1 YR</div><div class="lbl">Cookies DC on U Street — first DC location milestone</div></div>
+      <div class="stat"><div class="num">$0</div><div class="lbl">cost to Cookies for full media sponsorship coverage</div></div>
+      <div class="stat"><div class="num">∞</div><div class="lbl">how long the recap video keeps working for you</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-label"><span class="eyebrow">What ATCHÉ brings</span></div>
+    <h2>We don't sponsor with a logo.<br>We sponsor with production.</h2>
+    <p class="lead">As Official Media Sponsor, ATCHÉ becomes the content engine for the night — before, during, and after. Free to test, same proof-of-concept structure already working with partners up and down this block.</p>
+
+    <div class="gift">
+      <span class="free-badge">$0 — Official Media Sponsor</span>
+      <h3>One Year on U Street, Produced Right</h3>
+      <p class="muted" style="margin-bottom:6px">Full coverage, full crowd, full recap — built so July 11 still works for Cookies in August, September, and beyond.</p>
+      <ul class="clean">
+        <li><b>Full event photo + video coverage</b> — shot to look like a brand milestone, not a store event</li>
+        <li><b>A produced anniversary recap video</b> — yours to post, run in-store on screens, and reuse for months</li>
+        <li><b>Circle activation</b> — ATCHÉ creatives in the room as guests, hosts, and content makers, bringing a built-in crowd</li>
+        <li><b>Live social amplification</b> — @atcheofficial covers before, during, and after, tagging Cookies throughout</li>
+        <li><b>"Official Media Sponsor" branding</b> on event materials, signage, and digital promo</li>
+      </ul>
+      <div class="strip">
+        <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_111244_edab2b5d-94fa-4f9b-b5aa-2addf03cf823.png" alt="Creator filming content at the activation"><figcaption>Content, captured live</figcaption></figure>
+        <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_111247_5dc87b31-d390-4778-9e78-5ad887223500.png" alt="Circle members celebrating"><figcaption>The crowd, already showing up</figcaption></figure>
+        <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_111248_77027d79-3678-4234-b231-399dc233cd8d.png" alt="Photographer documenting the night"><figcaption>The night, fully documented</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-label"><span class="eyebrow">Why now, why ATCHÉ</span></div>
+    <h2>This isn't a cold pitch.<br>It's the next step.</h2>
+    <div class="connect">
+      <h3>The corridor, connected</h3>
+      <div class="node-row">
+        <div class="node">Everyday People</div>
+        <div class="node-arrow">→</div>
+        <div class="node you">Cookies DC × ATCHÉ</div>
+        <div class="node-arrow">→</div>
+        <div class="node">U Street, ongoing</div>
+      </div>
+      <p class="lead" style="margin-top:22px;font-size:15.5px">Cookies and Everyday People already have a relationship — the <b style="color:var(--mint)">NoCap</b> discount for ATCHÉ's community. This anniversary is the next chapter of something already in motion on this block, with a month of lead time to do it right instead of rushed.</p>
+    </div>
+    <div class="grid2">
+      <div class="card"><h4>Built-in crowd</h4><p>ATCHÉ's Circle shows up as guests and content creators — energy in the room that Cookies doesn't have to generate alone.</p></div>
+      <div class="card"><h4>Production, not posts</h4><p>A recap video at the level of a national brand's anniversary — the kind of asset that's still working for Cookies a year from now.</p></div>
+      <div class="card"><h4>Zero lift, zero cost</h4><p>ATCHÉ handles the people, the crew, and the output. Cookies shows up and gets to be the brand having a great year.</p></div>
+      <div class="card"><h4>A real relationship</h4><p>Not a one-off — the start of ATCHÉ being Cookies' creative bench for activations and talent contests going forward.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap reveal">
+    <div class="section-label"><span class="eyebrow">Beyond July 11</span></div>
+    <h2>What this seeds, long term.</h2>
+    <p class="lead">The first ask is small and free. The reason to do it well is everything that can follow it.</p>
+    <div class="grid2">
+      <div class="card"><h4>Standing creative partner</h4><p>Cookies already runs community activations and talent contests — ATCHÉ's Circle becomes the go-to bench, ongoing rather than one-off.</p></div>
+      <div class="card"><h4>Corridor activation budget</h4><p>Cookies' activation spend (already priced around $400–800/night in prior planning) helps fund other U Street nights ATCHÉ organizes.</p></div>
+      <div class="card"><h4>Anchor brand for U Street</h4><p>A national brand with real budget, on the same block as Everyday People and Spicy Water, makes every other corridor conversation land harder.</p></div>
+      <div class="card"><h4>A multi-city story</h4><p>If this works in DC, it's a reference point for ATCHÉ wherever Cookies — or brands like it — operate next.</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="border-bottom:none">
+  <div class="wrap reveal">
+    <div class="section-label"><span class="eyebrow">How we begin</span></div>
+    <h2>Four steps to July 11.</h2>
+    <div class="steps">
+      <div class="step"><div class="n"></div><div class="t"><b>Say yes.</b> A quick reply locks ATCHÉ in as Official Media Sponsor — no contracts, no cost.</div></div>
+      <div class="step"><div class="n"></div><div class="t"><b>Shape the night.</b> We help plan the format if there isn't one yet, or slot into whatever Cookies already has in mind.</div></div>
+      <div class="step"><div class="n"></div><div class="t"><b>We show up and produce.</b> Full crew, full coverage, full Circle presence — July 11, on U Street.</div></div>
+      <div class="step"><div class="n"></div><div class="t"><b>The recap lands.</b> A produced anniversary video, delivered to Cookies — yours to keep, post, and run for months.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta wrap reveal">
+  <h2>Let's make Cookies DC's<br>first year impossible to scroll past.</h2>
+  <div class="line">One year on U Street — produced right.</div>
+  <div class="signoff">
+    <b>Xavier Snow</b> &nbsp;·&nbsp; ATCHÉ &nbsp;·&nbsp; <a href="https://instagram.com/atcheofficial">@atcheofficial</a><br>
+    <a href="mailto:thedigitalmarxman@gmail.com">thedigitalmarxman@gmail.com</a>
+  </div>
+  <br>
+  <a class="btn" href="mailto:thedigitalmarxman@gmail.com?subject=ATCH%C3%89%20x%20Cookies%20DC%20—%20July%2011%20Anniversary">Let's talk before July 11</a>
+</div>
+
+<footer class="wrap">
+  <div class="tagline">Underground, but prestigious.</div>
+  <p style="margin-top:14px">Prepared by ATCHÉ for Cookies DC — July 11, 2026 anniversary. Imagery generated for pitch purposes; final production shot on-site at Cookies DC.</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal, .step');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+  }, {threshold:.15});
+  reveals.forEach(el=>obs.observe(el));
+</script>
+
+</body>
+</html>

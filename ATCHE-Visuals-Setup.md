@@ -199,3 +199,37 @@ No new storage policy is needed -- the AI-enhanced result is uploaded to `<code>
 This is no longer honor-system. The client tapping "I've sent payment" does not unlock anything by itself — it only flags the session in Studio as **Confirm $X**. The download stays locked until staff taps **Confirm Paid** in Studio after seeing the Cash App notification land. The client's gallery polls automatically and unlocks within a few seconds of confirmation, with no refresh needed.
 
 This means: a client cannot self-unlock by editing the page, replaying requests, etc. — the only path to `paid = true` is a row-level-security policy that requires the logged-in staff account's `auth.uid()`.
+
+## Pilot feedback survey (June 2026)
+
+A short, optional survey at `atche-visuals-feedback.html?s=CODE` — framed as pilot-launch feedback, with a "free juice next time" incentive for leaving contact info. Studio's **Send Feedback Request** action (on any session) texts/emails this link, mainly aimed at people who didn't end up purchasing, but works for anyone.
+
+Run this once in **Supabase → SQL Editor** (project `aayigsbmmdolvnicxacs`):
+
+```sql
+-- Pilot feedback responses
+create table if not exists visuals_feedback (
+  id uuid primary key default gen_random_uuid(),
+  session_code text,
+  rating text,
+  got_content boolean,
+  reason text,
+  comments text,
+  contact text,
+  created_at timestamptz default now()
+);
+
+alter table visuals_feedback enable row level security;
+
+-- Anyone (no login) can submit feedback -- this is a public survey form
+drop policy if exists "anon_insert_feedback" on visuals_feedback;
+create policy "anon_insert_feedback" on visuals_feedback
+  for insert with check (true);
+
+-- Only logged-in staff can read responses
+drop policy if exists "auth_read_feedback" on visuals_feedback;
+create policy "auth_read_feedback" on visuals_feedback
+  for select using (auth.uid() is not null);
+```
+
+`rating` is one of `loved` / `good` / `okay` / `meh`. `reason` (only set when `got_content` is false) is one of `price` / `cashapp` / `preview` / `time` / `other`. `session_code` and `contact` are both optional -- a client can submit anonymously with no code at all.

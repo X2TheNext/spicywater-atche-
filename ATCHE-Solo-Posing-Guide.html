@@ -230,6 +230,35 @@
     display: block;
   }
 
+  .setup-diagram {
+    margin-top: 4px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .setup-diagram svg {
+    width: 110px;
+    min-width: 110px;
+    height: 110px;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .setup-caption {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  @media (max-width: 480px) {
+    .setup-diagram { flex-direction: column; align-items: flex-start; }
+    .setup-diagram svg { width: 140px; height: 140px; }
+  }
+
   footer {
     text-align: center;
     color: var(--muted2);
@@ -277,10 +306,10 @@
     <figure><span class="num">1</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_133954_c240778e-31d1-4eac-9a86-9d7f18cc1c41.png" alt="The Approach"><figcaption>The Approach</figcaption></figure>
     <figure><span class="num">2</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_133956_b5a16043-40d3-47aa-a23d-8e192429bb93.png" alt="The Lean"><figcaption>The Lean</figcaption></figure>
     <figure><span class="num">3</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_133957_ac74b446-52cf-46ca-b9d8-0ee618900fd4.png" alt="Stoop Sit"><figcaption>Stoop Sit</figcaption></figure>
-    <figure><span class="num">4</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_135442_98ee6b10-ddab-47ba-893d-ca9e0c1452a4.png" alt="Brunch Cheers"><figcaption>Brunch Cheers</figcaption></figure>
+    <figure><span class="num">4</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_031049_21302f48-9d4f-4e5d-844b-fd08af2c33a6.png" alt="The Mirror Check"><figcaption>The Mirror Check</figcaption></figure>
     <figure><span class="num">5</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134000_1b8148b2-c2de-46bd-8195-97ec16481361.png" alt="Over the Shoulder"><figcaption>Over the Shoulder</figcaption></figure>
     <figure><span class="num">6</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134002_1436a8a7-454f-4c6a-a396-b2e3bba83eb6.png" alt="The Adjust"><figcaption>The Adjust</figcaption></figure>
-    <figure><span class="num">7</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134003_59beaa60-6fef-437b-9de6-e36c9af4e34e.png" alt="Car Door Exit"><figcaption>Car Door Exit</figcaption></figure>
+    <figure><span class="num">7</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_031040_0871e3f5-b8ac-4b9b-a588-807356289b2c.png" alt="Sidewalk Sunglasses"><figcaption>Sidewalk Sunglasses</figcaption></figure>
     <figure><span class="num">8</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134004_49a8c528-d3dc-45b4-8bb3-cf04c948f67e.png" alt="The Twirl"><figcaption>The Twirl</figcaption></figure>
     <figure><span class="num">9</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134037_111b0ed1-4022-494d-a04d-8f621284e090.png" alt="Candid Laugh"><figcaption>Candid Laugh</figcaption></figure>
     <figure><span class="num">10</span><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134038_ba84093d-b33b-4181-823c-2c02b95eb6e3.png" alt="Power Stance"><figcaption>Power Stance</figcaption></figure>
@@ -302,6 +331,11 @@
       <p>Shoot from roughly waist height, dead-on as she walks toward you. Wide aperture / portrait mode to blur the background. Catch her mid-stride, weight forward, chin level.</p>
       <span class="label">Why it works</span>
       <p>Instant motion and confidence — strong first frame for any set.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for The Approach"><defs><marker id="ag-s01" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">U STREET (BLURRED BG)</text><g transform="translate(40,38)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="48.5" y1="46.5" x2="64.1" y2="62.1" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s01)"/><g transform="translate(100,180) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="100" y="193" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="108" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="108" x2="100" y2="126" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="100" cy="129" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Subject walks straight toward camera at waist height, dead-on; ambient light from the upper left.</p>
+      </div>
     </div>
   </div>
 
@@ -316,6 +350,11 @@
       <p>Shoulder against the wall, weight on the back leg, arms loose (not tightly crossed — that closes off the shot). Shoot at eye level or slightly below. Head turned toward camera, easy smile.</p>
       <span class="label">Why it works</span>
       <p>Lets the mural's color do half the work — easy, confident, editorial.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for The Lean"><defs><marker id="ag-s02" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">MURAL WALL</text><g transform="translate(166,100)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="154" y1="100" x2="132" y2="100" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s02)"/><g transform="translate(100,180) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="100" y="193" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="55" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="55" x2="100" y2="73" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="100" cy="76" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Subject leans shoulder-first into the mural at eye level; daylight crosses in from the side.</p>
+      </div>
     </div>
   </div>
 
@@ -330,20 +369,30 @@
       <p>Seated, drink/cup optional. Shoot from slightly below looking up, or from across the street with more zoom. Talk to her — don't ask for a frozen pose, catch a real laugh.</p>
       <span class="label">Why it works</span>
       <p>Candid warmth — feels like a real night out, not a shoot.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for Stoop Sit"><defs><marker id="ag-s03" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">ROWHOUSE STOOP STEPS</text><g transform="translate(100,32)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="100" y1="44" x2="100" y2="66" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s03)"/><g transform="translate(138,184) rotate(-25)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="138" y="197" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="92" cy="58" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="92" y1="58" x2="104.8" y2="70.8" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="106.9" cy="72.9" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Seated on the steps; camera sits low and off to the side, angled up. Porch light spills down from above.</p>
+      </div>
     </div>
   </div>
 
   <div class="pose-card">
-    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_135442_98ee6b10-ddab-47ba-893d-ca9e0c1452a4.png" alt="Brunch Cheers">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_031049_21302f48-9d4f-4e5d-844b-fd08af2c33a6.png" alt="The Mirror Check">
     <div>
-      <div class="pose-head"><span class="pose-num">04</span><h3 class="pose-name">Brunch Cheers</h3></div>
-      <div class="tag-row"><span class="tag dc">Brunch patio</span><span class="tag energy">Daytime / lifestyle</span></div>
+      <div class="pose-head"><span class="pose-num">04</span><h3 class="pose-name">The Mirror Check</h3></div>
+      <div class="tag-row"><span class="tag dc">Storefront window</span><span class="tag energy">Quick / repeatable</span></div>
       <span class="label">Reference</span>
-      <p>Outdoor brunch patio, any U Street/Adams Morgan spot — natural daylight, greenery or string lights in the background.</p>
+      <p>Any DC storefront with a large glass window — Georgetown, U Street, or 14th Street corridor all work.</p>
       <span class="label">Setup</span>
-      <p>Seated at the table, glass raised toward the camera around chest/eye height. Shoot from just above table level. Stick to shade or golden-hour light — avoid harsh overhead sun.</p>
+      <p>Standing beside the window, body angled toward the glass, one hand adjusting hair as she checks her reflection. Shoot from outside at a slight angle so both her and the reflection land in frame. Eye level, straight-on. Under 10 seconds — same fast one-on-one setup as Sidewalk Sunglasses.</p>
       <span class="label">Why it works</span>
-      <p>Covers the daytime brunch crowd — same energy as nightlife, just sunnier. Easy sell at weekend brunch tables.</p>
+      <p>Doubles the shot for the price of one — subject and reflection in a single frame, feels like a real candid styling moment instead of a pose.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for The Mirror Check"><defs><marker id="ag-s04" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">STOREFRONT WINDOW (GLASS)</text><g transform="translate(40,38)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="48.5" y1="46.5" x2="64.1" y2="62.1" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s04)"/><g transform="translate(156,182) rotate(-30)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="156" y="195" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="112" cy="72" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="112" y1="72" x2="118.8" y2="55.4" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="120" cy="52.7" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Body angled toward the glass to catch the reflection; camera holds outside at a slight angle, daylight ambient.</p>
+      </div>
     </div>
   </div>
 
@@ -358,6 +407,11 @@
       <p>Have her walk toward the entrance; call her name right as she reaches the door for the look-back. Shoot from behind/side with the marquee glow as backlight.</p>
       <span class="label">Why it works</span>
       <p>Implies a story — she's heading somewhere, and so is the viewer.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for Over the Shoulder"><defs><marker id="ag-s05" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">MARQUEE ENTRANCE</text><g transform="translate(100,32)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="100" y1="44" x2="100" y2="66" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s05)"/><g transform="translate(100,180) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="100" y="193" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="56" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="56" x2="93.2" y2="72.6" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="92" cy="75.3" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Subject walks toward the marquee, then glances back; camera shoots from behind/side with the marquee glow as backlight.</p>
+      </div>
     </div>
   </div>
 
@@ -372,11 +426,16 @@
       <p>Tight three-quarter profile. Hand near ear/hair, not blocking the face. Rim light from one side — streetlight, neon sign, or phone flashlight in a pinch.</p>
       <span class="label">Why it works</span>
       <p>Beauty/detail shot — jewelry and skin texture. Strong gallery filler.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for The Adjust"><defs><marker id="ap-s06" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#d6618f"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">NEON BOKEH (SOFT BG)</text><g transform="translate(166,92)"><circle r="5" fill="#d6618f"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#d6618f" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#d6618f" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#d6618f" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#d6618f" stroke-width="1.5" stroke-linecap="round"/></g><line x1="154" y1="92" x2="132" y2="92" stroke="#d6618f" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ap-s06)"/><g transform="translate(112,180) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="112" y="193" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="100" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="100" x2="112.8" y2="112.8" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="114.9" cy="114.9" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Tight three-quarter profile; rim light from one side carves the edge against soft neon bokeh.</p>
+      </div>
     </div>
   </div>
 
   <div class="pose-card">
-    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_135443_bd055e0c-6c1e-43da-8c44-beb1774f917f.png" alt="Sidewalk Sunglasses">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_031040_0871e3f5-b8ac-4b9b-a588-807356289b2c.png" alt="Sidewalk Sunglasses">
     <div>
       <div class="pose-head"><span class="pose-num">07</span><h3 class="pose-name">Sidewalk Sunglasses</h3></div>
       <div class="tag-row"><span class="tag dc">Daytime street</span><span class="tag energy">Quick / repeatable</span></div>
@@ -386,6 +445,11 @@
       <p>Standing, one hand lifting sunglasses slightly off the face, direct eye contact, easy smile. Shoot straight-on at eye level. Under 10 seconds — built for fast street approaches.</p>
       <span class="label">Why it works</span>
       <p>The fastest pose in the set — ideal for daytime walkups when you've got seconds, not minutes.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for Sidewalk Sunglasses"><defs><marker id="ag-s07" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">OPEN SIDEWALK</text><g transform="translate(100,32)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="100" y1="44" x2="100" y2="66" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s07)"/><g transform="translate(100,180) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="100" y="193" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="108" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="108" x2="100" y2="126" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="100" cy="129" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Squared to camera at eye level, lifting sunglasses; flat overhead daylight.</p>
+      </div>
     </div>
   </div>
 
@@ -400,6 +464,11 @@
       <p>Crouch for a low angle. Have her spin and call "now" right as the fabric flares. Burst mode if your camera has it — pick the best fabric shape after.</p>
       <span class="label">Why it works</span>
       <p>Movement plus color — usually the standout shot of the set.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for The Twirl"><defs><marker id="ag-s08" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">MURAL WALL</text><g transform="translate(40,38)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="48.5" y1="46.5" x2="64.1" y2="62.1" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s08)"/><g transform="translate(100,188) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="100" y="199" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="102" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="102" x2="100" y2="120" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="100" cy="123" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Subject spins in place; camera crouches low and close to exaggerate the motion.</p>
+      </div>
     </div>
   </div>
 
@@ -414,6 +483,11 @@
       <p>Don't ask for a smile — get her talking or laughing with friends (even if they're cropped out). Medium close-up, slightly above eye level.</p>
       <span class="label">Why it works</span>
       <p>Authenticity sells — every set needs one "real moment."</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for Candid Laugh"><defs><marker id="ag-s09" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">BAR / LOUNGE WALL</text><g transform="translate(166,112)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="154" y1="112" x2="132" y2="112" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s09)"/><g transform="translate(114,178) rotate(8)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="114" y="191" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="100" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="100" x2="87.2" y2="112.8" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="85.1" cy="114.9" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Medium close-up, turned slightly toward a friend off-frame; camera sits a touch above eye level with warm side light.</p>
+      </div>
     </div>
   </div>
 
@@ -428,6 +502,11 @@
       <p>Full body, hands on hips, feet planted shoulder-width. Shoot straight-on at chest height. Check that the mural colors don't clash with the outfit.</p>
       <span class="label">Why it works</span>
       <p>The "main character" shot — confidence and full fit visibility.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for Power Stance"><defs><marker id="ag-s10" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">BOLD MURAL (FULL BODY)</text><g transform="translate(40,38)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="48.5" y1="46.5" x2="64.1" y2="62.1" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s10)"/><g transform="translate(100,190) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="100" y="200" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="100" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="100" x2="100" y2="118" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="100" cy="121" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Full-body stance, hands on hips; camera pulls back and squares up at chest height.</p>
+      </div>
     </div>
   </div>
 
@@ -442,6 +521,11 @@
       <p>Tight beauty shot — jewelry, skin, makeup detail. Get close enough that the colored lighting wraps around her face. Shallow depth of field.</p>
       <span class="label">Why it works</span>
       <p>The "magazine crop" shot — polish and detail.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for Glam Close-Up"><defs><marker id="ap-s11" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#d6618f"/></marker><marker id="ab-s11" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#5e8fd6"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">CLUB INTERIOR</text><g transform="translate(38,62)"><circle r="5" fill="#d6618f"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#d6618f" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#d6618f" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#d6618f" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#d6618f" stroke-width="1.5" stroke-linecap="round"/></g><line x1="46.5" y1="70.5" x2="62.1" y2="86.1" stroke="#d6618f" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ap-s11)"/><g transform="translate(162,62)"><circle r="5" fill="#5e8fd6"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#5e8fd6" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#5e8fd6" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#5e8fd6" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#5e8fd6" stroke-width="1.5" stroke-linecap="round"/></g><line x1="153.5" y1="70.5" x2="137.9" y2="86.1" stroke="#5e8fd6" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ab-s11)"/><g transform="translate(100,166) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="100" y="179" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="102" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="102" x2="100" y2="120" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="100" cy="123" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Tight beauty shot, shallow depth of field; magenta and blue light wrap both sides of the face.</p>
+      </div>
     </div>
   </div>
 
@@ -456,6 +540,11 @@
       <p>Expose for the skyline so she goes dark/silhouette. Find a rim light source (streetlight, building glow) to outline hair and shoulders.</p>
       <span class="label">Why it works</span>
       <p>Ties the whole set back to place — strong closer for any DC shoot.</p>
+      <span class="label">Setup Diagram</span>
+      <div class="setup-diagram">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down setup diagram for Skyline Silhouette"><defs><marker id="ag-s12" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0L6,3L0,6Z" fill="#C9A84C"/></marker></defs><rect x="6" y="6" width="188" height="188" rx="10" fill="#1c1c1c" stroke="#33312c"/><line x1="18" y1="28" x2="182" y2="28" stroke="#E2C47A" stroke-width="1.5" stroke-dasharray="4,3"/><text x="100" y="18" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#E2C47A" text-anchor="middle">SKYLINE / RAILING</text><g transform="translate(100,42)"><circle r="5" fill="#C9A84C"/><line x1="0" y1="-7" x2="0" y2="-11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="0" y2="11" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="-7" y1="0" x2="-11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="0" x2="11" y2="0" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></g><line x1="100" y1="54" x2="100" y2="76" stroke="#C9A84C" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#ag-s12)"/><g transform="translate(100,180) rotate(0)"><polygon points="0,0 -22,-66 22,-66" fill="#C2697A" opacity="0.08"/><polygon points="0,-13 -7,1 7,1" fill="#C2697A"/></g><text x="100" y="193" font-family="Inter,sans-serif" font-size="8" font-weight="700" letter-spacing="1.5" fill="#C2697A" text-anchor="middle">CAM</text><circle cx="100" cy="100" r="11" fill="#F2EDE6" stroke="#6B9E7A" stroke-width="1.5"/><line x1="100" y1="100" x2="100" y2="118" stroke="#6B9E7A" stroke-width="2" stroke-linecap="round"/><circle cx="100" cy="121" r="1.6" fill="#6B9E7A"/></svg>
+        <p class="setup-caption">Camera exposes for the skyline so the subject drops to silhouette; light from behind rims the edges.</p>
+      </div>
     </div>
   </div>
 

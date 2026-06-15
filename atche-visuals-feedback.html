@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATCHÉ VISUALS — Quick Feedback</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  --black: #080808;
+  --surface: #111111;
+  --surface2: #181818;
+  --surface3: #242424;
+  --border: #222222;
+  --border2: #2e2e2e;
+  --gold: #C9A84C;
+  --gold-light: #E2C47A;
+  --gold-dim: rgba(201,168,76,0.12);
+  --text: #F2EDE6;
+  --text2: #B0A898;
+  --text3: #6A6258;
+  --sage: #6B9E7A;
+  --sage-dim: rgba(107,158,122,0.15);
+  --rose: #C2697A;
+  --rose-dim: rgba(194,105,122,0.15);
+  --t: 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);min-height:100vh;padding:24px}
+
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px;opacity:0.025;pointer-events:none;z-index:0}
+
+.wrap{max-width:520px;margin:0 auto;position:relative;z-index:1}
+
+/* HEADER */
+.av-header{text-align:center;margin-bottom:28px;padding-top:8px;animation:header-in 0.9s cubic-bezier(.16,1,.3,1) both}
+.av-wordmark{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;letter-spacing:7px;display:block;
+  background:linear-gradient(100deg, var(--gold) 25%, var(--gold-light) 50%, var(--gold) 75%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:wordmark-shine 9s ease-in-out infinite}
+.av-sub{font-family:'Playfair Display',serif;font-size:13px;font-weight:400;font-style:italic;color:var(--text2);letter-spacing:3px;margin-top:2px}
+.av-rule{height:1px;background:rgba(201,168,76,0.3);margin:16px auto;width:48px}
+.av-tagline{font-size:10px;color:var(--text3);letter-spacing:4px;text-transform:uppercase}
+
+@keyframes header-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes wordmark-shine{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes fade-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border2);border-radius:18px;padding:28px;position:relative;overflow:hidden;margin-bottom:20px;animation:fade-up .6s cubic-bezier(.16,1,.3,1) both}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),transparent)}
+.card h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--text);margin-bottom:4px}
+.card .card-desc{font-size:12px;color:var(--text3);line-height:1.7;margin-bottom:18px}
+.step-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:3px 10px;margin-bottom:12px}
+
+/* FORM */
+.f-group{margin-bottom:20px}
+.f-label{font-size:13px;color:var(--text);font-weight:600;margin-bottom:10px;display:block}
+.f-help{font-size:11.5px;color:var(--text3);margin-top:6px;line-height:1.6}
+
+.choice-row{display:flex;flex-wrap:wrap;gap:8px}
+.choice{flex:1 1 auto;min-width:78px;text-align:center;border:1px solid var(--border2);border-radius:10px;padding:12px 10px;font-size:12.5px;color:var(--text2);cursor:pointer;transition:border-color var(--t),background var(--t),color var(--t),transform .15s var(--t);background:var(--surface2)}
+.choice:hover{border-color:rgba(201,168,76,0.4)}
+.choice:active{transform:scale(0.97)}
+.choice.selected{border-color:var(--gold);background:var(--gold-dim);color:var(--gold-light)}
+.choice .ch-emoji{display:block;font-size:18px;margin-bottom:4px}
+
+.reason-row{display:flex;flex-direction:column;gap:8px}
+.reason{border:1px solid var(--border2);border-radius:10px;padding:11px 14px;font-size:12.5px;color:var(--text2);cursor:pointer;transition:border-color var(--t),background var(--t),color var(--t);background:var(--surface2)}
+.reason:hover{border-color:rgba(201,168,76,0.4)}
+.reason.selected{border-color:var(--gold);background:var(--gold-dim);color:var(--gold-light)}
+
+textarea, .f-input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-size:13px;padding:12px 14px;font-family:inherit;transition:border-color var(--t)}
+textarea{resize:vertical;min-height:74px;line-height:1.6}
+textarea:focus, .f-input:focus{outline:none;border-color:var(--gold)}
+textarea::placeholder, .f-input::placeholder{color:var(--text3)}
+
+.btn-primary{width:100%;padding:14px;background:var(--gold);color:var(--black);border:none;border-radius:8px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:transform .2s var(--t),box-shadow .2s var(--t),background .2s var(--t)}
+.btn-primary:hover:not(:disabled){background:var(--gold-light);transform:translateY(-1px);box-shadow:0 10px 26px -10px rgba(201,168,76,0.55)}
+.btn-primary:active:not(:disabled){transform:translateY(0) scale(0.985)}
+.btn-primary:disabled{opacity:0.35;cursor:not-allowed}
+
+/* THANK YOU */
+.center-msg{text-align:center;padding:30px 10px}
+.center-msg .icon{font-size:36px;margin-bottom:14px;display:block;animation:icon-breathe 2.6s ease-in-out infinite}
+.center-msg h2{font-family:'Playfair Display',serif;font-size:21px;font-weight:600;color:var(--text);margin-bottom:10px}
+.center-msg p{font-size:13px;color:var(--text2);line-height:1.8;max-width:380px;margin:0 auto}
+.center-msg p strong{color:var(--gold-light)}
+@keyframes icon-breathe{0%,100%{opacity:0.6;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+
+#juiceField{display:none;animation:fade-up .4s cubic-bezier(.16,1,.3,1) both}
+#juiceField.show{display:block}
+
+.av-footer{text-align:center;font-size:10px;color:var(--text3);letter-spacing:1px;padding:18px 0 4px}
+
+@media (max-width:480px){
+  body{padding:14px}
+  .card{padding:18px;border-radius:14px}
+  .av-wordmark{font-size:26px;letter-spacing:4px}
+  .card h2{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="av-header">
+    <span class="av-wordmark">ATCHÉ VISUALS</span>
+    <div class="av-sub">Pilot Launch Feedback</div>
+    <div class="av-rule"></div>
+    <div class="av-tagline">Washington, DC</div>
+  </div>
+
+  <!-- FORM -->
+  <div class="card" id="formCard">
+    <span class="step-tag">60 Seconds</span>
+    <h2>How'd tonight go?</h2>
+    <p class="card-desc">This was a <strong style="color:var(--gold-light)">pilot launch</strong> of ATCHÉ Visuals — tonight was a real test run, and what you tell us here directly shapes what we build next. Honest answers help most, good or bad.</p>
+
+    <div class="f-group">
+      <label class="f-label">Overall, how was your experience?</label>
+      <div class="choice-row" id="ratingRow">
+        <div class="choice" data-val="loved"><span class="ch-emoji">😍</span>Loved it</div>
+        <div class="choice" data-val="good"><span class="ch-emoji">🙂</span>Pretty good</div>
+        <div class="choice" data-val="okay"><span class="ch-emoji">😐</span>It was okay</div>
+        <div class="choice" data-val="meh"><span class="ch-emoji">😕</span>Not for me</div>
+      </div>
+    </div>
+
+    <div class="f-group">
+      <label class="f-label">Did you grab your photos or reel tonight?</label>
+      <div class="choice-row" id="gotRow">
+        <div class="choice" data-val="yes">Yes ✓</div>
+        <div class="choice" data-val="no">Not yet / no</div>
+      </div>
+    </div>
+
+    <div class="f-group" id="reasonGroup" style="display:none">
+      <label class="f-label">What got in the way? (pick one)</label>
+      <div class="reason-row" id="reasonRow">
+        <div class="reason" data-val="price">The price wasn't right for me</div>
+        <div class="reason" data-val="cashapp">Paying through Cash App felt like a hassle</div>
+        <div class="reason" data-val="preview">Wanted to see more before deciding</div>
+        <div class="reason" data-val="time">Ran out of time / forgot</div>
+        <div class="reason" data-val="other">Something else</div>
+      </div>
+    </div>
+
+    <div class="f-group">
+      <label class="f-label">Anything we should fix or do differently? <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+      <textarea id="comments" placeholder="Be as honest as you want — this genuinely helps."></textarea>
+    </div>
+
+    <div class="f-group" id="juiceField">
+      <label class="f-label">Want a free juice next time you're out with us? <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+      <input class="f-input" id="contact" type="text" placeholder="Leave your IG handle or phone number">
+      <p class="f-help">Totally optional — only used to say thanks for the feedback.</p>
+    </div>
+
+    <button class="btn-primary" id="submitBtn" onclick="submitFeedback()" disabled>Send Feedback</button>
+  </div>
+
+  <!-- THANK YOU -->
+  <div class="card" id="thanksCard" style="display:none">
+    <div class="center-msg">
+      <span class="icon">✦</span>
+      <h2>Thank you — genuinely.</h2>
+      <p>This was the whole point of the pilot. We're reading every response and using it to make ATCHÉ Visuals better for the next night out.<br><br><span id="juiceNote" style="display:none">If you left contact info, look out for that free juice next time you're with us 🍹</span></p>
+    </div>
+  </div>
+
+  <div class="av-footer">ATCHÉ VISUALS · Powered by ATCHÉ · Washington, DC</div>
+</div>
+
+<script>
+const SB_URL = 'https://aayigsbmmdolvnicxacs.supabase.co';
+const SB_KEY = 'sb_publishable_ofAZ_64cKZXJefM5nbbt3g_wNOoF5DC';
+const sb = supabase.createClient(SB_URL, SB_KEY);
+
+const params = new URLSearchParams(location.search);
+const sessionCode = (params.get('s') || '').trim().toUpperCase();
+
+let rating = null;
+let gotContent = null;
+let reason = null;
+
+function selectChoice(row, el, onSet){
+  row.querySelectorAll('.choice, .reason').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  onSet(el.dataset.val);
+  updateSubmitState();
+}
+
+document.getElementById('ratingRow').querySelectorAll('.choice').forEach(el => {
+  el.onclick = () => selectChoice(document.getElementById('ratingRow'), el, v => rating = v);
+});
+
+document.getElementById('gotRow').querySelectorAll('.choice').forEach(el => {
+  el.onclick = () => {
+    selectChoice(document.getElementById('gotRow'), el, v => gotContent = v);
+    const reasonGroup = document.getElementById('reasonGroup');
+    const juiceField = document.getElementById('juiceField');
+    if(gotContent === 'no'){
+      reasonGroup.style.display = 'block';
+      juiceField.classList.add('show');
+    } else {
+      reasonGroup.style.display = 'none';
+      juiceField.classList.remove('show');
+      reason = null;
+      document.getElementById('reasonRow').querySelectorAll('.reason').forEach(r => r.classList.remove('selected'));
+    }
+    updateSubmitState();
+  };
+});
+
+document.getElementById('reasonRow').querySelectorAll('.reason').forEach(el => {
+  el.onclick = () => selectChoice(document.getElementById('reasonRow'), el, v => reason = v);
+});
+
+function updateSubmitState(){
+  const ready = rating && gotContent && (gotContent === 'yes' || reason);
+  document.getElementById('submitBtn').disabled = !ready;
+}
+
+async function submitFeedback(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const { error } = await sb.from('visuals_feedback').insert({
+    session_code: sessionCode || null,
+    rating: rating,
+    got_content: gotContent === 'yes',
+    reason: gotContent === 'no' ? reason : null,
+    comments: document.getElementById('comments').value.trim() || null,
+    contact: document.getElementById('contact').value.trim() || null
+  });
+
+  if(error){
+    alert('Something went wrong sending your feedback — mind trying again? (' + error.message + ')');
+    btn.disabled = false;
+    btn.textContent = 'Send Feedback';
+    return;
+  }
+
+  document.getElementById('formCard').style.display = 'none';
+  document.getElementById('thanksCard').style.display = 'block';
+  if(document.getElementById('contact').value.trim()){
+    document.getElementById('juiceNote').style.display = 'inline';
+  }
+}
+</script>
+</body>
+</html>
