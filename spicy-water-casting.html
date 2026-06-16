@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shoot With ATCHÉ — Spicy Water Casting</title>
+<meta name="description" content="You're invited to shoot with ATCHÉ at Spicy Water. Everything you need to know — date, details, what you get, and how to lock your spot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0b; --ink:#121214; --panel:#16161a; --panel2:#1d1d22;
+    --gold:#c9a24b; --gold-bright:#e7c87a; --cream:#f4eee2; --muted:#a9a294;
+    --line:rgba(201,162,75,.22); --line-soft:rgba(243,236,224,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--black);color:var(--cream);font-family:'Inter',sans-serif;font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:620px;margin:0 auto;padding:0 22px}
+  h1,h2,h3,.serif{font-family:'Playfair Display',serif}
+  .gold{color:var(--gold-bright)}
+  .eyebrow{font-weight:600;letter-spacing:.3em;text-transform:uppercase;font-size:11px;color:var(--gold);
+    background:linear-gradient(90deg,var(--gold),var(--gold-bright) 45%,#fff6df 50%,var(--gold-bright) 55%,var(--gold));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s linear infinite}
+  @keyframes shimmer{to{background-position:-200% 0}}
+
+  /* HERO */
+  .hero{position:relative;min-height:92vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;text-align:center;padding:0 0 54px}
+  .hero .bg{position:absolute;inset:0;background-size:cover;background-position:center top;z-index:0;animation:slowZoom 20s ease-in-out infinite alternate}
+  @keyframes slowZoom{to{transform:scale(1.08)}}
+  .hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,10,11,.82) 0%,rgba(10,10,11,.25) 34%,rgba(10,10,11,.12) 55%,rgba(10,10,11,.82) 85%,var(--black) 100%),radial-gradient(700px 360px at 50% 116%,rgba(201,162,75,.28),transparent 62%)}
+  .hero .inner{position:relative;z-index:2;padding:0 22px}
+  .hero .wordmark{font-family:'Playfair Display';font-weight:700;letter-spacing:.5em;color:var(--gold-bright);font-size:18px;padding-left:.5em;margin-bottom:auto;padding-top:46px;display:inline-block}
+  .hero h1{font-size:clamp(38px,11vw,60px);font-weight:800;line-height:1.02;letter-spacing:-.01em;margin-top:18px;text-shadow:0 4px 40px rgba(0,0,0,.5)}
+  .hero h1 em{font-style:italic;font-weight:500;color:var(--gold-bright)}
+  .hero p{font-size:17px;color:#ece5d8;margin-top:16px;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+  .hero .chev{margin-top:30px;font-size:13px;letter-spacing:.2em;color:var(--gold-bright);text-transform:uppercase}
+
+  section{padding:52px 0;border-bottom:1px solid var(--line-soft)}
+  h2{font-size:clamp(24px,6vw,32px);font-weight:700;line-height:1.14;letter-spacing:-.3px;margin-bottom:8px}
+  .lead{font-size:16.5px;color:#d8d0c2;margin-top:10px}
+
+  /* DETAILS CARD */
+  .deets{background:linear-gradient(160deg,rgba(201,162,75,.14),var(--ink) 58%);border:1px solid var(--line);border-radius:18px;padding:26px 24px;margin-top:8px}
+  .deets .row{display:flex;gap:16px;align-items:flex-start;padding:15px 0;border-top:1px solid var(--line-soft)}
+  .deets .row:first-of-type{border-top:0}
+  .deets .ic{flex:0 0 auto;width:42px;height:42px;border-radius:12px;background:rgba(201,162,75,.14);border:1px solid var(--line);display:grid;place-items:center;font-size:20px}
+  .deets .k{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .deets .v{font-size:18px;color:var(--cream);font-weight:500;font-family:'Playfair Display'}
+  .deets .v small{display:block;font-family:'Inter';font-weight:300;font-size:13px;color:var(--muted);letter-spacing:0;text-transform:none;margin-top:2px}
+  .pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1a1404;background:var(--gold);padding:3px 10px;border-radius:100px;margin-left:8px;vertical-align:middle}
+
+  /* LISTS */
+  ul.clean{list-style:none;display:grid;gap:13px;margin-top:18px}
+  ul.clean li{padding-left:30px;position:relative;font-size:16px;color:#ddd5c7}
+  ul.clean li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--gold-bright);box-shadow:0 0 0 4px rgba(201,162,75,.14)}
+  ul.clean li b{color:var(--cream);font-weight:600}
+
+  .vibe{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+  .vibe figure{margin:0;border-radius:13px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/4}
+  .vibe img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+  .vibe figure:active img,.vibe figure:hover img{transform:scale(1.05)}
+
+  /* FAQ */
+  details{border:1px solid var(--line-soft);border-radius:13px;margin-top:12px;background:var(--panel);overflow:hidden;transition:border-color .3s}
+  details[open]{border-color:var(--line)}
+  summary{list-style:none;cursor:pointer;padding:18px 20px;font-weight:500;font-size:16px;color:var(--cream);display:flex;justify-content:space-between;align-items:center;gap:14px}
+  summary::-webkit-details-marker{display:none}
+  summary .plus{flex:0 0 auto;color:var(--gold-bright);font-size:22px;transition:transform .3s;line-height:1}
+  details[open] summary .plus{transform:rotate(45deg)}
+  details .ans{padding:0 20px 20px;font-size:15px;color:#cdc5b8;line-height:1.6}
+
+  /* CTA */
+  .cta{text-align:center;padding:60px 0 26px}
+  .cta h2{margin-bottom:14px}
+  .btn{display:block;width:100%;background:var(--gold);color:#1a1404;font-weight:700;font-size:18px;letter-spacing:.02em;padding:20px;border-radius:100px;text-decoration:none;margin-top:18px;box-shadow:0 0 0 1px var(--gold);animation:pulseGlow 3.4s ease-in-out infinite}
+  @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 1px var(--gold),0 0 22px -6px rgba(201,162,75,.3)}50%{box-shadow:0 0 0 1px var(--gold),0 0 40px 0 rgba(201,162,75,.55)}}
+  .btn.ghost{background:transparent;color:var(--gold-bright);box-shadow:inset 0 0 0 1px var(--line);animation:none;font-weight:600;font-size:16px}
+  .micro{font-size:13px;color:var(--muted);margin-top:16px}
+  .micro a{color:var(--gold-bright);text-decoration:none}
+
+  footer{padding:34px 0 56px;text-align:center;color:#6f6a61;font-size:12px}
+  .tagline{font-family:'Playfair Display';font-style:italic;color:var(--gold);font-size:15px}
+
+  /* MOTION */
+  @media (prefers-reduced-motion: no-preference){
+    .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,.7,.2,1),transform .8s cubic-bezier(.16,.7,.2,1)}
+    .rv.in{opacity:1;transform:none}
+    .hero .wordmark,.hero h1,.hero p,.hero .chev{opacity:0;transform:translateY(22px);animation:heroIn .9s cubic-bezier(.16,.7,.2,1) forwards}
+    .hero h1{animation-delay:.12s}.hero p{animation-delay:.26s}.hero .chev{animation-delay:.4s}
+    @keyframes heroIn{to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="bg" style="background-image:url('https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_111317_3a0405a1-2856-4075-ad28-f8f3525218c8.png')"></div>
+  <div class="scrim"></div>
+  <div class="inner wrap">
+    <div class="wordmark">ATCHÉ</div>
+    <h1>You&rsquo;re invited<br>to <em>shoot with us.</em></h1>
+    <p>Everything you need to know about the Spicy Water shoot — in one place.</p>
+    <div class="chev">↓ scroll for details</div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">The shoot</span>
+    <h2>One night. Real content. Your spot in The Circle.</h2>
+    <p class="lead">ATCHÉ is bringing a small group of creative women into Spicy Water — a beautiful African restaurant in DC — to create a night of professional content. You eat, you vibe, we shoot. You walk away with photos and video that level up your portfolio.</p>
+
+    <div class="deets">
+      <div class="row">
+        <div class="ic">📅</div>
+        <div><div class="k">Date</div><div class="v">Wednesday, June 24 <span class="pill">Projected</span><small>We&rsquo;ll confirm the final date the moment it&rsquo;s locked.</small></div></div>
+      </div>
+      <div class="row">
+        <div class="ic">📍</div>
+        <div><div class="k">Location</div><div class="v">Spicy Water African Grill<small>2019 11th St NW, Washington, DC</small></div></div>
+      </div>
+      <div class="row">
+        <div class="ic">🕖</div>
+        <div><div class="k">Call time</div><div class="v">Evening<small>Exact time sent once you&rsquo;re confirmed — plan for ~2–3 hours.</small></div></div>
+      </div>
+      <div class="row">
+        <div class="ic">✨</div>
+        <div><div class="k">Vibe</div><div class="v">Elevated &amp; effortless<small>Think grown, glowy, and confident. Underground but prestigious.</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">What you get</span>
+    <h2>You leave with more than you came with.</h2>
+    <ul class="clean">
+      <li><b>Professional photos &amp; video</b> of you — yours to post and keep</li>
+      <li><b>Featured on @atcheofficial</b> and across the campaign</li>
+      <li><b>A real network</b> of creative women who move like you</li>
+      <li><b>First access</b> to paid brand &amp; venue bookings through ATCHÉ</li>
+      <li><b>A team that protects you</b> — clear expectations, no weird energy</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">The look</span>
+    <h2>This is the energy.</h2>
+    <p class="lead">Warm, editorial, jewel-toned. Picture yourself in it.</p>
+    <div class="vibe">
+      <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260614_134145_477e6191-15a3-4f76-9a16-37af35cb5dc7.png" alt="Woman in velvet booth, candlelight"></figure>
+      <figure><img loading="lazy" src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260615_104547_5048bc95-3544-4ada-8fc6-5496e9af97a7.png" alt="Three women laughing in a warm lounge"></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Come ready</span>
+    <h2>How to show up.</h2>
+    <ul class="clean">
+      <li><b>Camera-ready:</b> hair and makeup done how you feel your best</li>
+      <li><b>Bring 1–2 outfit options</b> — chic, elevated, your style (we&rsquo;ll guide if needed)</li>
+      <li><b>Come on time &amp; ready to have fun</b> — the best content is real</li>
+      <li><b>No experience required</b> — confidence is the only must</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Questions, answered</span>
+    <h2>Everything you&rsquo;re wondering.</h2>
+
+    <details><summary>Is it paid? <span class="plus">+</span></summary><div class="ans">Yes — there&rsquo;s a <b>$50 appearance fee</b> for this shoot, plus all the professional content you keep. This first night is a proof-of-concept, so think of the fee as the floor: the real money comes through the paid brand and venue bookings you unlock as part of The Circle. We pay our women — always.</div></details>
+
+    <details><summary>Do I keep the photos? <span class="plus">+</span></summary><div class="ans">Yes. You get edited photos and video of yourself to post and keep. ATCHÉ also uses select content to feature you and promote the work.</div></details>
+
+    <details><summary>How long will it take? <span class="plus">+</span></summary><div class="ans">Plan for about 2–3 hours in the evening. We&rsquo;ll send the exact call time once you&rsquo;re confirmed.</div></details>
+
+    <details><summary>What do I wear? <span class="plus">+</span></summary><div class="ans">Chic and elevated, in your own style — bring 1 or 2 options. If you want direction, we&rsquo;ll help you choose so everyone&rsquo;s cohesive on camera.</div></details>
+
+    <details><summary>Do I need modeling experience? <span class="plus">+</span></summary><div class="ans">Nope. We&rsquo;re looking for confident, photogenic women with good energy. We&rsquo;ll direct you on the night.</div></details>
+
+    <details><summary>Is there a contract? <span class="plus">+</span></summary><div class="ans">Yes — a simple, clear release so everyone knows how the content is used. Nothing sketchy, and you&rsquo;ll see it before you sign.</div></details>
+
+    <details><summary>Who&rsquo;s behind ATCHÉ? <span class="plus">+</span></summary><div class="ans">ATCHÉ is a community built for creative women in nightlife — to get booked, paid on time, and protected. DM <a href="https://instagram.com/atcheofficial" style="color:var(--gold-bright)">@atcheofficial</a> anytime with questions.</div></details>
+  </div>
+</section>
+
+<div class="cta wrap">
+  <span class="eyebrow">Lock your spot</span>
+  <h2>Want in?</h2>
+  <p class="lead">Apply to The Circle and note you want the Spicy Water shoot — we&rsquo;ll send your confirmation and the final details.</p>
+  <a class="btn" href="circle-application.html">APPLY &amp; CLAIM YOUR SPOT →</a>
+  <a class="btn ghost" href="https://instagram.com/atcheofficial">Or DM @atcheofficial</a>
+  <p class="micro">Spots are limited for this shoot. Apply early — questions? <a href="https://instagram.com/atcheofficial">message us on Instagram</a>.</p>
+</div>
+
+<footer>
+  <div class="tagline">Underground, but prestigious.</div>
+  <p style="margin-top:12px">ATCHÉ · @atcheofficial</p>
+</footer>
+
+<script>
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els = document.querySelectorAll('section h2, section .lead, .deets, ul.clean li, .vibe figure, details, .cta h2, .cta .btn, .cta .micro');
+  els.forEach(function(el){ el.classList.add('rv'); });
+  document.querySelectorAll('ul.clean').forEach(function(u){ Array.prototype.forEach.call(u.children,function(li,i){ li.style.transitionDelay=(i*0.07)+'s'; }); });
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); },{threshold:0.12,rootMargin:'0px 0px -6% 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
