@@ -347,6 +347,7 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .cat-photographer{background:rgba(107,158,122,0.15);border:1px solid var(--sage);color:var(--sage-light)}
 .cat-mua{background:rgba(194,105,122,0.15);border:1px solid var(--rose);color:var(--rose-light)}
 .cat-creative{background:var(--gold-dim);border:1px solid var(--gold);color:var(--gold)}
+.cat-owner{background:rgba(180,130,80,0.15);border:1px solid #c8904a;color:#e0a96a}
 .card-category{position:absolute;bottom:12px;left:12px;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase}
 
 /* event type colors */
@@ -355,6 +356,19 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .evt-meeting{background:rgba(91,141,184,0.15);border:1px solid var(--sky);color:var(--sky-light)}
 .evt-pitch{background:rgba(139,107,177,0.15);border:1px solid var(--violet);color:var(--violet-light)}
 .evt-personal{background:rgba(194,105,122,0.15);border:1px solid var(--rose);color:var(--rose-light)}
+
+/* event type picker buttons */
+.evt-type-btn{padding:7px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;transition:var(--t);letter-spacing:0.3px;opacity:0.55}
+.evt-type-btn.active{opacity:1;transform:scale(1.04)}
+.evt-type-btn:hover{opacity:0.85}
+
+/* calendar event pills */
+.cal-event{font-size:10px;padding:2px 5px;border-radius:4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;font-weight:500;border:1px solid transparent}
+.cal-event.evt-shoot{background:rgba(201,168,76,0.18);border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.cal-event.evt-donation{background:rgba(107,158,122,0.18);border-color:rgba(107,158,122,0.4);color:var(--sage-light)}
+.cal-event.evt-meeting{background:rgba(91,141,184,0.18);border-color:rgba(91,141,184,0.4);color:var(--sky-light)}
+.cal-event.evt-pitch{background:rgba(139,107,177,0.18);border-color:rgba(139,107,177,0.4);color:var(--violet-light)}
+.cal-event.evt-personal{background:rgba(194,105,122,0.18);border-color:rgba(194,105,122,0.4);color:var(--rose-light)}
 
 /* event status badges */
 .evt-status{padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;display:inline-block}
@@ -618,6 +632,10 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
     <div class="nav-item" onclick="showView('prompts',this)">
       <span class="icon">✺</span> Prompts
     </div>
+    <div class="sidebar-section">Venues</div>
+    <div class="nav-item" onclick="showView('owners',this)">
+      <span class="icon">🏛</span> Owners
+    </div>
     <div class="sidebar-section">Inbox</div>
     <div class="nav-item" onclick="showView('applicants',this)" id="nav-applicants">
       <span class="icon">✉</span> Applicants
@@ -740,6 +758,7 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
         <span class="filter-chip" onclick="filterByCategory('photographer',this)">Photographer/Videographer</span>
         <span class="filter-chip" onclick="filterByCategory('mua',this)">MUA/Hair/Stylist</span>
         <span class="filter-chip" onclick="filterByCategory('creative',this)">Creative/Other</span>
+        <span class="filter-chip" onclick="filterByCategory('owner',this)">Venue Owners</span>
       </div>
       <div class="grid" id="rosterGrid"></div>
     </div>
@@ -755,6 +774,7 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
           <option value="photographer">Photographer/Videographer</option>
           <option value="mua">MUA/Hair/Stylist</option>
           <option value="creative">Creative/Other</option>
+          <option value="owner">Venue Owner/Manager</option>
         </select>
       </div>
       <div class="kanban" id="kanbanBoard"></div>
@@ -765,7 +785,16 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
       <div class="rankings-header">
         <div class="section-title">Talent Rankings</div>
         <div style="display:flex;gap:8px">
-          <select class="form-select" style="width:auto;font-size:12px" onchange="renderRankings(this.value)" id="rankCat">
+          <select class="form-select" style="width:auto;font-size:12px" onchange="renderRankings()" id="rankTypeCat">
+            <option value="all">All Types</option>
+            <option value="model">Models</option>
+            <option value="dj">DJs</option>
+            <option value="photographer">Photographers</option>
+            <option value="mua">MUA / Hair</option>
+            <option value="creative">Creatives</option>
+            <option value="owner">Owners</option>
+          </select>
+          <select class="form-select" style="width:auto;font-size:12px" onchange="renderRankings()" id="rankCat">
             <option value="overall">Overall Score</option>
             <option value="look">Look</option>
             <option value="energy">Energy</option>
@@ -836,6 +865,15 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
     </div>
 
     <!-- APPLICANTS INBOX -->
+    <!-- OWNERS -->
+    <div class="view" id="view-owners">
+      <div class="section-row" style="margin-bottom:16px">
+        <div class="section-title">Venue Owners & Managers</div>
+        <button class="add-btn" style="padding:8px 16px;font-size:12px" onclick="openAddModalForCategory('owner')">+ Add Owner</button>
+      </div>
+      <div id="owners-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px"></div>
+    </div>
+
     <div class="view" id="view-applicants">
       <div class="section-row" style="margin-bottom:8px">
         <div class="section-title">Circle Applicants</div>
@@ -915,6 +953,7 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
             <option value="photographer">Photographer / Videographer</option>
             <option value="mua">MUA / Hair / Stylist</option>
             <option value="creative">Creative / Other</option>
+            <option value="owner">Venue Owner / Manager</option>
           </select>
         </div>
         <div class="form-group">
@@ -1085,7 +1124,7 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px" id="ratingInputs">
         <div>
-          <div class="form-label" style="margin-bottom:8px">Look</div>
+          <div class="form-label" style="margin-bottom:8px" id="ratingLookLabel">Look</div>
           <div class="star-input" data-field="look">
             <span onclick="setStars(this,'look',1)">★</span><span onclick="setStars(this,'look',2)">★</span><span onclick="setStars(this,'look',3)">★</span><span onclick="setStars(this,'look',4)">★</span><span onclick="setStars(this,'look',5)">★</span>
           </div>
@@ -1178,6 +1217,7 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
       <div class="modal-tab" onclick="switchProfileTab('ratings',this)">Ratings</div>
       <div class="modal-tab" onclick="switchProfileTab('memory',this)">Memory</div>
       <div class="modal-tab" onclick="switchProfileTab('notes',this)">Notes</div>
+      <div class="modal-tab" id="tabBtn-email" onclick="switchProfileTab('email',this)">✉ Email</div>
     </div>
     <div class="modal-body modal-scroll" style="max-height:60vh">
       <!-- Overview Tab -->
@@ -1319,11 +1359,85 @@ body{-webkit-text-size-adjust:100%;text-size-adjust:100%}
       <div class="modal-tab-content" id="tab-notes">
         <div id="p-linked-notes"></div>
       </div>
+      <!-- Email Tab -->
+      <div class="modal-tab-content" id="tab-email">
+        <div style="margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div style="font-size:12px;color:var(--text2)">To: <span id="email-contact-display" style="color:var(--gold)">—</span></div>
+          <a id="email-direct-btn" href="#" style="display:none;padding:5px 12px;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.3);border-radius:6px;font-size:11px;font-weight:600;color:var(--gold);text-decoration:none">Open Email Client ↗</a>
+        </div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:14px">Pick a template, customize it, then send — or copy it manually.</div>
+        <div id="email-templates-list"></div>
+      </div>
     </div>
-    <div style="padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end">
-      <button class="btn-cancel" onclick="editCurrentModel()" style="color:var(--gold);border-color:var(--gold)">✎ Edit Profile</button>
+    <div style="padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+      <button class="btn-cancel" onclick="openFollowUpEvent(currentModelId)" style="color:var(--sage-light);border-color:var(--sage)">📅 Schedule Follow-up</button>
+      <button class="btn-cancel" onclick="openEmailTab()" style="color:var(--sky-light);border-color:var(--sky)">✉ Email</button>
+      <button class="btn-cancel" onclick="editCurrentModel()" style="color:var(--gold);border-color:var(--gold)">✎ Edit</button>
       <button class="btn-cancel" onclick="deleteCurrentModel()" style="color:var(--rose);border-color:var(--rose)">✕ Remove</button>
       <button class="btn-save" onclick="closeProfileModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT MODAL (Add / Edit) -->
+<div class="modal-overlay" id="eventModal">
+  <div class="modal" style="max-width:520px">
+    <div style="padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold)" id="eventModalTitle">New Event</div>
+      <div class="modal-close" onclick="closeEventModal()">✕</div>
+    </div>
+    <div class="modal-body modal-scroll" style="padding:20px 24px 24px">
+      <!-- Type picker -->
+      <div class="form-label" style="margin-bottom:8px">Event Type</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px" id="evtTypePicker">
+        <button class="evt-type-btn evt-shoot active" data-type="shoot" onclick="selectEvtType('shoot',this)">📸 Paid Shoot</button>
+        <button class="evt-type-btn evt-donation" data-type="donation" onclick="selectEvtType('donation',this)">💵 Donation/Door Gig</button>
+        <button class="evt-type-btn evt-meeting" data-type="meeting" onclick="selectEvtType('meeting',this)">🤝 Meeting</button>
+        <button class="evt-type-btn evt-pitch" data-type="pitch" onclick="selectEvtType('pitch',this)">🏛 Venue Pitch</button>
+        <button class="evt-type-btn evt-personal" data-type="personal" onclick="selectEvtType('personal',this)">✦ Personal/Other</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div class="form-group full" style="grid-column:1/-1">
+          <label class="form-label">Title</label>
+          <input class="form-input" id="ef-title" placeholder="e.g. Shoot with Simone / Venue meeting">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input class="form-input" id="ef-date" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Time</label>
+          <input class="form-input" id="ef-time" type="time">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="ef-status">
+            <option value="scheduled">Scheduled</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="done">Done</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Link to Talent</label>
+          <select class="form-select" id="ef-model" onchange="autoFillEventTitle()">
+            <option value="">— No link —</option>
+          </select>
+        </div>
+        <div class="form-group full" style="grid-column:1/-1">
+          <label class="form-label">Location / Venue</label>
+          <input class="form-input" id="ef-venue" placeholder="Address or venue name">
+        </div>
+        <div class="form-group full" style="grid-column:1/-1">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" id="ef-notes" placeholder="Any details, reminders, or context..." style="min-height:80px"></textarea>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn-save" onclick="saveEvent()" style="flex:1">Save Event</button>
+        <button id="ef-gcal-btn" onclick="openGcalFromForm()" style="padding:10px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-sm);font-size:12px;color:var(--text2);cursor:pointer;white-space:nowrap;transition:var(--t)" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">📅 Add to Google Cal</button>
+        <button id="ef-delete-btn" onclick="deleteCurrentEvent()" style="display:none;padding:10px 14px;background:rgba(194,105,122,0.1);border:1px solid var(--rose);border-radius:var(--radius-sm);font-size:12px;color:var(--rose-light);cursor:pointer;transition:var(--t)">Delete</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1461,7 +1575,9 @@ const CATEGORIES = {
     portfolioLabel: 'Portfolio Link',
     showSetLength: false,
     showLook: true,
-    showDetails: false
+    showDetails: false,
+    lookLabel: 'Look',
+    ratingLabels: {look:'Look',energy:'Energy',skill:'Skill',vibe:'Vibe',reliability:'Reliability',overall:'Overall'}
   },
   dj: {
     label: 'DJ',
@@ -1471,7 +1587,9 @@ const CATEGORIES = {
     portfolioLabel: 'Mixes (SoundCloud / Mixcloud)',
     showSetLength: true,
     showLook: false,
-    showDetails: true
+    showDetails: true,
+    lookLabel: 'Stage Presence',
+    ratingLabels: {look:'Stage Presence',energy:'Energy',skill:'Skill',vibe:'Crowd Read',reliability:'Reliability',overall:'Overall'}
   },
   photographer: {
     label: 'Photographer / Videographer',
@@ -1481,7 +1599,9 @@ const CATEGORIES = {
     portfolioLabel: 'Portfolio Link',
     showSetLength: false,
     showLook: false,
-    showDetails: true
+    showDetails: true,
+    lookLabel: 'Eye / Aesthetic',
+    ratingLabels: {look:'Eye / Aesthetic',energy:'Energy',skill:'Technical Skill',vibe:'Collaboration',reliability:'Reliability',overall:'Overall'}
   },
   mua: {
     label: 'MUA / Hair / Stylist',
@@ -1491,7 +1611,9 @@ const CATEGORIES = {
     portfolioLabel: 'Portfolio Link',
     showSetLength: false,
     showLook: false,
-    showDetails: true
+    showDetails: true,
+    lookLabel: 'Presentation',
+    ratingLabels: {look:'Presentation',energy:'Energy',skill:'Technique',vibe:'Client Vibe',reliability:'Reliability',overall:'Overall'}
   },
   creative: {
     label: 'Creative / Other',
@@ -1501,7 +1623,21 @@ const CATEGORIES = {
     portfolioLabel: 'Portfolio Link',
     showSetLength: false,
     showLook: false,
-    showDetails: true
+    showDetails: true,
+    lookLabel: 'Presentation',
+    ratingLabels: {look:'Presentation',energy:'Energy',skill:'Skill',vibe:'Vibe',reliability:'Reliability',overall:'Overall'}
+  },
+  owner: {
+    label: 'Venue Owner / Manager',
+    specialtyLabel: 'Venue Type',
+    specialtyOptions: ['Nightclub','Lounge','Rooftop','Bar','Event Space','Restaurant','Pop-Up','Festival'],
+    equipmentLabel: 'Capacity',
+    portfolioLabel: 'Venue Website',
+    showSetLength: false,
+    showLook: false,
+    showDetails: true,
+    lookLabel: 'Venue Aesthetic',
+    ratingLabels: {look:'Venue Aesthetic',energy:'Energy/Vibe',skill:'Professionalism',vibe:'Partnership Fit',reliability:'Reliability',overall:'Overall'}
   }
 };
 const CITIES = [
@@ -1540,6 +1676,7 @@ function save(){
 }
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 function initials(name){ return name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
+function igUrl(handle){ if(!handle) return ''; const h=handle.trim().replace(/^@/,'').replace(/^https?:\/\/(www\.)?instagram\.com\//i,'').replace(/\/$/,''); return h?`https://instagram.com/${h}`:''; }
 function fmt(ts){ if(!ts) return ''; const d=new Date(ts); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
 function todayStr(){ return new Date().toISOString().split('T')[0]; }
 function statusLabel(s){ return ({prospect:'Prospect',reached:'Reached Out',active:'Active',collab:'In Collab',booked:'Booked'}[s]||s); }
@@ -1564,7 +1701,8 @@ const viewMeta = {
   rankings:{title:'Rankings',sub:'Your personal model rankings'},
   calendar:{title:'Calendar',sub:'Shoots, meetings & events'},
   notes:{title:'Notes',sub:'Private notes and observations'},
-  prompts:{title:'Prompt Library',sub:'Ready-to-use language for every situation'}
+  prompts:{title:'Prompt Library',sub:'Ready-to-use language for every situation'},
+  owners:{title:'Venue Owners',sub:'Venue owners and managers you\'re building with'}
 };
 function showView(v, navEl){
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
@@ -1580,11 +1718,12 @@ function showView(v, navEl){
   document.getElementById('viewSub').textContent = m.sub||'';
   if(v==='roster') renderRoster();
   if(v==='kanban') renderKanban();
-  if(v==='rankings') renderRankings('overall');
+  if(v==='rankings') renderRankings();
   if(v==='calendar') renderCalendar();
   if(v==='notes') renderNotes();
   if(v==='prompts') renderPrompts('all');
   if(v==='dashboard') renderDashboard();
+  if(v==='owners') renderOwners();
 }
 function mobNav(v, el){
   showView(v, null);
@@ -1630,8 +1769,9 @@ function followupItemHTML(m){
       <div class="ri-name">${m.name}</div>
       <div class="ri-meta">${overdue?'Overdue · ':'Due · '}${m.nextFollowUp}${m.lastContact?` · last contacted ${m.lastContact}`:''}</div>
     </div>
-    <div class="ri-right">
-      <button class="btn-cancel" style="color:var(--gold);border-color:var(--gold);padding:4px 10px;font-size:11px" onclick="quickMarkContacted('${m.id}')">✓ Contacted</button>
+    <div class="ri-right" style="display:flex;gap:6px">
+      <button class="btn-cancel" style="color:var(--sage-light);border-color:var(--sage);padding:4px 10px;font-size:11px" onclick="event.stopPropagation();openFollowUpEvent('${m.id}')">📅 Schedule</button>
+      <button class="btn-cancel" style="color:var(--gold);border-color:var(--gold);padding:4px 10px;font-size:11px" onclick="event.stopPropagation();quickMarkContacted('${m.id}')">✓ Done</button>
     </div>
   </div>`;
 }
@@ -1639,11 +1779,20 @@ function quickMarkContacted(id){
   const m = models.find(x=>x.id===id);
   if(!m) return;
   m.lastContact = todayStr();
-  const next = prompt(`Set next follow-up for ${m.name} (YYYY-MM-DD), or leave blank to clear it:`, '');
-  if(next !== null) m.nextFollowUp = next.trim();
+  m.nextFollowUp = '';
   m.updatedAt = Date.now();
   save();
   renderDashboard();
+}
+function openFollowUpEvent(modelId, prefillDate){
+  const m = models.find(x=>x.id===modelId);
+  addEventOn(prefillDate || todayStr());
+  currentEventType = 'meeting';
+  document.querySelectorAll('#evtTypePicker .evt-type-btn').forEach(b=>b.classList.toggle('active', b.dataset.type==='meeting'));
+  if(m){
+    document.getElementById('ef-title').value = `🤝 Follow-up with ${m.name}`;
+    document.getElementById('ef-model').value = modelId;
+  }
 }
 function recentItemHTML(m){
   const score = overallScore(m);
@@ -1674,6 +1823,40 @@ function filteredModels(){
   else if(sortMode==='score') list.sort((a,b)=>overallScore(b)-overallScore(a));
   return list;
 }
+function renderOwners(){
+  const owners = models.filter(m=>(m.category||'model')==='owner');
+  const el = document.getElementById('owners-list');
+  if(!el) return;
+  if(!owners.length){ el.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🏛</div><p>No venue owners yet — add one with the button above</p></div>'; return; }
+  el.innerHTML = owners.map(m=>{
+    const score = overallScore(m);
+    return `<div class="model-card" onclick="openProfile('${m.id}')">
+      <div class="card-header">
+        <div class="card-avatar">${m.photo?`<img src="${m.photo}">`:`${initials(m.name)}`}</div>
+        <div class="card-tier badge ${tierClass(m.tier)}">${(m.tier||'new').toUpperCase()}</div>
+        <div class="card-status-dot ${dotClass(m.status)}"></div>
+        <div class="card-category cat-owner">OWNER</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${m.name}</div>
+        <div class="card-handle">${m.handle&&igUrl(m.handle)?`<a href="${igUrl(m.handle)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text3)">${m.handle}</a>`:m.handle||''}${m.city?' · '+m.city:''}</div>
+        <div class="card-tags"><span class="tag cat-owner" style="font-size:9px">${m.specialty||'Venue'}</span></div>
+        <div class="card-stats">
+          <div class="stat"><div class="stat-val">${score?score.toFixed(1):'-'}</div><div class="stat-lbl">Score</div></div>
+          <div class="stat"><div class="stat-val">${notes.filter(n=>n.linkedModel===m.id).length}</div><div class="stat-lbl">Notes</div></div>
+          <div class="stat"><div class="stat-val">${statusLabel(m.status)}</div><div class="stat-lbl">Status</div></div>
+        </div>
+        ${m.contact?`<div class="card-vibe" style="font-size:11px">${m.contact}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+function openAddModalForCategory(cat){
+  openAddModal();
+  const sel = document.getElementById('f-category');
+  if(sel){ sel.value=cat; applyCategoryFields(cat); }
+}
+
 function renderRoster(){
   const list = filteredModels();
   const g = document.getElementById('rosterGrid');
@@ -1694,7 +1877,7 @@ function modelCardHTML(m){
     </div>
     <div class="card-body">
       <div class="card-name">${m.name}</div>
-      <div class="card-handle">${m.handle||''}${m.city?' · '+m.city:''}</div>
+      <div class="card-handle">${m.handle&&igUrl(m.handle)?`<a href="${igUrl(m.handle)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text3)">${m.handle}</a>`:m.handle||''}${m.city?' · '+m.city:''}</div>
       <div class="card-tags">${tags.map(t=>`<span class="tag ${tagClass(t)}">${t}</span>`).join('')}</div>
       <div class="card-stats">
         <div class="stat"><div class="stat-val">${score?score.toFixed(1):'-'}</div><div class="stat-lbl">Score</div></div>
@@ -1758,12 +1941,15 @@ function renderKanban(){
 function kanbanCardHTML(m){
   const tags = (m.tags||[]).slice(0,2);
   const note = notes.filter(n=>n.linkedModel===m.id).slice(-1)[0];
-  return `<div class="kanban-card" draggable="true"
+  return `<div class="kanban-card" draggable="true" data-id="${m.id}"
     ondragstart="kanbanDragStart(event,'${m.id}')"
     ondragend="this.classList.remove('dragging')"
+    ontouchstart="touchDragStart(event,'${m.id}')"
+    ontouchmove="touchDragMove(event)"
+    ontouchend="touchDragEnd(event)"
     onclick="openProfile('${m.id}')">
     <div class="kc-name">${m.name}</div>
-    <div class="kc-handle">${m.handle||m.city||'—'}</div>
+    <div class="kc-handle">${m.handle&&igUrl(m.handle)?`<a href="${igUrl(m.handle)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:inherit;text-decoration:none">${m.handle}</a>`:m.handle||m.city||'—'}</div>
     <div class="kc-tags"><span class="tag ${categoryClass(m.category)}" style="font-size:9px">${categoryLabel(m.category)}</span>${tags.map(t=>`<span class="tag ${tagClass(t)}" style="font-size:9px">${t}</span>`).join('')}</div>
     ${note?`<div class="kc-note">"${note.body.slice(0,80)}${note.body.length>80?'…':''}"</div>`:''}
     <div class="kc-bottom">
@@ -1791,15 +1977,53 @@ function kanbanDrop(e, newStatus){
   draggedId = null;
 }
 
+// ── TOUCH DRAG (mobile kanban) ──
+let touchDragId = null, touchClone = null, touchLastCol = null;
+function touchDragStart(e, id){
+  touchDragId = id;
+  const card = e.currentTarget;
+  const rect = card.getBoundingClientRect();
+  touchClone = card.cloneNode(true);
+  touchClone.style.cssText = `position:fixed;top:${rect.top}px;left:${rect.left}px;width:${rect.width}px;opacity:0.85;pointer-events:none;z-index:9999;transform:scale(1.04);box-shadow:0 8px 32px rgba(0,0,0,0.5)`;
+  document.body.appendChild(touchClone);
+  card.style.opacity='0.3';
+}
+function touchDragMove(e){
+  if(!touchDragId || !touchClone) return;
+  e.preventDefault();
+  const t = e.touches[0];
+  touchClone.style.top = (t.clientY - 40)+'px';
+  touchClone.style.left = (t.clientX - 60)+'px';
+  document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over'));
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  const col = el?.closest('.kanban-col');
+  if(col){ col.classList.add('drag-over'); touchLastCol = col.dataset.col; }
+}
+function touchDragEnd(e){
+  if(!touchDragId) return;
+  if(touchClone){ touchClone.remove(); touchClone=null; }
+  document.querySelectorAll('.kanban-card').forEach(c=>c.style.opacity='');
+  document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over'));
+  if(touchLastCol){
+    const m = models.find(x=>x.id===touchDragId);
+    if(m && m.status!==touchLastCol){ m.status=touchLastCol; m.updatedAt=Date.now(); save(); renderKanban(); renderDashboard(); }
+  }
+  touchDragId=null; touchLastCol=null;
+}
+
 // ── RANKINGS ──
-function renderRankings(cat){
-  const ranked = [...models].sort((a,b)=>{
+function renderRankings(){
+  const cat = (document.getElementById('rankCat')||{}).value || 'overall';
+  const typeCat = (document.getElementById('rankTypeCat')||{}).value || 'all';
+  let pool = [...models];
+  if(typeCat !== 'all') pool = pool.filter(m=>(m.category||'model')===typeCat);
+  const ranked = pool.sort((a,b)=>{
     const ra = (a.ratings||{})[cat]||overallScore(a);
     const rb = (b.ratings||{})[cat]||overallScore(b);
     return rb - ra;
   });
   const list = document.getElementById('rankList');
-  if(!ranked.length){ list.innerHTML='<div class="empty-state"><div class="empty-icon">◉</div><p>Add models with ratings to see rankings</p></div>'; return; }
+  if(!ranked.length){ list.innerHTML='<div class="empty-state"><div class="empty-icon">◉</div><p>No talent in this group yet</p></div>'; return; }
   list.innerHTML = ranked.map((m,i)=>{
     const score = (m.ratings||{})[cat]||overallScore(m);
     const pct = (score/5)*100;
@@ -1837,26 +2061,133 @@ function renderCalendar(){
     const isToday = today.getDate()===d&&today.getMonth()===mo&&today.getFullYear()===y;
     const dateStr = `${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dayEvents = events.filter(e=>e.date===dateStr);
-    const evtColors = ['#C9A84C','#E8A0AE','#9DC9A8','#B99FD4','#90B8D8'];
+    const icon = e => eventTypeMeta(e.type).icon;
     html += `<div class="cal-day${isToday?' today':''}" onclick="addEventOn('${dateStr}')">
       <div class="cal-day-num">${d}</div>
-      ${dayEvents.map(e=>{
-        const c = evtColors[Math.abs((e.title||'x').charCodeAt(0))%5];
-        return '<div class="cal-event" style="background:'+c+'22;color:'+c+'" title="'+e.title+'">'+e.title+'</div>';
-      }).join('')}
+      ${dayEvents.map(e=>`<div class="cal-event ${eventTypeClass(e.type)}" onclick="event.stopPropagation();openEditEventModal('${e.id}')" title="${e.title||''}">${icon(e)} ${e.title||'Event'}</div>`).join('')}
     </div>`;
   }
   document.getElementById('calGrid').innerHTML = html;
 }
 function changeMonth(d){ calDate=new Date(calDate.getFullYear(),calDate.getMonth()+d,1); renderCalendar(); }
-function addEventOn(date){
-  const title = prompt('Event title:');
-  if(!title) return;
-  const modelName = prompt('Link to model (name or leave blank):');
-  events.push({id:uid(),date,title,modelName:modelName||'',createdAt:Date.now()});
-  save(); renderCalendar();
+
+// ── EVENT MODAL ──
+let currentEventType = 'shoot';
+let currentEventId = null;
+
+function gcalUrl(e){
+  if(!e.date) return '';
+  const start = new Date(e.date+'T00:00:00');
+  const end = new Date(start); end.setDate(end.getDate()+1);
+  const fmt = d => d.toISOString().slice(0,10).replace(/-/g,'');
+  const details = [e.time?`Time: ${e.time}`:'', e.modelName?`With: ${e.modelName}`:'', eventTypeMeta(e.type).label, e.notes||''].filter(Boolean).join('\n');
+  const p = new URLSearchParams({action:'TEMPLATE',text:e.title||'ATCHÉ Event',dates:`${fmt(start)}/${fmt(end)}`,details,location:e.venue||''});
+  return `https://calendar.google.com/calendar/render?${p.toString()}`;
 }
-function openAddEventModal(){ addEventOn(new Date().toISOString().split('T')[0]); }
+
+function selectEvtType(type, btn){
+  currentEventType = type;
+  document.querySelectorAll('#evtTypePicker .evt-type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  autoFillEventTitle();
+}
+function autoFillEventTitle(){
+  const titleEl = document.getElementById('ef-title');
+  const modelSel = document.getElementById('ef-model');
+  if(!titleEl || !modelSel) return;
+  const m = models.find(x=>x.id===modelSel.value);
+  if(!m) return;
+  const meta = eventTypeMeta(currentEventType);
+  const suggested = `${meta.icon} ${meta.label} with ${m.name}`;
+  // only auto-fill if blank or previously auto-filled (starts with an emoji)
+  if(!titleEl.value || /^\p{Emoji}/u.test(titleEl.value)) titleEl.value = suggested;
+}
+
+function openAddEventModal(){ addEventOn(todayStr()); }
+function addEventOn(date){
+  currentEventId = null;
+  currentEventType = 'shoot';
+  document.getElementById('eventModalTitle').textContent = 'New Event';
+  document.getElementById('ef-title').value = '';
+  document.getElementById('ef-date').value = date || todayStr();
+  document.getElementById('ef-time').value = '';
+  document.getElementById('ef-status').value = 'scheduled';
+  document.getElementById('ef-venue').value = '';
+  document.getElementById('ef-notes').value = '';
+  document.getElementById('ef-delete-btn').style.display = 'none';
+  // populate model dropdown
+  document.getElementById('ef-model').innerHTML = '<option value="">— No link —</option>' + models.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  // reset type picker
+  document.querySelectorAll('#evtTypePicker .evt-type-btn').forEach(b=>b.classList.toggle('active', b.dataset.type==='shoot'));
+  document.getElementById('eventModal').classList.add('open');
+}
+
+function openEditEventModal(id){
+  const e = events.find(x=>x.id===id);
+  if(!e) return;
+  currentEventId = id;
+  currentEventType = e.type || 'shoot';
+  document.getElementById('eventModalTitle').textContent = 'Edit Event';
+  document.getElementById('ef-title').value = e.title || '';
+  document.getElementById('ef-date').value = e.date || '';
+  document.getElementById('ef-time').value = e.time || '';
+  document.getElementById('ef-status').value = e.status || 'scheduled';
+  document.getElementById('ef-venue').value = e.venue || '';
+  document.getElementById('ef-notes').value = e.notes || '';
+  document.getElementById('ef-delete-btn').style.display = '';
+  document.getElementById('ef-model').innerHTML = '<option value="">— No link —</option>' + models.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  document.getElementById('ef-model').value = e.modelId || '';
+  document.querySelectorAll('#evtTypePicker .evt-type-btn').forEach(b=>b.classList.toggle('active', b.dataset.type===currentEventType));
+  document.getElementById('eventModal').classList.add('open');
+}
+
+function closeEventModal(){ document.getElementById('eventModal').classList.remove('open'); currentEventId=null; }
+
+function saveEvent(){
+  const title = document.getElementById('ef-title').value.trim();
+  if(!title){ document.getElementById('ef-title').style.borderColor='var(--rose)'; return; }
+  document.getElementById('ef-title').style.borderColor='';
+  const modelId = document.getElementById('ef-model').value;
+  const linkedModel = models.find(m=>m.id===modelId);
+  const evtObj = {
+    id: currentEventId || uid(),
+    type: currentEventType,
+    title,
+    date: document.getElementById('ef-date').value,
+    time: document.getElementById('ef-time').value,
+    status: document.getElementById('ef-status').value,
+    venue: document.getElementById('ef-venue').value.trim(),
+    notes: document.getElementById('ef-notes').value.trim(),
+    modelId: modelId || '',
+    modelName: linkedModel ? linkedModel.name : '',
+    createdAt: currentEventId ? (events.find(e=>e.id===currentEventId)||{}).createdAt||Date.now() : Date.now(),
+    updatedAt: Date.now()
+  };
+  if(currentEventId){ const idx=events.findIndex(e=>e.id===currentEventId); if(idx>=0) events[idx]=evtObj; }
+  else events.push(evtObj);
+  save(); closeEventModal(); renderCalendar(); renderDashboard();
+}
+
+function deleteCurrentEvent(){
+  if(!currentEventId) return;
+  if(!confirm('Delete this event?')) return;
+  events = events.filter(e=>e.id!==currentEventId);
+  save(); closeEventModal(); renderCalendar(); renderDashboard();
+}
+
+function openGcalFromForm(){
+  const e = {
+    type: currentEventType,
+    title: document.getElementById('ef-title').value.trim() || 'ATCHÉ Event',
+    date: document.getElementById('ef-date').value,
+    time: document.getElementById('ef-time').value,
+    venue: document.getElementById('ef-venue').value.trim(),
+    notes: document.getElementById('ef-notes').value.trim(),
+    modelName: (models.find(m=>m.id===document.getElementById('ef-model').value)||{}).name || ''
+  };
+  const url = gcalUrl(e);
+  if(url) window.open(url, '_blank');
+}
 
 // ── NOTES ──
 function renderNotes(){
@@ -1976,6 +2307,8 @@ function getCityValue(){
 function applyCategoryFields(cat){
   const meta = categoryMeta(cat);
   document.getElementById('section-look').style.display = meta.showLook ? '' : 'none';
+  const rl = meta.ratingLabels || {};
+  const lbl = document.getElementById('ratingLookLabel'); if(lbl) lbl.textContent = rl.look || 'Look';
   document.getElementById('section-catdetails').style.display = meta.showDetails ? '' : 'none';
   document.getElementById('catDetailsTitle').textContent = meta.label + ' Details';
   document.getElementById('specialtyLabel').textContent = meta.specialtyLabel;
@@ -2138,7 +2471,9 @@ function openProfile(id){
   const av = document.getElementById('profileAvatar');
   av.innerHTML = m.photo?`<img src="${m.photo}">`:`${initials(m.name)}`;
   document.getElementById('profileName').textContent=m.name;
-  document.getElementById('profileHandle').textContent=`${m.handle||''} ${m.city?'· '+m.city:''}`;
+  const handleEl = document.getElementById('profileHandle');
+  const ig = igUrl(m.handle);
+  handleEl.innerHTML = (m.handle&&ig ? `<a href="${ig}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--text3)">${m.handle}</a>` : (m.handle||'')) + (m.city ? ` · ${m.city}` : '');
   const catMeta = categoryMeta(m.category);
   const catEl = document.getElementById('profileCategory');
   catEl.textContent = categoryLabel(m.category);
@@ -2163,7 +2498,9 @@ function openProfile(id){
   switchProfileTab('overview', document.querySelector('.modal-tab'));
   // Overview
   document.getElementById('p-city').textContent=m.city||'—';
-  document.getElementById('p-contact').textContent=m.contact||'—';
+  const contactEl = document.getElementById('p-contact');
+  const isEmail = m.contact && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.contact);
+  contactEl.innerHTML = m.contact ? (isEmail ? `<a href="mailto:${m.contact}" style="color:var(--sky-light);text-decoration:none;border-bottom:1px dotted var(--sky)">${m.contact}</a>` : m.contact) : '—';
   document.getElementById('p-status').innerHTML=`<span class="badge ${tierClass(m.status)}">${statusLabel(m.status)}</span>`;
   document.getElementById('p-tier').innerHTML=`<span class="badge ${tierClass(m.tier)}">${(m.tier||'new').toUpperCase()}</span>`;
   document.getElementById('p-metAt').textContent=m.metAt||'—';
@@ -2190,18 +2527,21 @@ function openProfile(id){
   document.getElementById('p-vibe').textContent=m.vibe||'—';
   document.getElementById('p-personality').textContent=m.personality||'—';
   document.getElementById('p-personal').textContent=m.personal||'—';
-  // Ratings
-  const rFields=[{k:'overall',label:'Overall',color:'var(--gold)'},{k:'look',label:'Look',color:'var(--rose-light)'},{k:'energy',label:'Energy',color:'var(--sky-light)'},{k:'skill',label:'Skill',color:'var(--sage-light)'},{k:'vibe',label:'Vibe',color:'var(--violet-light)'},{k:'reliability',label:'Reliability',color:'var(--gold-light)'}];
+  // Ratings (labels are per-category)
+  const rl = catMeta.ratingLabels || {look:'Look',energy:'Energy',skill:'Skill',vibe:'Vibe',reliability:'Reliability',overall:'Overall'};
+  const rFields=[{k:'overall',color:'var(--gold)'},{k:'look',color:'var(--rose-light)'},{k:'energy',color:'var(--sky-light)'},{k:'skill',color:'var(--sage-light)'},{k:'vibe',color:'var(--violet-light)'},{k:'reliability',color:'var(--gold-light)'}];
   document.getElementById('p-ratings-display').innerHTML=rFields.map(f=>{
     const v=(m.ratings||{})[f.k]||0;
     return `<div class="rating-row">
-      <div class="rating-label">${f.label}</div>
+      <div class="rating-label">${rl[f.k]||f.k}</div>
       <div class="rating-bar-wrap"><div class="rating-bar-fill" style="width:${v*20}%;background:${f.color}"></div></div>
       <div class="rating-val">${v?v+'/5':'—'}</div>
     </div>`;
   }).join('');
   // Memories
   renderMemories(m);
+  // Email tab
+  renderEmailTab(m);
   // Linked Notes
   const linked = notes.filter(n=>n.linkedModel===id);
   document.getElementById('p-linked-notes').innerHTML=linked.length?linked.map(n=>`
@@ -2238,6 +2578,92 @@ function deleteMemory(i){
   if(!m||!m.memories) return;
   m.memories.splice(i,1); save(); renderMemories(m);
 }
+// ── EMAIL TEMPLATES ──
+const EMAIL_TEMPLATES = [
+  {
+    id: 'outreach',
+    label: '👋 First Outreach',
+    subject: (name) => `Connecting — Xavier Snow / ATCHÉ`,
+    body: (name, cat) => `Hi ${name},\n\nI came across your work and I'm really impressed — your ${cat==='photographer'?'eye and aesthetic':'presence and energy'} is exactly what ATCHÉ is building toward.\n\nI'm Xavier Snow, the founder of ATCHÉ — a platform connecting creative women in nightlife and entertainment. I'd love to explore what a collaboration could look like between us.\n\nWould you be open to a quick call this week?\n\nLooking forward,\nXavier`
+  },
+  {
+    id: 'followup',
+    label: '🔁 Follow-up Check-in',
+    subject: (name) => `Following up — Xavier / ATCHÉ`,
+    body: (name) => `Hey ${name},\n\nJust circling back — I reached out a little while ago about a potential collab through ATCHÉ and wanted to check in.\n\nNo pressure at all, just wanted to make sure my message didn't get lost. If now's not the right time, totally understand — happy to reconnect whenever works for you.\n\nBest,\nXavier`
+  },
+  {
+    id: 'booking',
+    label: '📸 Booking Confirmation',
+    subject: (name) => `Shoot Confirmed — ATCHÉ`,
+    body: (name) => `Hi ${name},\n\nExcited to confirm our shoot! Here are the details:\n\n📅 Date: [DATE]\n⏰ Time: [TIME]\n📍 Location: [LOCATION]\n\nPlease arrive 10-15 minutes early. Bring [any specific items]. If anything comes up, reach out ASAP so we can adjust.\n\nLooking forward to creating something great together.\n\nXavier`
+  },
+  {
+    id: 'collab',
+    label: '✦ Collab Pitch',
+    subject: (name) => `ATCHÉ × ${name} — Collab Opportunity`,
+    body: (name, cat) => `Hey ${name},\n\nI have something specific in mind for you.\n\nI'm curating a small, intentional group for an upcoming ATCHÉ project — and your ${cat==='dj'?'sound and energy':'work and aesthetic'} came to mind immediately. This is a paid opportunity with room for creative input.\n\nWould love to share more details if you're interested. Are you available for a quick conversation this week?\n\nXavier`
+  },
+  {
+    id: 'checkin',
+    label: '💬 Relationship Check-in',
+    subject: (name) => `Checking in — Xavier`,
+    body: (name) => `Hey ${name}!\n\nJust wanted to check in and see how things are going on your end. No ask here — genuinely just keeping the connection warm.\n\nWhat have you been working on lately? Always love to hear what you're building.\n\nXavier`
+  },
+  {
+    id: 'rate',
+    label: '💵 Rate Inquiry',
+    subject: (name) => `Rate Inquiry — ATCHÉ Project`,
+    body: (name, cat) => `Hi ${name},\n\nI'm in the early stages of planning a project and your ${cat==='photographer'?'photography work':'work'} is a great fit for what I have in mind.\n\nBefore we go further, could you share your rates for [TYPE OF WORK]? Also happy to discuss if there's flexibility based on scope.\n\nLooking forward to making this happen.\n\nXavier`
+  }
+];
+
+function renderEmailTab(m){
+  const contact = m.contact || '';
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact);
+  const displayEl = document.getElementById('email-contact-display');
+  const directBtn = document.getElementById('email-direct-btn');
+  if(displayEl) displayEl.textContent = contact || 'No email on file';
+  if(directBtn){
+    if(isEmail){
+      directBtn.style.display = '';
+      directBtn.href = `mailto:${contact}`;
+    } else { directBtn.style.display='none'; }
+  }
+  const listEl = document.getElementById('email-templates-list');
+  if(!listEl) return;
+  listEl.innerHTML = EMAIL_TEMPLATES.map(t=>{
+    const subject = t.subject(m.name);
+    const body = t.body(m.name, m.category||'model');
+    const mailtoUrl = isEmail ? `mailto:${contact}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` : '';
+    return `<div style="background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);padding:14px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:600;color:var(--text)">${t.label}</div>
+        <div style="display:flex;gap:8px">
+          <button onclick="copyEmailTemplate('et-body-${t.id}',this)" style="padding:4px 10px;background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius-sm);font-size:11px;color:var(--text2);cursor:pointer">Copy</button>
+          ${mailtoUrl ? `<a href="${mailtoUrl}" target="_blank" style="padding:4px 10px;background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);border-radius:var(--radius-sm);font-size:11px;font-weight:600;color:var(--gold);text-decoration:none">Open Email ↗</a>` : '<span style="font-size:11px;color:var(--text3)">Add email to profile</span>'}
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:4px">Subject: ${subject}</div>
+      <textarea id="et-body-${t.id}" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;font-size:12px;color:var(--text);line-height:1.6;resize:vertical;min-height:100px;box-sizing:border-box;font-family:inherit">${body}</textarea>
+    </div>`;
+  }).join('');
+}
+
+function copyEmailTemplate(id, btn){
+  const el = document.getElementById(id);
+  if(!el) return;
+  navigator.clipboard.writeText(el.value).then(()=>{
+    const orig = btn.textContent; btn.textContent='Copied!'; btn.style.color='var(--sage-light)';
+    setTimeout(()=>{ btn.textContent=orig; btn.style.color=''; },2000);
+  });
+}
+
+function openEmailTab(){
+  const tabBtn = document.getElementById('tabBtn-email');
+  if(tabBtn) switchProfileTab('email', tabBtn);
+}
+
 function switchProfileTab(tab, el){
   document.querySelectorAll('.modal-tab-content').forEach(c=>c.classList.remove('active'));
   document.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));
@@ -2251,10 +2677,6 @@ function markContactedToday(){
   const m = models.find(x=>x.id===currentModelId);
   if(!m) return;
   m.lastContact = todayStr();
-  const next = prompt('Set next follow-up date (YYYY-MM-DD), or leave blank to clear it:', m.nextFollowUp||'');
-  if(next !== null){
-    m.nextFollowUp = next.trim();
-  }
   m.updatedAt = Date.now();
   save();
   openProfile(m.id);

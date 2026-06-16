@@ -56,6 +56,15 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);ov
 .date-lbl{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
 .date-val{font-size:11px;color:var(--text2)}
 
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 20px 0}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rsm);padding:10px 6px;text-align:center}
+.stat-box-val{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--text);line-height:1.1}
+.stat-box-lbl{font-size:8.5px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px}
+.stat-box.alert .stat-box-val{color:#E8A0AE}
+.stat-box.gold .stat-box-val{color:var(--gold-lt)}
+.stat-box.sage .stat-box-val{color:#9DC9A8}
+
 /* ── TABS ── */
 .tabs{display:flex;gap:8px;padding:14px 20px 0;overflow-x:auto}
 .tab{padding:7px 16px;background:var(--s2);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;white-space:nowrap;transition:var(--t);flex-shrink:0}
@@ -63,6 +72,46 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);ov
 
 /* ── QUEUE LIST ── */
 .queue{padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+
+/* ── CALENDAR (photography events) ── */
+.cal-section-lbl{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin:18px 0 8px;padding:0 2px}
+.cal-section-lbl:first-child{margin-top:0}
+.cal-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:14px}
+.cal-card.evt-shoot{border-left:3px solid var(--gold)}
+.cal-card.evt-donation{border-left:3px solid var(--sage)}
+.cal-card.evt-meeting{border-left:3px solid #5B8DB8}
+.cal-card.evt-pitch{border-left:3px solid var(--violet)}
+.cal-card.evt-personal{border-left:3px solid var(--rose)}
+.cal-card-date{width:42px;text-align:center;flex-shrink:0}
+.cal-card-day{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text)}
+.cal-card-mon{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:1px}
+.cal-card-info{flex:1;min-width:0}
+.cal-card-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-card-meta{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cal-card-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.cal-gcal{font-size:18px;text-decoration:none;opacity:0.65;transition:var(--t)}
+.cal-gcal:hover{opacity:1}
+
+/* ── EVENT STATUS BADGES ── */
+.evt-status{padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;flex-shrink:0;white-space:nowrap}
+.evt-status-scheduled{background:rgba(180,180,190,0.1);border:1px solid #8a8a9a;color:#aaaabc}
+.evt-status-confirmed{background:rgba(91,141,184,0.15);border:1px solid #5B8DB8;color:#9BC2E8}
+.evt-status-done{background:var(--sage-d);border:1px solid var(--sage);color:#9DC9A8}
+.evt-status-cancelled{background:var(--rose-d);border:1px solid var(--rose);color:#E8A0AE}
+
+/* ── FAB / NEW LEAD ── */
+.fab{position:fixed;right:18px;bottom:78px;z-index:45;width:52px;height:52px;border-radius:50%;background:var(--gold);color:var(--black);border:none;font-size:24px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;transition:var(--t)}
+.fab:hover{background:var(--gold-lt)}
+.lead-type-toggle{display:flex;gap:8px;margin-bottom:16px}
+.lead-type-opt{flex:1;padding:11px;text-align:center;background:var(--s2);border:1px solid var(--border);border-radius:var(--rsm);cursor:pointer;font-size:13px;font-weight:600;color:var(--text3);transition:var(--t)}
+.lead-type-opt.active{border-color:var(--gold);color:var(--gold);background:var(--gold-d)}
+.lead-field{margin-bottom:12px}
+.lead-field label{display:block;font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:5px}
+.lead-field input,.lead-field select{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--rsm);padding:10px 12px;color:var(--text);font-size:13px;outline:none}
+.lead-field input:focus,.lead-field select:focus{border-color:var(--gold)}
+.lead-save{width:100%;padding:12px;background:var(--gold);color:var(--black);border:none;border-radius:var(--rsm);font-size:13px;font-weight:700;cursor:pointer;margin-top:4px}
+.lead-save:disabled{opacity:0.5;cursor:default}
+.lead-status-msg{font-size:11px;text-align:center;margin-top:8px;min-height:14px}
 
 /* ── FOLLOW-UP CARD ── */
 .fu-card{background:var(--surface);border-radius:var(--r);overflow:hidden;border:1px solid var(--border);transition:var(--t)}
@@ -84,8 +133,11 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);ov
 .urg-today{background:var(--gold-d);color:var(--gold-lt)}
 .urg-upcoming{background:var(--sage-d);color:#9DC9A8}
 
-.fu-handle{font-size:11px;color:var(--text2)}
+.fu-handle{font-size:11px;color:var(--text2);text-decoration:none;border-bottom:1px dotted var(--text3);transition:var(--t)}
+.fu-handle:hover{color:var(--gold);border-color:var(--gold)}
 .fu-stage{font-size:10px;color:var(--text3);margin-top:1px}
+.ig-link{padding:5px 12px;background:var(--gold-d);border:1px solid rgba(201,168,76,0.3);border-radius:6px;font-size:11px;font-weight:600;color:var(--gold);cursor:pointer;transition:var(--t);white-space:nowrap;text-decoration:none;display:inline-block}
+.ig-link:hover{background:var(--gold);color:var(--black)}
 
 /* ── TEMPLATES ── */
 .fu-templates{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
@@ -162,6 +214,26 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);ov
   <div class="date-val" id="todayDate"></div>
 </div>
 
+<!-- STATS -->
+<div class="stats-row" id="statsRow">
+  <div class="stat-box alert">
+    <div class="stat-box-val" id="statOverdue">0</div>
+    <div class="stat-box-lbl">Overdue</div>
+  </div>
+  <div class="stat-box gold">
+    <div class="stat-box-val" id="statToday">0</div>
+    <div class="stat-box-lbl">Due Today</div>
+  </div>
+  <div class="stat-box sage">
+    <div class="stat-box-val" id="statWeek">0</div>
+    <div class="stat-box-lbl">Due This Week</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-box-val" id="statEvents">0</div>
+    <div class="stat-box-lbl">Events This Week</div>
+  </div>
+</div>
+
 <!-- TABS -->
 <div class="tabs">
   <div class="tab active" onclick="setTab('all',this)">All</div>
@@ -170,10 +242,17 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);ov
   <div class="tab" onclick="setTab('models',this)">Models</div>
   <div class="tab" onclick="setTab('venues',this)">Venues</div>
   <div class="tab" onclick="setTab('upcoming',this)">Upcoming</div>
+  <div class="tab" onclick="setTab('calendar',this)">📸 Calendar</div>
 </div>
 
 <!-- QUEUE -->
 <div class="queue" id="queue"></div>
+
+<!-- CALENDAR (photography events) -->
+<div class="queue" id="calendarView" style="display:none"></div>
+
+<!-- NEW LEAD FAB -->
+<button class="fab" onclick="openLeadSheet()" title="Add a new lead">+</button>
 
 <!-- HOW IT WORKS MODAL -->
 <div class="date-overlay" id="helpOverlay">
@@ -242,6 +321,92 @@ body{font-family:'Inter',sans-serif;background:var(--black);color:var(--text);ov
   </div>
 </div>
 
+<!-- NEW LEAD SHEET -->
+<div class="date-overlay" id="leadOverlay">
+  <div class="date-sheet" style="max-height:88vh;overflow-y:auto">
+    <h3 style="margin-bottom:4px">New Lead</h3>
+    <p style="margin-bottom:16px">Adds straight to the same CRM Xavier sees.</p>
+
+    <div class="lead-type-toggle">
+      <div class="lead-type-opt active" id="leadTypeVenueBtn" onclick="setLeadType('venue')">🏛 Venue</div>
+      <div class="lead-type-opt" id="leadTypeTalentBtn" onclick="setLeadType('talent')">✦ Talent</div>
+    </div>
+
+    <div class="lead-field">
+      <label>Name *</label>
+      <input type="text" id="leadName" placeholder="e.g. The Wells, or Zara Knight">
+    </div>
+
+    <!-- VENUE FIELDS -->
+    <div id="leadVenueFields">
+      <div class="lead-field">
+        <label>Contact Person</label>
+        <input type="text" id="leadVenueContact" placeholder="Name of who you'd talk to">
+      </div>
+      <div class="lead-field">
+        <label>Instagram</label>
+        <input type="text" id="leadVenueIG" placeholder="@handle">
+      </div>
+      <div class="lead-field">
+        <label>Pipeline Stage</label>
+        <select id="leadVenuePipeline">
+          <option value="Prospecting">Prospecting</option>
+          <option value="First Contact">First Contact</option>
+          <option value="Meeting Set">Meeting Set</option>
+          <option value="Proposal Sent">Proposal Sent</option>
+          <option value="Negotiating">Negotiating</option>
+          <option value="Signed">Signed</option>
+          <option value="Active">Active</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- TALENT FIELDS -->
+    <div id="leadTalentFields" style="display:none">
+      <div class="lead-field">
+        <label>Category</label>
+        <select id="leadTalentCategory">
+          <option value="model">Model</option>
+          <option value="dj">DJ</option>
+          <option value="photographer">Photographer / Videographer</option>
+          <option value="mua">MUA / Hair / Stylist</option>
+          <option value="creative">Creative / Other</option>
+        </select>
+      </div>
+      <div class="lead-field">
+        <label>Instagram / Handle</label>
+        <input type="text" id="leadTalentHandle" placeholder="@handle">
+      </div>
+      <div class="lead-field">
+        <label>City</label>
+        <input type="text" id="leadTalentCity" placeholder="e.g. Washington, DC">
+      </div>
+      <div class="lead-field">
+        <label>Status</label>
+        <select id="leadTalentStatus">
+          <option value="prospect">Prospect</option>
+          <option value="reached">Reached Out</option>
+          <option value="active">Active</option>
+          <option value="collab">In Collab</option>
+          <option value="booked">Booked</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="lead-field">
+      <label>Notes (optional)</label>
+      <input type="text" id="leadNotes" placeholder="How you met, what's the context...">
+    </div>
+
+    <button class="lead-save" id="leadSaveBtn" onclick="saveLead()">Save Lead</button>
+    <div class="lead-status-msg" id="leadStatusMsg"></div>
+
+    <div style="margin-top:8px">
+      <button onclick="closeLeadSheet()" style="width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:var(--rsm);color:var(--text3);font-size:13px;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="bn-item active" onclick="setTab('all',null)"><span class="bn-icon">◈</span>Queue</div>
@@ -257,8 +422,25 @@ const SB_KEY = 'sb_publishable_ofAZ_64cKZXJefM5nbbt3g_wNOoF5DC';
 const sb = supabase.createClient(SB_URL, SB_KEY);
 let currentUser = null;
 let queueItems = [];
+let eventsList = [];
 let activeTab = 'all';
 let pendingSentItem = null;
+let rosterRow = null;  // { user_id } of the shared roster_data row
+let venuesRow = null;  // { user_id } of the shared atche_venues row
+let leadType = 'venue';
+
+// ── EVENT TYPES (mirrors model-tracker.html) ─────────────────────
+const EVENT_TYPES = {
+  shoot:    { label:'Paid Shoot',        icon:'📸', cls:'evt-shoot' },
+  donation: { label:'Donation/Door Gig', icon:'💵', cls:'evt-donation' },
+  meeting:  { label:'Meeting',           icon:'🤝', cls:'evt-meeting' },
+  pitch:    { label:'Venue Pitch',       icon:'🏛', cls:'evt-pitch' },
+  personal: { label:'Personal/Other',    icon:'✦', cls:'evt-personal' }
+};
+const EVENT_STATUSES = { scheduled:'Scheduled', confirmed:'Confirmed', done:'Done', cancelled:'Cancelled' };
+function eventTypeMeta(t){ return EVENT_TYPES[t] || EVENT_TYPES.shoot; }
+function eventStatusLabel(s){ return EVENT_STATUSES[s] || 'Scheduled'; }
+function eventStatusClass(s){ return 'evt-status-'+(EVENT_STATUSES[s]?s:'scheduled'); }
 
 // ── TEMPLATES ─────────────────────────────────────────────────────
 function getTemplates(item) {
@@ -354,6 +536,36 @@ function daysLabel(item) {
 // ── RENDER ────────────────────────────────────────────────────────
 function initials(name) { return (name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
 
+// Instagram profile link from a handle like "@zara.knight" or "zara.knight"
+function igUrl(handle) {
+  if(!handle) return '';
+  const h = handle.trim().replace(/^@/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/\/$/, '');
+  if(!h) return '';
+  return `https://instagram.com/${h}`;
+}
+
+// Google Calendar "add event" link for a photography/venue event
+function gcalUrl(e) {
+  if(!e.date) return '';
+  const start = new Date(e.date+'T00:00:00');
+  const end = new Date(start); end.setDate(end.getDate()+1);
+  const fmt = d => d.toISOString().slice(0,10).replace(/-/g,'');
+  const details = [
+    e.time ? `Time: ${e.time}` : '',
+    e.modelName ? `With: ${e.modelName}` : '',
+    eventTypeMeta(e.type).label,
+    e.notes || ''
+  ].filter(Boolean).join('\n');
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: e.title || 'ATCHÉ Event',
+    dates: `${fmt(start)}/${fmt(end)}`,
+    details,
+    location: e.venue || ''
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
 function renderQueue() {
   let items = [...queueItems];
   if(activeTab === 'overdue')  items = items.filter(i=>getUrgency(i)==='overdue');
@@ -403,7 +615,7 @@ function renderQueue() {
             <span class="fu-type-badge ${item._type === 'model' ? 'type-model' : 'type-venue'}">${item._type}</span>
             <span class="fu-urgency ${urgClass}">${urgLabel}</span>
           </div>
-          ${handle ? `<div class="fu-handle">${handle}</div>` : ''}
+          ${handle ? `<a class="fu-handle" href="${igUrl(handle)}" target="_blank" rel="noopener">${handle}</a>` : ''}
           ${stage ? `<div class="fu-stage">${stage}</div>` : ''}
         </div>
       </div>
@@ -412,7 +624,10 @@ function renderQueue() {
         <div class="tpl-block">
           <div class="tpl-header">
             <span class="tpl-channel">📱 IG DM</span>
-            <button class="copy-btn" onclick="copyMsg('${cardId}-ig', this)">Copy</button>
+            <div style="display:flex;gap:6px">
+              ${handle ? `<a class="ig-link" href="${igUrl(handle)}" target="_blank" rel="noopener">Open IG ↗</a>` : ''}
+              <button class="copy-btn" onclick="copyMsg('${cardId}-ig', this)">Copy</button>
+            </div>
           </div>
           <div class="tpl-body" id="${cardId}-ig">${tpl.ig}</div>
         </div>
@@ -509,13 +724,13 @@ async function applyFollowUp(id, type, newDate, isSnooze) {
       await sb.from('atche_venues').update({ venues, updated_at: new Date().toISOString() }).eq('user_id', data.user_id);
     }
   } else if(type === 'model') {
-    // Update model's updatedAt in atcheAppData
-    const { data } = await sb.from('atcheAppData').select('models,userId').order('createdAt',{ascending:false}).limit(1).maybeSingle();
+    // Update model's updatedAt in roster_data
+    const { data } = await sb.from('roster_data').select('models,user_id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
     if(data) {
       const models = typeof data.models === 'string' ? JSON.parse(data.models) : data.models;
       const m = models.find(m=>String(m.id)===String(id));
       if(m) m.updatedAt = Date.now();
-      await sb.from('atcheAppData').update({ models }).eq('userId', data.userId);
+      await sb.from('roster_data').update({ models, updated_at: new Date().toISOString() }).eq('user_id', data.user_id);
     }
   }
 
@@ -528,16 +743,29 @@ function setTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
   if(el) el.classList.add('active');
-  renderQueue();
+
+  const queueEl = document.getElementById('queue');
+  const calEl = document.getElementById('calendarView');
+  if(tab === 'calendar') {
+    queueEl.style.display = 'none';
+    calEl.style.display = 'flex';
+    renderCalendar();
+  } else {
+    queueEl.style.display = 'flex';
+    calEl.style.display = 'none';
+    renderQueue();
+  }
 }
 
 // ── DATA LOAD ─────────────────────────────────────────────────────
 async function loadQueue() {
   queueItems = [];
+  eventsList = [];
 
   // Load VENUES
   try {
-    const { data } = await sb.from('atche_venues').select('venues').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+    const { data } = await sb.from('atche_venues').select('venues,user_id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+    if(data) venuesRow = { user_id: data.user_id };
     if(data?.venues) {
       const venues = typeof data.venues === 'string' ? JSON.parse(data.venues) : data.venues;
       venues.forEach(v => {
@@ -552,9 +780,13 @@ async function loadQueue() {
     }
   } catch(e) { console.error('Venues load:', e); }
 
-  // Load MODELS
+  // Load MODELS + EVENTS
   try {
-    const { data } = await sb.from('atcheAppData').select('models').order('createdAt',{ascending:false}).limit(1).maybeSingle();
+    const { data } = await sb.from('roster_data').select('models,events,user_id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+    if(data) rosterRow = { user_id: data.user_id };
+    if(data?.events) {
+      eventsList = typeof data.events === 'string' ? JSON.parse(data.events) : data.events;
+    }
     if(data?.models) {
       const models = typeof data.models === 'string' ? JSON.parse(data.models) : data.models;
       const INTERVALS = { prospect:7, reached:4, active:14, collab:7, booked:2 };
@@ -577,6 +809,96 @@ async function loadQueue() {
   } catch(e) { console.error('Models load:', e); }
 
   renderQueue();
+  renderStats();
+  renderCalendar();
+}
+
+// ── STATS ─────────────────────────────────────────────────────────
+function renderStats() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const weekEnd = new Date(today); weekEnd.setDate(weekEnd.getDate()+7);
+
+  const overdue = queueItems.filter(i=>getUrgency(i)==='overdue').length;
+  const dueToday = queueItems.filter(i=>getUrgency(i)==='today').length;
+  const dueWeek = queueItems.filter(i=>{
+    if(!i.followUp) return false;
+    const fu = new Date(i.followUp+'T00:00:00');
+    return fu > today && fu <= weekEnd;
+  }).length;
+  const eventsWeek = eventsList.filter(e=>{
+    if(!e.date) return false;
+    const d = new Date(e.date+'T00:00:00');
+    return d >= today && d <= weekEnd;
+  }).length;
+
+  document.getElementById('statOverdue').textContent = overdue;
+  document.getElementById('statToday').textContent = dueToday;
+  document.getElementById('statWeek').textContent = dueWeek;
+  document.getElementById('statEvents').textContent = eventsWeek;
+}
+
+// ── CALENDAR (read-only photography events) ─────────────────────
+function renderCalendar() {
+  const el = document.getElementById('calendarView');
+  const today = new Date(); today.setHours(0,0,0,0);
+  const horizon = new Date(today); horizon.setDate(horizon.getDate()+30);
+
+  const upcoming = eventsList
+    .filter(e => e.date && new Date(e.date+'T00:00:00') >= today && new Date(e.date+'T00:00:00') <= horizon)
+    .sort((a,b) => new Date(a.date) - new Date(b.date));
+
+  if(!upcoming.length) {
+    el.innerHTML = `<div class="empty">
+      <div class="empty-mark">📸</div>
+      <div class="empty-title">Nothing on the books.</div>
+      <div class="empty-sub">No shoots, gigs, or meetings scheduled<br>in the next 30 days.</div>
+    </div>`;
+    return;
+  }
+
+  let html = '';
+  let lastLabel = '';
+  upcoming.forEach(e => {
+    const d = new Date(e.date+'T00:00:00');
+    let label;
+    const diffDays = Math.round((d - today) / 86400000);
+    if(diffDays === 0) label = 'Today';
+    else if(diffDays === 1) label = 'Tomorrow';
+    else if(diffDays < 7) label = d.toLocaleDateString('en-US',{weekday:'long'});
+    else label = d.toLocaleDateString('en-US',{month:'long',day:'numeric'});
+
+    if(label !== lastLabel) {
+      html += `<div class="cal-section-lbl">${label}</div>`;
+      lastLabel = label;
+    }
+
+    const type = eventTypeMeta(e.type);
+    const status = e.status || 'scheduled';
+    const meta = [];
+    if(e.time) meta.push(e.time);
+    if(e.venue) meta.push(e.venue);
+    if(e.modelName) meta.push(e.modelName);
+
+    html += `<div class="cal-card ${type.cls}">
+      <div class="cal-card-date">
+        <div class="cal-card-day">${d.getDate()}</div>
+        <div class="cal-card-mon">${d.toLocaleDateString('en-US',{month:'short'})}</div>
+      </div>
+      <div class="cal-card-info">
+        <div class="cal-card-title">${type.icon} ${e.title||'Untitled'}</div>
+        <div class="cal-card-meta">
+          <span>${type.label}</span>
+          ${meta.map(m=>`<span>• ${m}</span>`).join('')}
+        </div>
+      </div>
+      <div class="cal-card-actions">
+        <span class="evt-status ${eventStatusClass(status)}">${eventStatusLabel(status)}</span>
+        <a class="cal-gcal" href="${gcalUrl(e)}" target="_blank" rel="noopener" title="Add to Google Calendar">📅</a>
+      </div>
+    </div>`;
+  });
+
+  el.innerHTML = html;
 }
 
 // ── AUTH ──────────────────────────────────────────────────────────
@@ -605,6 +927,121 @@ async function boot() {
 document.getElementById('dateOverlay').addEventListener('click', function(e) {
   if(e.target === this) closeDateSheet();
 });
+
+document.getElementById('leadOverlay').addEventListener('click', function(e) {
+  if(e.target === this) closeLeadSheet();
+});
+
+// ── NEW LEAD SHEET ────────────────────────────────────────────────
+function openLeadSheet() {
+  document.getElementById('leadName').value = '';
+  document.getElementById('leadVenueContact').value = '';
+  document.getElementById('leadVenueIG').value = '';
+  document.getElementById('leadVenuePipeline').value = 'Prospecting';
+  document.getElementById('leadTalentHandle').value = '';
+  document.getElementById('leadTalentCity').value = '';
+  document.getElementById('leadTalentCategory').value = 'model';
+  document.getElementById('leadTalentStatus').value = 'prospect';
+  document.getElementById('leadNotes').value = '';
+  document.getElementById('leadStatusMsg').textContent = '';
+  document.getElementById('leadStatusMsg').style.color = '';
+  setLeadType('venue');
+  document.getElementById('leadOverlay').classList.add('open');
+}
+
+function closeLeadSheet() {
+  document.getElementById('leadOverlay').classList.remove('open');
+}
+
+function setLeadType(type) {
+  leadType = type;
+  document.getElementById('leadTypeVenueBtn').classList.toggle('active', type==='venue');
+  document.getElementById('leadTypeTalentBtn').classList.toggle('active', type==='talent');
+  document.getElementById('leadVenueFields').style.display = type==='venue' ? 'block' : 'none';
+  document.getElementById('leadTalentFields').style.display = type==='talent' ? 'block' : 'none';
+}
+
+async function saveLead() {
+  const name = document.getElementById('leadName').value.trim();
+  const msgEl = document.getElementById('leadStatusMsg');
+  const btn = document.getElementById('leadSaveBtn');
+  if(!name) {
+    msgEl.textContent = 'Name is required.';
+    msgEl.style.color = '#E8A0AE';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  msgEl.textContent = '';
+
+  const notes = document.getElementById('leadNotes').value.trim();
+  const now = Date.now();
+
+  try {
+    if(leadType === 'venue') {
+      const { data } = await sb.from('atche_venues').select('venues,user_id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+      const venues = data?.venues ? (typeof data.venues === 'string' ? JSON.parse(data.venues) : data.venues) : [];
+      const newVenue = {
+        id: now,
+        name,
+        contact: document.getElementById('leadVenueContact').value.trim(),
+        ig: document.getElementById('leadVenueIG').value.trim(),
+        pipeline: document.getElementById('leadVenuePipeline').value,
+        status: 'Active',
+        notes,
+        followUp: null,
+        lastContact: null,
+        createdAt: now,
+        updatedAt: now
+      };
+      venues.push(newVenue);
+      if(data) {
+        await sb.from('atche_venues').update({ venues, updated_at: new Date().toISOString() }).eq('user_id', data.user_id);
+      } else {
+        await sb.from('atche_venues').insert({ user_id: currentUser.id, venues, updated_at: new Date().toISOString() });
+      }
+    } else {
+      const { data } = await sb.from('roster_data').select('models,user_id').order('updated_at',{ascending:false}).limit(1).maybeSingle();
+      const models = data?.models ? (typeof data.models === 'string' ? JSON.parse(data.models) : data.models) : [];
+      const newModel = {
+        id: now,
+        name,
+        handle: document.getElementById('leadTalentHandle').value.trim(),
+        category: document.getElementById('leadTalentCategory').value,
+        city: document.getElementById('leadTalentCity').value.trim(),
+        contact: '',
+        status: document.getElementById('leadTalentStatus').value,
+        tier: 'new',
+        notes,
+        tags: [],
+        memories: [],
+        ratings: { look:0, energy:0, skill:0, vibe:0, reliability:0, overall:0 },
+        createdAt: now,
+        updatedAt: now
+      };
+      models.push(newModel);
+      if(data) {
+        await sb.from('roster_data').update({ models, updated_at: new Date().toISOString() }).eq('user_id', data.user_id);
+      } else {
+        await sb.from('roster_data').insert({ user_id: currentUser.id, models, updated_at: new Date().toISOString() });
+      }
+    }
+
+    msgEl.textContent = `${name} added ✦`;
+    msgEl.style.color = '#9DC9A8';
+    btn.disabled = false;
+    btn.textContent = 'Save Lead';
+    await loadQueue();
+    setTimeout(closeLeadSheet, 1100);
+  } catch(e) {
+    console.error('saveLead failed', e);
+    msgEl.textContent = 'Something went wrong — try again.';
+    msgEl.style.color = '#E8A0AE';
+    btn.disabled = false;
+    btn.textContent = 'Save Lead';
+  }
+}
 
 boot();
 </script>

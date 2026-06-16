@@ -20,7 +20,7 @@
   --gold-dim: rgba(201,168,76,0.12);
   --text: #F2EDE6;
   --text2: #B0A898;
-  --text3: #6A6258;
+  --text3: #8A7E72;
   --sage: #6B9E7A;
   --sage-dim: rgba(107,158,122,0.15);
   --rose: #C2697A;
@@ -84,6 +84,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .av-header{text-align:center;margin-bottom:28px;padding-top:8px}
 .av-header-user{font-size:12px;color:var(--text2);margin-top:8px}
 .av-header-user span{color:var(--gold);font-weight:500}
+.sign-out-link{color:var(--text3);cursor:pointer;text-decoration:none;transition:color var(--t)}
+.sign-out-link:hover{color:var(--text2)}
+.close-session-row{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);text-align:center}
+.close-session-btn{background:transparent;border:1px solid var(--border2);border-radius:8px;color:var(--text3);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:10px 20px;cursor:pointer;transition:border-color var(--t),color var(--t)}
+.close-session-btn:hover{border-color:rgba(194,105,122,0.4);color:var(--rose)}
 
 .card{background:var(--surface);border:1px solid var(--border2);border-radius:18px;padding:26px;position:relative;overflow:hidden;margin-bottom:18px}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),transparent)}
@@ -94,13 +99,16 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* REVENUE */
 .rev-row{display:flex;gap:16px}
 .rev-box{flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:16px;text-align:center}
-.rev-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold)}
+.rev-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold);min-height:34px}
 .rev-label{font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px}
+.rev-skel{display:inline-block;width:52px;height:22px;margin-top:6px;border-radius:6px;background:linear-gradient(90deg,var(--surface3) 25%,var(--border2) 50%,var(--surface3) 75%);background-size:200% 100%;animation:skel-shine 1.4s ease-in-out infinite}
+@keyframes skel-shine{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 /* NEW SESSION */
 .row{display:flex;gap:10px}
 .row .form-input{flex:1}
 .row .btn-primary{width:auto;padding:11px 20px;white-space:nowrap}
+@media(max-width:480px){.row{flex-direction:column}.row .btn-primary{width:100%}}
 
 /* ACTIVE SESSION */
 .session-active{display:none}
@@ -144,8 +152,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .badge-paid{background:var(--sage-dim);color:#9DC9A8;border:1px solid rgba(107,158,122,0.3)}
 .badge-pending{background:var(--rose-dim);color:#E8A0AE;border:1px solid rgba(194,105,122,0.3)}
 .badge-closed{background:var(--surface3);color:var(--text3);border:1px solid var(--border2)}
-.sess-open{font-size:11px;font-weight:600;color:var(--gold);cursor:pointer;letter-spacing:0.5px;flex-shrink:0}
-.sess-confirm{font-size:11px;font-weight:600;color:#9DC9A8;cursor:pointer;letter-spacing:0.5px;flex-shrink:0;border:1px solid rgba(107,158,122,0.35);border-radius:20px;padding:4px 10px;background:var(--sage-dim)}
+.sess-open{font-size:11px;font-weight:600;color:var(--gold);cursor:pointer;letter-spacing:0.5px;flex-shrink:0;min-height:44px;display:flex;align-items:center}
+.sess-confirm{font-size:11px;font-weight:600;color:#9DC9A8;cursor:pointer;letter-spacing:0.5px;flex-shrink:0;border:1px solid rgba(107,158,122,0.35);border-radius:20px;padding:4px 12px;background:var(--sage-dim);min-height:32px;display:flex;align-items:center}
 .sess-reopen{font-size:11px;font-weight:600;color:var(--gold);cursor:pointer;letter-spacing:0.5px;flex-shrink:0;border:1px solid rgba(201,168,76,0.35);border-radius:20px;padding:4px 10px;background:var(--gold-dim)}
 .sess-reopen:hover{background:rgba(201,168,76,0.22)}
 .sess-delete{font-size:11px;font-weight:600;color:#E8A0AE;cursor:pointer;letter-spacing:0.5px;flex-shrink:0;border:1px solid rgba(194,105,122,0.35);border-radius:20px;padding:4px 10px;background:var(--rose-dim)}
@@ -156,6 +164,39 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .av-footer{display:flex;align-items:center;justify-content:center;gap:24px;padding:18px 0 4px;font-size:11px;color:var(--text3);letter-spacing:0.5px}
 .av-footer a{color:var(--text3);cursor:pointer;transition:var(--t)}
 .av-footer a:hover{color:var(--gold)}
+
+/* ---- FOCUS STYLES ---- */
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ---- CUSTOM MODAL ---- */
+.cm-overlay{position:fixed;inset:0;background:rgba(8,8,8,0.88);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.cm-overlay.show{display:flex;animation:cm-fade .2s ease}
+@keyframes cm-fade{from{opacity:0}to{opacity:1}}
+.cm-box{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:28px;max-width:420px;width:100%;position:relative;overflow:hidden;animation:cm-in .3s cubic-bezier(.16,1,.3,1)}
+@keyframes cm-in{from{transform:scale(0.96) translateY(8px)}to{transform:scale(1) translateY(0)}}
+.cm-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),transparent)}
+.cm-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--text);margin-bottom:8px}
+.cm-body{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:18px}
+.cm-field-group{margin-bottom:12px}
+.cm-field-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:5px}
+.cm-field-input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:13px;padding:10px 12px;font-family:inherit;outline:none;transition:border-color var(--t)}
+.cm-field-input:focus{border-color:var(--gold)}
+.cm-field-input::placeholder{color:var(--text3)}
+.cm-actions{display:flex;gap:10px;margin-top:20px}
+.cm-cancel{flex:1;padding:11px;background:transparent;border:1px solid var(--border2);border-radius:8px;color:var(--text2);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:var(--t)}
+.cm-cancel:hover{background:var(--surface2)}
+.cm-confirm{flex:1;padding:11px;background:var(--gold);color:var(--black);border:none;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:var(--t)}
+.cm-confirm:hover{background:var(--gold-light)}
+.cm-confirm.danger{background:rgba(194,105,122,0.85);color:#fff}
+.cm-confirm.danger:hover{background:var(--rose)}
+.cm-confirm:only-child{flex:unset;width:100%}
+
+/* ---- TOAST ---- */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:10px 18px;font-size:13px;color:var(--text);z-index:400;transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s ease;opacity:0;pointer-events:none;white-space:nowrap;max-width:calc(100vw - 40px);text-overflow:ellipsis;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,0.5)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.success{border-color:rgba(107,158,122,0.5);color:#9DC9A8}
+.toast.error{border-color:rgba(194,105,122,0.5);color:#E8A0AE}
 
 /* ---- HEADER MOTION ---- */
 @keyframes header-in{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
@@ -190,6 +231,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
    client-side request. */
 .sess-manual-pay{animation:none;color:var(--text2);border-color:var(--border2);background:var(--surface3)}
 .sess-manual-pay:hover{background:var(--surface2);color:var(--gold)}
+.sess-overflow{position:relative;flex-shrink:0}
+.sess-overflow-btn{background:transparent;border:1px solid var(--border2);border-radius:6px;color:var(--text3);font-size:14px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--t);line-height:1;padding-bottom:4px}
+.sess-overflow-btn:hover{background:var(--surface3);color:var(--text);border-color:rgba(201,168,76,0.3)}
+.sess-overflow-menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:6px;z-index:50;min-width:156px;box-shadow:0 12px 32px rgba(0,0,0,0.5);display:none}
+.sess-overflow-menu.open{display:block;animation:cm-in .18s cubic-bezier(.16,1,.3,1)}
+.sess-overflow-item{display:block;width:100%;text-align:left;background:transparent;border:none;color:var(--text2);font-size:12px;font-weight:500;padding:9px 12px;border-radius:7px;cursor:pointer;transition:background var(--t),color var(--t);font-family:inherit}
+.sess-overflow-item:hover{background:var(--surface2);color:var(--text)}
+.sess-overflow-item.danger{color:var(--rose)}
+.sess-overflow-item.danger:hover{background:rgba(194,105,122,0.12);color:#E8A0AE}
 
 /* ---- SEND FEEDBACK REQUEST ---- */
 /* Pilot-feedback nudge for anyone who hasn't paid yet — same muted shape as
@@ -282,7 +332,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <label class="form-label">Password</label>
       <input class="form-input" type="password" id="loginPass" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()">
     </div>
-    <button class="btn-primary" id="loginBtn" onclick="doLogin()">ENTER</button>
+    <button class="btn-primary" id="loginBtn" onclick="doLogin()">Sign In</button>
     <div class="auth-loading" id="authLoading">Authenticating…</div>
     <div class="auth-switch" id="authSwitch">
       Don't have an account? <a onclick="toggleMode()">Create one</a>
@@ -297,7 +347,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <span class="av-wordmark" style="font-size:32px">ATCHÉ VISUALS</span>
       <div class="av-sub">Studio</div>
       <div class="av-rule"></div>
-      <div class="av-header-user">Signed in as <span id="userEmail">–</span></div>
+      <div class="av-header-user">Signed in as <span id="userEmail">–</span> · <a onclick="doSignOut()" class="sign-out-link" role="button" tabindex="0">Sign out</a></div>
     </div>
 
     <!-- TONIGHT'S NUMBERS -->
@@ -306,15 +356,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <h2>Sessions &amp; Revenue</h2>
       <div class="rev-row">
         <div class="rev-box">
-          <div class="rev-num" id="revTotal">$0</div>
+          <div class="rev-num" id="revTotal"><span class="rev-skel"></span></div>
           <div class="rev-label">Paid Tonight</div>
         </div>
         <div class="rev-box">
-          <div class="rev-num" id="revSessions">0</div>
+          <div class="rev-num" id="revSessions"><span class="rev-skel"></span></div>
           <div class="rev-label">Sessions Tonight</div>
         </div>
         <div class="rev-box">
-          <div class="rev-num" id="revPending">0</div>
+          <div class="rev-num" id="revPending"><span class="rev-skel"></span></div>
           <div class="rev-label">Awaiting Payment</div>
         </div>
       </div>
@@ -357,23 +407,25 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="share-info">
           <div class="share-link" id="shareLink">—</div>
           <button class="btn-secondary" onclick="copyLink()">Copy Link</button>
-          <button class="btn-secondary" id="notifyBtn" onclick="notifyClient()" style="margin-left:6px">📩 Notify Client</button>
-          <button class="btn-secondary" onclick="closeSession()" style="margin-left:6px;border-color:var(--text3);color:var(--text3)">Close Session</button>
+          <button class="btn-secondary" id="notifyBtn" onclick="notifyClient()" style="margin-left:6px" aria-label="Notify Client">📩 Notify Client</button>
         </div>
       </div>
       <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
         <span class="drop-zone-icon">📷</span>
-        <div class="drop-zone-text">Tap to upload photos or video for this session</div>
-        <div class="drop-zone-sub">Auto-watermarked previews are generated instantly — clean originals unlock when they pay. JPG, PNG, MP4</div>
+        <div class="drop-zone-text">Tap to upload</div>
+        <div class="drop-zone-sub">Watermarked previews generate instantly · JPG, PNG, MP4</div>
       </div>
       <input type="file" id="fileInput" accept="image/*,video/*" multiple>
       <div class="thumb-grid" id="thumbGrid"></div>
       <div class="upload-status" id="uploadStatus"></div>
+      <div class="close-session-row">
+        <button class="close-session-btn" onclick="closeSessionConfirm()">Close Session</button>
+      </div>
     </div>
 
     <!-- THUMBNAIL LIGHTBOX -->
     <div class="thumb-lightbox" id="thumbLightbox" onclick="closeThumbLightbox(event)">
-      <span class="thumb-lightbox-close" onclick="closeThumbLightbox(event)">✕</span>
+      <span class="thumb-lightbox-close" onclick="closeThumbLightbox(event)" role="button" tabindex="0" aria-label="Close preview">✕</span>
       <img id="thumbLightboxImg" alt="Full-size preview" style="display:none">
       <video id="thumbLightboxVideo" controls style="display:none"></video>
     </div>
@@ -398,6 +450,88 @@ const SB_URL = 'https://aayigsbmmdolvnicxacs.supabase.co';
 const SB_KEY = 'sb_publishable_ofAZ_64cKZXJefM5nbbt3g_wNOoF5DC';
 const sb = supabase.createClient(SB_URL, SB_KEY);
 const BUCKET = 'visuals';
+
+// ---- MODAL + TOAST SYSTEM ----
+let _cmResolve = null;
+
+function showModal(opts){
+  // opts: { title, body, confirm, cancel, danger, fields:[{key,label,placeholder,type}] }
+  return new Promise(resolve => {
+    _cmResolve = resolve;
+    const overlay = document.getElementById('cmOverlay');
+    document.getElementById('cmTitle').textContent = opts.title || '';
+    document.getElementById('cmBody').textContent = opts.body || '';
+
+    const fieldsEl = document.getElementById('cmFields');
+    fieldsEl.innerHTML = '';
+    if(opts.fields && opts.fields.length){
+      opts.fields.forEach(f => {
+        const g = document.createElement('div'); g.className = 'cm-field-group';
+        const lbl = document.createElement('label'); lbl.className = 'cm-field-label'; lbl.textContent = f.label; lbl.htmlFor = 'cm_' + f.key;
+        const inp = document.createElement('input'); inp.className = 'cm-field-input'; inp.id = 'cm_' + f.key; inp.placeholder = f.placeholder || ''; inp.type = f.type || 'text'; inp.dataset.key = f.key;
+        g.appendChild(lbl); g.appendChild(inp); fieldsEl.appendChild(g);
+      });
+    }
+
+    const actionsEl = document.getElementById('cmActions');
+    actionsEl.innerHTML = '';
+    if(opts.cancel !== false){
+      const btnC = document.createElement('button'); btnC.className = 'cm-cancel'; btnC.textContent = opts.cancel || 'Cancel';
+      btnC.onclick = () => { closeModal(); resolve(null); };
+      actionsEl.appendChild(btnC);
+    }
+    const btnOk = document.createElement('button');
+    btnOk.className = 'cm-confirm' + (opts.danger ? ' danger' : '');
+    btnOk.textContent = opts.confirm || 'OK';
+    btnOk.onclick = () => {
+      const result = {};
+      if(opts.fields && opts.fields.length){
+        opts.fields.forEach(f => { result[f.key] = document.getElementById('cm_' + f.key).value.trim(); });
+        closeModal(); resolve(result);
+      } else {
+        closeModal(); resolve(true);
+      }
+    };
+    actionsEl.appendChild(btnOk);
+
+    overlay.classList.add('show');
+    // Focus first input or confirm button
+    requestAnimationFrame(() => {
+      const first = fieldsEl.querySelector('input');
+      if(first) first.focus(); else btnOk.focus();
+    });
+  });
+}
+
+function closeModal(){
+  document.getElementById('cmOverlay').classList.remove('show');
+  document.getElementById('cmFields').innerHTML = '';
+  _cmResolve = null;
+}
+
+// Close modal on overlay click + close overflow menus on outside click
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('cmOverlay').addEventListener('click', e => {
+    if(e.target === document.getElementById('cmOverlay')){ closeModal(); if(_cmResolve) _cmResolve(null); }
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.sess-overflow-menu.open').forEach(m => {
+      m.classList.remove('open');
+      const btn = m.previousElementSibling;
+      if(btn) btn.setAttribute('aria-expanded','false');
+    });
+  });
+});
+
+let _toastTimer = null;
+function showToast(msg, type = ''){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (type ? ' ' + type : '');
+  t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
 
 // ---- WATERMARKED PREVIEWS ----
 // Every upload is stored twice: the original (untouched) goes to `full/`,
@@ -543,7 +677,7 @@ function toggleMode() {
   isSignup = !isSignup;
   document.getElementById('loginTitle').textContent = isSignup ? 'Create Account' : 'Welcome Back';
   document.getElementById('loginSub').textContent = isSignup ? 'Set up your ATCHÉ Visuals access' : "Sign in to start tonight's sessions";
-  document.getElementById('loginBtn').textContent = isSignup ? 'CREATE ACCOUNT' : 'ENTER';
+  document.getElementById('loginBtn').textContent = isSignup ? 'CREATE ACCOUNT' : 'Sign In';
   document.getElementById('authSwitch').innerHTML = isSignup
     ? 'Already have an account? <a onclick="toggleMode()">Sign in</a>'
     : "Don't have an account? <a onclick=\"toggleMode()\">Create one</a>";
@@ -660,6 +794,9 @@ function esc(str){
 function setStat(id, value){
   const el = document.getElementById(id);
   const next = String(value);
+  // Clear skeleton on first real data
+  const skel = el.querySelector('.rev-skel');
+  if(skel) skel.remove();
   if(el.textContent === next) return;
   el.textContent = next;
   el.classList.remove('bump');
@@ -717,7 +854,7 @@ async function createSession(){
   const { data, error } = await sb.from('visuals_sessions').insert({
     code, label, contact, user_id: currentUser.id, status: 'active'
   }).select().single();
-  if(error){ alert('Could not create session: ' + error.message); return; }
+  if(error){ showToast('Could not create session — ' + error.message, 'error'); return; }
   document.getElementById('newLabel').value = '';
   document.getElementById('newContact').value = '';
   openSession(data);
@@ -819,9 +956,8 @@ async function copyAiEditPrompt(){
   try{
     await navigator.clipboard.writeText(prompt);
   }catch(e){
-    // Clipboard API can fail without a user gesture/HTTPS in some contexts —
-    // fall back to a manual prompt the user can copy from.
-    window.prompt('Copy the AI Edit prompt:', prompt);
+    // Clipboard unavailable — show toast; user can long-press the prompt text
+    showToast('Clipboard unavailable — tap and hold the prompt to copy it', 'error');
     return;
   }
   const copyBtn = document.getElementById('aiEditCopyPromptBtn');
@@ -831,6 +967,19 @@ async function copyAiEditPrompt(){
     copyBtn.textContent = '📋 Copy Prompt';
     copyBtn.classList.remove('copied');
   }, 2000);
+}
+
+async function closeSessionConfirm(){
+  if(!activeSession) return;
+  const label = activeSession.label ? ` for ${activeSession.label}` : '';
+  const confirmed = await showModal({
+    title: 'Close Session',
+    body: `Mark session ${activeSession.code}${label} as closed? Clients can no longer tap "I've sent payment" — you can reopen it from the session list if needed.`,
+    confirm: 'Close Session',
+    cancel: 'Not Yet'
+  });
+  if(!confirmed) return;
+  closeSession();
 }
 
 async function closeSession(){
@@ -883,6 +1032,7 @@ async function loadSessions(){
     else if(needsConfirm){ badge = 'Confirm $' + (s.package_price || 0); badgeClass = 'badge-pending'; }
     else { badge = 'Awaiting'; badgeClass = 'badge-pending'; }
 
+    const hasOverflow = canFeedback || s.status === 'closed';
     div.innerHTML = `
       <div class="sess-code">${esc(s.code)}</div>
       <div class="sess-meta">
@@ -892,10 +1042,16 @@ async function loadSessions(){
       <div class="sess-badge ${badgeClass}">${badge}</div>
       ${needsConfirm ? `<div class="sess-confirm" data-id="${s.id}">Confirm Paid</div>` : ''}
       ${canManualPay ? `<div class="sess-confirm sess-manual-pay" data-id="${s.id}">Mark Paid</div>` : ''}
-      ${canFeedback ? `<div class="sess-confirm sess-feedback" data-id="${s.id}">Send Feedback</div>` : ''}
-      ${s.status === 'closed' ? `<div class="sess-reopen" data-id="${s.id}">Reopen</div>` : ''}
-      ${s.status === 'closed' ? `<div class="sess-delete" data-id="${s.id}">Delete</div>` : ''}
       <div class="sess-open" data-id="${s.id}">Open →</div>
+      ${hasOverflow ? `
+      <div class="sess-overflow">
+        <button class="sess-overflow-btn" aria-label="More actions" aria-expanded="false">···</button>
+        <div class="sess-overflow-menu">
+          ${canFeedback ? `<button class="sess-overflow-item sess-ov-feedback">Send Feedback</button>` : ''}
+          ${s.status === 'closed' ? `<button class="sess-overflow-item sess-ov-reopen">Reopen</button>` : ''}
+          ${s.status === 'closed' ? `<button class="sess-overflow-item danger sess-ov-delete">Delete</button>` : ''}
+        </div>
+      </div>` : ''}
     `;
     if(needsConfirm){
       div.querySelector('.sess-confirm').onclick = (e) => { e.stopPropagation(); markPaid(s); };
@@ -903,14 +1059,25 @@ async function loadSessions(){
     if(canManualPay){
       div.querySelector('.sess-manual-pay').onclick = (e) => { e.stopPropagation(); manualMarkPaid(s); };
     }
-    if(canFeedback){
-      div.querySelector('.sess-feedback').onclick = (e) => { e.stopPropagation(); sendFeedbackRequest(s); };
-    }
-    if(s.status === 'closed'){
-      div.querySelector('.sess-reopen').onclick = (e) => { e.stopPropagation(); reopenSession(s); };
-      div.querySelector('.sess-delete').onclick = (e) => { e.stopPropagation(); deleteSession(s); };
-    }
     div.querySelector('.sess-open').onclick = () => openSession(s);
+    if(hasOverflow){
+      const overflowBtn = div.querySelector('.sess-overflow-btn');
+      const overflowMenu = div.querySelector('.sess-overflow-menu');
+      overflowBtn.onclick = (e) => {
+        e.stopPropagation();
+        const isOpen = overflowMenu.classList.contains('open');
+        document.querySelectorAll('.sess-overflow-menu.open').forEach(m => {
+          m.classList.remove('open');
+          m.previousElementSibling.setAttribute('aria-expanded','false');
+        });
+        if(!isOpen){ overflowMenu.classList.add('open'); overflowBtn.setAttribute('aria-expanded','true'); }
+      };
+      if(canFeedback) div.querySelector('.sess-ov-feedback').onclick = (e) => { e.stopPropagation(); overflowMenu.classList.remove('open'); sendFeedbackRequest(s); };
+      if(s.status === 'closed'){
+        div.querySelector('.sess-ov-reopen').onclick = (e) => { e.stopPropagation(); overflowMenu.classList.remove('open'); reopenSession(s); };
+        div.querySelector('.sess-ov-delete').onclick = (e) => { e.stopPropagation(); overflowMenu.classList.remove('open'); deleteSession(s); };
+      }
+    }
     list.appendChild(div);
   });
 }
@@ -920,14 +1087,20 @@ async function loadSessions(){
 // Only staff, signed in here, can flip `paid` — that's what actually unlocks
 // the client's download.
 async function markPaid(s){
-  const amt = s.package_price ? `$${s.package_price}` : 'this';
-  if(!confirm(`Confirm ${amt} payment received for ${s.code}? This unlocks their download.`)) return;
+  const amt = s.package_price ? `$${s.package_price}` : 'this payment';
+  const confirmed = await showModal({
+    title: 'Confirm Payment',
+    body: `Confirm ${amt} received for ${s.code}? This unlocks their download immediately.`,
+    confirm: 'Confirm Paid',
+    cancel: 'Cancel'
+  });
+  if(!confirmed) return;
   const { error } = await sb.from('visuals_sessions').update({
     paid: true,
     paid_at: new Date().toISOString(),
     payment_requested: false
   }).eq('id', s.id);
-  if(error){ alert('Error: ' + error.message); return; }
+  if(error){ showToast('Error: ' + error.message, 'error'); return; }
   loadSessions();
 }
 
@@ -942,15 +1115,28 @@ async function manualMarkPaid(s){
   let pkgPrice = s.package_price || 0;
 
   if(!pkgPrice){
-    const nameInput = prompt(`What package did ${s.label || s.code} pay for? (e.g. "3 Photos", "Reel + 3 Photos")`, pkgName);
-    if(nameInput === null) return;
-    const priceInput = prompt(`Amount paid for ${s.code}? ($)`, '');
-    if(priceInput === null) return;
-    pkgName = nameInput.trim();
-    pkgPrice = Number(priceInput) || 0;
+    const result = await showModal({
+      title: 'Mark Paid Manually',
+      body: `${s.label || s.code} paid via Cash App but never tapped "I've sent payment." Enter the package details below — this unlocks their download immediately.`,
+      confirm: 'Mark Paid',
+      cancel: 'Cancel',
+      fields: [
+        { key: 'name', label: 'Package', placeholder: 'e.g. "3 Photos", "Reel + 3 Photos"', type: 'text' },
+        { key: 'price', label: 'Amount ($)', placeholder: '0', type: 'number' }
+      ]
+    });
+    if(!result) return;
+    pkgName = result.name || pkgName;
+    pkgPrice = Number(result.price) || 0;
+  } else {
+    const confirmed = await showModal({
+      title: 'Mark Paid Manually',
+      body: `Mark ${s.code} as paid${pkgName ? ` for "${pkgName}"` : ''}${pkgPrice ? ` — $${pkgPrice}` : ''}? This unlocks their download even though they never tapped "I've sent payment."`,
+      confirm: 'Mark Paid',
+      cancel: 'Cancel'
+    });
+    if(!confirmed) return;
   }
-
-  if(!confirm(`Mark ${s.code} as paid${pkgName ? ` for "${pkgName}"` : ''}${pkgPrice ? ` — $${pkgPrice}` : ''}? This unlocks their download even though they never tapped "I've sent payment."`)) return;
 
   const { error } = await sb.from('visuals_sessions').update({
     paid: true,
@@ -959,7 +1145,7 @@ async function manualMarkPaid(s){
     package_name: pkgName || s.package_name,
     package_price: pkgPrice
   }).eq('id', s.id);
-  if(error){ alert('Error: ' + error.message); return; }
+  if(error){ showToast('Error: ' + error.message, 'error'); return; }
   loadSessions();
 }
 
@@ -969,7 +1155,7 @@ async function manualMarkPaid(s){
 // from the session list if a client pays after the session was closed.
 async function reopenSession(s){
   const { error } = await sb.from('visuals_sessions').update({status:'active'}).eq('id', s.id);
-  if(error){ alert('Error: ' + error.message); return; }
+  if(error){ showToast('Error: ' + error.message, 'error'); return; }
   loadSessions();
 }
 
@@ -979,7 +1165,14 @@ async function reopenSession(s){
 // or doors from past nights that are no longer needed.
 async function deleteSession(s){
   const label = s.label ? ` (${s.label})` : '';
-  if(!confirm(`Permanently delete session ${s.code}${label}? This removes all uploaded photos, reels, and AI edits for this door — it cannot be undone.`)) return;
+  const confirmed = await showModal({
+    title: 'Delete Session',
+    body: `Permanently delete ${s.code}${label}? This removes all uploaded photos, reels, and AI edits — it cannot be undone.`,
+    confirm: 'Delete',
+    cancel: 'Cancel',
+    danger: true
+  });
+  if(!confirmed) return;
 
   for(const sub of ['full','preview','ai']){
     const { data } = await sb.storage.from(BUCKET).list(`${s.code}/${sub}`, {limit:500});
@@ -990,7 +1183,7 @@ async function deleteSession(s){
   }
 
   const { error } = await sb.from('visuals_sessions').delete().eq('id', s.id);
-  if(error){ alert('Error: ' + error.message); return; }
+  if(error){ showToast('Error: ' + error.message, 'error'); return; }
 
   if(activeSession && activeSession.id === s.id){
     document.getElementById('activeCard').style.display = 'none';
@@ -1023,7 +1216,7 @@ async function handleAiEditUpload(fileList){
   const { error: e1 } = await sb.storage.from(BUCKET)
     .upload(`${code}/ai/${filename}`, file, { upsert: true });
   if(e1){
-    alert('Upload error: ' + e1.message);
+    showToast('Upload error — ' + e1.message, 'error');
     btn.textContent = orig;
     btn.classList.remove('uploading');
     return;
@@ -1034,7 +1227,7 @@ async function handleAiEditUpload(fileList){
     ai_edit_delivered_at: new Date().toISOString()
   }).eq('id', activeSession.id);
   if(e2){
-    alert('Uploaded, but failed to mark delivered: ' + e2.message);
+    showToast('Uploaded, but failed to mark delivered — ' + e2.message, 'error');
     btn.textContent = orig;
     btn.classList.remove('uploading');
     return;
@@ -1107,7 +1300,13 @@ async function notifyClient(){
   const { data: files } = await sb.storage.from(BUCKET).list(`${code}/full`, {limit:1});
   const hasUploads = files && files.some(f => f.name !== '.emptyFolderPlaceholder');
   if(!hasUploads){
-    if(!confirm(`No photos or reels have been uploaded for ${code} yet. Send the link anyway?\n\nIf you continue, they'll open an empty gallery — better to upload first.`)) return;
+    const go = await showModal({
+      title: 'Nothing uploaded yet',
+      body: `No photos or reels have been uploaded for ${code}. If you send the link now they'll open an empty gallery — upload first for a better impression.`,
+      confirm: 'Send Anyway',
+      cancel: 'Go Back'
+    });
+    if(!go) return;
   }
 
   const link = clientLink(activeSession.code);
@@ -1137,12 +1336,12 @@ function sendClientMessage(contact, msg, opts = {}){
     window.location.href = `mailto:${raw}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg)}`;
   } else {
     const fallback = raw
-      ? `"${raw}" doesn't look like a phone number or email, so I copied the message instead — paste it into their IG DM:\n\n${msg}`
-      : `No phone number or email on file for this session — message copied to clipboard, paste it into IG DM or a text:\n\n${msg}`;
+      ? `"${raw}" doesn't look like a phone or email — message copied to clipboard. Paste it into their IG DM.`
+      : `No contact on file — message copied to clipboard. Paste into IG DM or a text.`;
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(msg).then(()=>alert(fallback)).catch(()=>alert(`Message to send:\n\n${msg}`));
+      navigator.clipboard.writeText(msg).then(()=>showToast(fallback)).catch(()=>showToast('Could not copy — type message manually', 'error'));
     } else {
-      alert(`Message to send:\n\n${msg}`);
+      showToast('No contact on file — copy the message manually', 'error');
     }
   }
 }
@@ -1157,7 +1356,13 @@ async function sendFeedbackRequest(s){
   const who = s.label ? s.label + ' ' : '';
   const msg = `Hey ${who}— thanks for being part of our ATCHÉ Visuals pilot launch tonight! Mind giving quick (60-sec) feedback? ${link} — leave your info on the survey and we'll hook you up with a free juice next time 🍹`;
 
-  if(!confirm(`Send a pilot-feedback request to ${s.label || s.code}${s.contact ? ' via ' + s.contact : ' (no contact on file — message will be copied for you to send manually)'}?`)) return;
+  const goFeedback = await showModal({
+    title: 'Send Feedback Request',
+    body: `Send a pilot-feedback request to ${s.label || s.code}${s.contact ? ' via ' + s.contact : ' (no contact on file — message will be copied to clipboard)'}?`,
+    confirm: 'Send',
+    cancel: 'Cancel'
+  });
+  if(!goFeedback) return;
 
   sendClientMessage(s.contact, msg, { emailSubject: 'Quick feedback on tonight — ATCHÉ Visuals' });
 }
@@ -1192,6 +1397,8 @@ async function loadThumbs(){
     del.className = 'thumb-delete';
     del.textContent = '✕';
     del.title = 'Delete this photo';
+    del.setAttribute('role', 'button');
+    del.setAttribute('aria-label', 'Delete photo');
     del.onclick = (e) => { e.stopPropagation(); deletePhoto(f.name); };
     div.appendChild(del);
     grid.appendChild(div);
@@ -1231,13 +1438,20 @@ function closeThumbLightbox(event){
 
 async function deletePhoto(fileName){
   if(!activeSession) return;
-  if(!confirm('Delete this photo for everyone? This removes the full-res file and preview — it cannot be undone.')) return;
+  const confirmed = await showModal({
+    title: 'Delete Photo',
+    body: 'Remove this photo for everyone? This deletes the full-res file and preview permanently — it cannot be undone.',
+    confirm: 'Delete',
+    cancel: 'Cancel',
+    danger: true
+  });
+  if(!confirmed) return;
   const code = activeSession.code;
   const { error } = await sb.storage.from(BUCKET).remove([
     `${code}/full/${fileName}`,
     `${code}/preview/${fileName}.jpg`
   ]);
-  if(error){ alert('Error: ' + error.message); return; }
+  if(error){ showToast('Error: ' + error.message, 'error'); return; }
   loadThumbs();
 }
 
@@ -1252,5 +1466,19 @@ function copyLink(){
 
 boot();
 </script>
+
+<!-- CUSTOM MODAL -->
+<div class="cm-overlay" id="cmOverlay" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
+  <div class="cm-box" id="cmBox">
+    <div class="cm-title" id="cmTitle"></div>
+    <div class="cm-body" id="cmBody"></div>
+    <div id="cmFields"></div>
+    <div class="cm-actions" id="cmActions"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 </body>
 </html>

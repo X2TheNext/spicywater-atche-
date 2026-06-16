@@ -21,7 +21,7 @@
   --gold-dim: rgba(201,168,76,0.12);
   --text: #F2EDE6;
   --text2: #B0A898;
-  --text3: #6A6258;
+  --text3: #8A7E72;
   --sage: #6B9E7A;
   --sage-dim: rgba(107,158,122,0.15);
   --rose: #C2697A;
@@ -206,6 +206,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .btn-primary:active:not(:disabled){transform:translateY(0) scale(0.985)}
 .btn-primary:disabled{opacity:0.35;cursor:not-allowed}
 .btn-primary.unlocked{animation:unlock-glow 1.1s cubic-bezier(.16,1,.3,1)}
+
+/* FOCUS STYLES — keyboard nav visibility */
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+button:focus-visible,a:focus-visible,.pkg:focus-visible,.gallery-item:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 @keyframes unlock-glow{0%{box-shadow:0 0 0 0 rgba(201,168,76,0.55)}70%{box-shadow:0 0 0 18px rgba(201,168,76,0)}100%{box-shadow:0 0 0 0 rgba(201,168,76,0)}}
 .delivery-msg{display:none;text-align:center;padding:18px 0 4px;font-size:13px;color:var(--sage)}
 .delivery-msg.show{display:block;animation:fade-up .5s cubic-bezier(.16,1,.3,1)}
@@ -214,6 +218,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .circle-nudge-text{font-size:12px;color:var(--text2);line-height:1.7;max-width:420px;margin:0 auto 12px}
 .pay-pending{text-align:center;font-size:12px;color:var(--text3);line-height:1.6;padding:14px;border:1px solid var(--border2);border-radius:10px;margin-bottom:16px;background:var(--surface2);display:flex;align-items:center;justify-content:center;gap:8px;animation:fade-up .5s cubic-bezier(.16,1,.3,1)}
 .pay-pending::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;animation:pulse-dot 1.4s ease-in-out infinite}
+.inline-err{font-size:12px;color:#E8A0AE;background:rgba(194,105,122,0.1);border:1px solid rgba(194,105,122,0.3);border-radius:8px;padding:10px 12px;line-height:1.5;margin-bottom:12px}
 @keyframes pulse-dot{0%,100%{opacity:0.35;transform:scale(0.85)}50%{opacity:1;transform:scale(1.15)}}
 @keyframes fade-up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
@@ -343,14 +348,20 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
   <!-- NO CODE / LANDING -->
   <div class="card reveal" id="landingCard" style="display:none">
-    <div class="center-msg" style="padding-bottom:6px">
+    <div class="center-msg" style="padding-bottom:12px">
       <span class="icon">📷</span>
-      <h2>Get your shots from tonight</h2>
-      <p>Here's what's on offer tonight. Got a code from your photographer? Enter it below to open your private gallery.</p>
+      <h2>Your photos are ready</h2>
+      <p>Got a code from your photographer? Enter it below — your gallery opens instantly.</p>
     </div>
 
-    <div class="landing-section" style="margin-top:6px;padding-top:18px">
+    <div class="code-entry" style="margin-top:4px">
+      <input type="text" id="codeInput" maxlength="5" placeholder="CODE" autocapitalize="characters" autocomplete="off" inputmode="text" aria-label="Enter your 5-character session code" onkeydown="if(event.key==='Enter') goToCode()">
+      <button class="btn-primary" style="margin-top:0" onclick="goToCode()">Open My Gallery</button>
+    </div>
+
+    <div class="landing-section">
       <span class="step-tag">Tonight's Menu</span>
+      <p class="card-desc" style="margin-bottom:14px">No code yet? Browse what's on offer while you wait for the link.</p>
 
       <div class="pkg pkg-static" onclick="openPreview(0)">
         <div class="pkg-thumb"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_38UuuwPAyCC1aFyPsNUyccdEuZD/hf_20260613_005538_be580b13-e2b5-4009-a425-a12c797e7f89_min.webp" alt="Quick Shot preview" loading="lazy"></div>
@@ -408,15 +419,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </div>
 
     <div class="landing-section">
-      <span class="step-tag">Got Your Code?</span>
-      <h2 style="margin-bottom:10px">Open your gallery</h2>
-      <div class="code-entry">
-        <input type="text" id="codeInput" maxlength="5" placeholder="CODE" autocapitalize="characters" autocomplete="off" inputmode="text" onkeydown="if(event.key==='Enter') goToCode()">
-        <button class="btn-primary" style="margin-top:0" onclick="goToCode()">View My Gallery</button>
-      </div>
-    </div>
-
-    <div class="landing-section">
       <span class="step-tag">Pay / Tip Your Photographer</span>
       <div class="pay-box">
         <div class="pay-qr-wrap">
@@ -443,11 +445,21 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   <!-- MAIN FLOW (hidden until session loads) -->
   <div id="mainFlow" style="display:none">
 
-    <!-- STEP 1: PACKAGES -->
+    <!-- GALLERY FIRST — see your shots before picking a package -->
     <div class="card reveal">
-      <span class="step-tag">Step 1 — Pick Your Package</span>
-      <h2>What's tonight worth to you?</h2>
-      <p class="card-desc">Pick a package below — this sets your total. You can change it any time before you pay.</p>
+      <span class="step-tag" id="sessionLabelTag">Your Photos Tonight</span>
+      <h2>Tap the shots you want</h2>
+      <p class="card-desc">Previews are watermarked. Tap to select — your full-resolution originals unlock the moment you pay. Pick as many as you want.</p>
+      <div class="gallery-empty" id="galleryEmpty">Your photographer is still uploading — check back in a moment.</div>
+      <div class="gallery-grid" id="galleryGrid" style="display:none"></div>
+      <div class="gallery-count" id="galleryCount" style="display:none"></div>
+    </div>
+
+    <!-- PACKAGES — after they've seen their photos -->
+    <div class="card reveal">
+      <span class="step-tag">Choose Your Package</span>
+      <h2>What do you want to take home?</h2>
+      <p class="card-desc">Pick what fits — you can change your mind any time before you pay.</p>
 
       <div class="pkg active" data-price="5" data-name="Quick Shot" onclick="selectPkg(this)">
         <div class="pkg-radio"></div>
@@ -526,21 +538,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
     </div>
 
-    <!-- STEP 2: GALLERY -->
+    <!-- PAY -->
     <div class="card reveal">
-      <span class="step-tag" id="sessionLabelTag">Step 2 — Your Photos</span>
-      <h2>Tap to pick your shots</h2>
-      <p class="card-desc">Previews are watermarked. Tap what you want — your clean, full-resolution originals unlock the second you pay.</p>
-      <div class="gallery-empty" id="galleryEmpty">Your photographer is still uploading — check back in a moment.</div>
-      <div class="gallery-grid" id="galleryGrid" style="display:none"></div>
-      <div class="gallery-count" id="galleryCount" style="display:none"></div>
-    </div>
-
-    <!-- STEP 3: PAYMENT -->
-    <div class="card reveal">
-      <span class="step-tag">Step 3 — Pay</span>
-      <h2>Scan to pay with Cash App</h2>
-      <p class="card-desc">Scan the QR or tap the button — your total's already loaded in. Once it's sent, hit the button below to unlock your download.</p>
+      <span class="step-tag">Pay via Cash App</span>
+      <h2>Scan to pay</h2>
+      <p class="card-desc">Scan the QR or tap the button — your total's already loaded in. Once it's sent, tap below to unlock your download.</p>
       <div class="pay-box">
         <div class="pay-qr-wrap">
           <div class="pay-qr"><img id="qrImg" alt="Cash App QR code"></div>
@@ -554,11 +556,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
     </div>
 
-    <!-- STEP 4: CONFIRM & DOWNLOAD -->
+    <!-- GET YOUR CONTENT -->
     <div class="card reveal">
-      <span class="step-tag">Step 4 — Get Your Content</span>
+      <span class="step-tag">Get Your Content</span>
       <h2>Confirm &amp; download</h2>
-      <p class="card-desc" id="payHelp">Sent the payment? Tap below. We'll confirm it and your download unlocks right here — no refresh needed.</p>
+      <p class="card-desc" id="payHelp">Sent the payment? Tap below — your download unlocks right here, no refresh needed.</p>
+      <div class="inline-err" id="confirmErr" style="display:none"></div>
       <div class="confirm-row" id="payConfirmRow">
         <button class="btn-primary" id="paidBtn" onclick="requestPaymentConfirmation()">I've sent payment via Cash App</button>
       </div>
@@ -1008,9 +1011,12 @@ async function requestPaymentConfirmation(){
   if(error){
     btn.disabled = false;
     btn.textContent = "I've sent payment via Cash App";
-    alert("Couldn't send confirmation — try again, or flag down your photographer: " + error.message);
+    const errEl = document.getElementById('confirmErr');
+    if(errEl){ errEl.textContent = "Couldn't send — try again, or flag down your photographer."; errEl.style.display = 'block'; }
     return;
   }
+  const errEl = document.getElementById('confirmErr');
+  if(errEl) errEl.style.display = 'none';
 
   btn.textContent = 'Waiting for confirmation…';
   document.getElementById('payPending').style.display = 'block';
@@ -1035,6 +1041,17 @@ function unlockDownload(){
   document.getElementById('payConfirmRow').style.display = 'none';
   document.getElementById('payHelp').style.display = 'none';
   const btn = document.getElementById('downloadBtn');
+
+  // Dynamic label — tell them exactly what they're downloading
+  const selected = galleryItems.filter(f => f.selected);
+  const files = selected.length ? selected : galleryItems;
+  const photos = files.filter(f => f.type !== 'video').length;
+  const reels = files.filter(f => f.type === 'video').length;
+  const parts = [];
+  if(photos) parts.push(photos + (photos === 1 ? ' Photo' : ' Photos'));
+  if(reels) parts.push(reels + (reels === 1 ? ' Reel' : ' Reels'));
+  btn.textContent = parts.length ? 'Download ' + parts.join(' + ') : 'Download Your Content';
+
   btn.style.display = 'block';
   btn.disabled = false;
   btn.classList.add('unlocked');
@@ -1046,7 +1063,8 @@ async function downloadSelected(){
   const files = selected.length ? selected : galleryItems;
 
   if(files.length === 0){
-    alert('No content has been uploaded to this gallery yet.');
+    const errEl = document.getElementById('confirmErr');
+    if(errEl){ errEl.textContent = "No content has been uploaded yet — check back shortly."; errEl.style.display = 'block'; }
     return;
   }
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply — Shoot With ATCHÉ @ Spicy Water</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--black:#080808;--gold:#C9A84C;--gold-bright:#e7c87a;--cream:#F0EAD6;--muted:rgba(240,234,214,.55);--line:rgba(201,168,76,.22)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--black);color:var(--cream);font-family:'Inter',sans-serif;font-weight:300;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+  header{text-align:center;padding:26px 20px 20px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(201,168,76,.10),transparent)}
+  .wordmark{font-family:'Playfair Display';font-weight:700;letter-spacing:.5em;color:var(--gold-bright);font-size:15px;padding-left:.5em}
+  h1{font-family:'Playfair Display';font-weight:700;font-size:clamp(22px,6vw,30px);margin-top:10px;line-height:1.12}
+  h1 em{font-style:italic;color:var(--gold-bright)}
+  .meta{margin-top:12px;display:flex;gap:8px 18px;justify-content:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+  .meta b{color:var(--cream);font-weight:500}
+  .pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1a1404;background:var(--gold);padding:2px 8px;border-radius:100px;vertical-align:middle}
+  .frame{flex:1 1 auto;min-height:0}
+  iframe{width:100%;height:100%;border:0;display:block;background:var(--black)}
+  .fallback{display:none;text-align:center;padding:40px 20px}
+  .fallback a{color:var(--gold-bright)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wordmark">ATCHÉ</div>
+  <h1>Apply to <em>shoot with us</em></h1>
+  <div class="meta">
+    <span>📅 <b>Wed, June 24</b> <span class="pill">Projected</span></span>
+    <span>📍 <b>Spicy Water</b>, DC</span>
+    <span>✨ <b>$50</b> + pro content you keep</span>
+  </div>
+</header>
+<div class="frame">
+  <iframe src="circle-application.html#apply" title="ATCHÉ application form" loading="eager"></iframe>
+</div>
+<noscript><p class="fallback" style="display:block">Open the full application: <a href="circle-application.html">Apply to The Circle →</a></p></noscript>
+</body>
+</html>

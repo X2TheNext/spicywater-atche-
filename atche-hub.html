@@ -247,25 +247,40 @@ body::after{content:'';position:fixed;top:0;left:50%;transform:translateX(-50%);
       <div class="setup-step">
         <div class="setup-num">1</div>
         <div>
-          <div class="setup-title">Create Supabase Tables</div>
-          <div class="setup-body">Go to <strong>supabase.com → your ATCHÉ project → SQL Editor</strong> and run the following:</div>
-          <pre class="setup-code">-- Model tracker table
-create table if not exists "atcheAppData" (
-  id uuid default gen_random_uuid() primary key,
-  "userId" uuid references auth.users not null,
-  models jsonb default '[]',
-  notes  jsonb default '[]',
-  events jsonb default '[]',
-  "createdAt" timestamptz default now()
+          <div class="setup-title">Team Access — Run This SQL</div>
+          <div class="setup-body">Lets Monet's Follow-Up dashboard (<strong>/followup</strong>) read and update the same talent/venue/photography data as the main CRM. Go to <strong>supabase.com → your ATCHÉ project → SQL Editor</strong> and run:</div>
+          <pre class="setup-code">-- Create tables if they don't exist yet (safe to re-run)
+create table if not exists roster_data (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  models jsonb default '[]'::jsonb,
+  notes jsonb default '[]'::jsonb,
+  events jsonb default '[]'::jsonb,
+  updated_at timestamptz default now()
 );
-alter table "atcheAppData" enable row level security;
-create policy "auth_read"   on "atcheAppData" for select using (auth.uid() is not null);
-create policy "auth_update" on "atcheAppData" for update using (auth.uid() is not null);
-create policy "owner_write" on "atcheAppData" for insert with check (auth.uid() = "userId");
+
+create table if not exists atche_venues (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  venues jsonb default '[]'::jsonb,
+  updated_at timestamptz default now()
+);
+
+-- Talent + photography calendar data (model-tracker.html → roster_data)
+alter table roster_data enable row level security;
+drop policy if exists "auth_read_roster" on roster_data;
+create policy "auth_read_roster" on roster_data for select using (auth.uid() is not null);
+drop policy if exists "auth_update_roster" on roster_data;
+create policy "auth_update_roster" on roster_data for update using (auth.uid() is not null);
+drop policy if exists "owner_insert_roster" on roster_data;
+create policy "owner_insert_roster" on roster_data for insert with check (auth.uid() = user_id);
 
 -- Venue CRM team access
-create policy "auth_read_venues"   on atche_venues for select using (auth.uid() is not null);
-create policy "auth_update_venues" on atche_venues for update using (auth.uid() = user_id);</pre>
+alter table atche_venues enable row level security;
+drop policy if exists "auth_read_venues" on atche_venues;
+create policy "auth_read_venues" on atche_venues for select using (auth.uid() is not null);
+drop policy if exists "auth_update_venues" on atche_venues;
+create policy "auth_update_venues" on atche_venues for update using (auth.uid() is not null);
+drop policy if exists "owner_insert_venues" on atche_venues;
+create policy "owner_insert_venues" on atche_venues for insert with check (auth.uid() = user_id);</pre>
         </div>
       </div>
 
