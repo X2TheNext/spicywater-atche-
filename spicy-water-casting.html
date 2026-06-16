@@ -284,8 +284,9 @@
 
   <div id="successState">
     <div class="big">You&rsquo;re on the list. ✨</div>
-    <p style="color:#ddd5c7">We got it. Keep an eye on your DMs — we&rsquo;ll confirm your spot and send the final date, time, and details for the Spicy Water shoot.</p>
-    <p style="margin-top:16px"><a href="https://instagram.com/atcheofficial" style="color:var(--gold-bright);text-decoration:none;font-weight:600">Follow @atcheofficial →</a></p>
+    <p style="color:#ddd5c7">Welcome to the circle. We read every application personally and slide into your DMs within 48 hours with your spot and the final shoot details.</p>
+    <p style="color:#ddd5c7;margin-top:12px">One thing — <b style="color:var(--cream)">follow @atcheofficial and turn on notifications</b> so our message doesn&rsquo;t get lost. This is going to be special.</p>
+    <p style="margin-top:18px"><a href="https://instagram.com/atcheofficial" style="color:var(--gold-bright);text-decoration:none;font-weight:600">Follow @atcheofficial →</a></p>
   </div>
 </section>
 
@@ -310,7 +311,7 @@
     if (error) {
       console.error('Submission error:', error);
       btn.textContent = 'CLAIM MY SPOT →'; btn.disabled = false;
-      alert('Something went wrong — please try again or DM @atcheofficial.');
+      alert('Error: ' + (error.message || error.hint || JSON.stringify(error)));
       return;
     }
     this.style.display = 'none';
